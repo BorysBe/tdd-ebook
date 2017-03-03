@@ -1,13 +1,12 @@
-# Thanks!
+# Podziękowania!
 
-
-I would like to thank the following people (listed alphabetically by name) for valuable feedback, suggestions, typo fixes and other contributions: 
+Chciałbym podziękować następującym osobom (wymienionym w kolejności alfabetycznej) za wartościowe uwagi, sugestie, poprawki literówek i tym podobny wkład
 
 -   Brad Appleton
 -   Borysław Bobulski
 -   Chris Kucharski
 -   Daniel Dec
--   Daniel Żołopa (cover image)
+-   Daniel Żołopa (projekt okładaki)
 -   Donghyun Lee
 -   Marek Radecki
 -   Martin Moene
@@ -19,7 +18,8 @@ I would like to thank the following people (listed alphabetically by name) for v
 -   Robert Pająk
 -   Wiktor Żołnowski
 
-This book is not original at all. It presents various topics that others invented and I just picked up. Thus, I would also like to thank my mentors and authorities on test-driven development and object-oriented design that I gained most of my knowledge from (listed alphabetically by name):
+Książka ta nie jest niczym, czego by dotychczas nie napisano. Prezentuje zagadnienia, które już poruszono a które ja, kolejny raz, podjąłem.    
+Dlatego też, chciałbym bardzo podziękować moim mentorom i autorytetom, zajmujących się test-driven development i projektowaniem zorientowanym obiektowo, od których zdobyłem większość swojej wiedzy (wymienieni niżej alfabetycznie)
 
 -   Amir Kolsky
 -   Dan North

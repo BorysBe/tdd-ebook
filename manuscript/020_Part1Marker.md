@@ -1,5 +1,7 @@
--# Part 1: Just the basics
+-# Część 1: Same podstawy
 
-In this part I introduce the basic TDD philosophy and practices, without going much into advanced aspects like applying TDD to object-oriented systems where multiple objects collaborate (which is a topic of part 2). In terms of design, most of the examples will be about methods of a single object being exercised. The goal is to focus on the core of TDD before going into its specific applications and to slowly introduce some concepts in an easy to grasp manner. 
+W tej części przedstawiam podstawy filozofii TDD i sposoby pisania kodu, bez zbytniego wchodzenia w zaawansowane aspekty takie jak wprowadzenie TDD do systemów zorientowanych obiektowo, gdzie współpracuje ze sobą mnóstwo obiektów  (piszę o tym w części drugiej). Większość przykładów, przytoczonych w tej części,  dotyczy zaprojektowania pojedynczego obiektu. 
 
-After reading part 1, you will be able to quite effectively develop classes that have no dependencies on other classes (and on operating system resources) using TDD.
+Zanim przejdę do konkretnych zastosowań TDD, skoncentruje się nad samą istotą tego podejścia. Potem - powoli - wprowadzę konkretne pojęcia w łatwy do zrozumienia sposób. 
+
+Po przeczytaniu części pierwszej, dzięki TDD, będziesz w stanie całkiem sprawnie projektować klasy, które nie zależą od innych klas (ani nie zależą od jakichkolwiek zasobów systemowych).

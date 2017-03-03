@@ -1,8 +1,8 @@
 -# Front Matter
 
-# Dedications
+# Dedykacja
 
 *Ad Deum qui laetificat iuventutem meam.*
 
-*To my beloved wife Monika.*
+*Mojej ukochanej żonie Monice.*
 
