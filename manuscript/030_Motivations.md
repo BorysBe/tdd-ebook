@@ -1,6 +1,6 @@
 # Motywacja -- pierwszy krok w uczeniu się TDD
 
-Piszę tą książkę, ponieważ jestem entuzjastą TDD. Wierzę, że TDD ma wielką przewagę nad innymi sposobami wytwarzania oprogramowania, których używałem.  
+Piszę tę książkę, ponieważ jestem entuzjastą TDD. Wierzę, że TDD ma wielką przewagę nad innymi sposobami wytwarzania oprogramowania, których używałem.  
 Myślę, że wielu programistów podziela moje przekonania. To skłania mnie do zadania pytania - dlaczego więcej osób nie miałoby uczyć się TDD i dlaczego nie miałoby stosować TDD w swojej pracy? Wciąż nie mogę powiedzieć, że TDD jest głównym nurtem stosowanym w wytwarzaniu oprogramowania. Podczas mojej kariery zawodowej nie widziałem wystarczająco dużo przykładów, które by zdawały się potwierdzać taki stan rzeczy.
 
 Drogi czytelniku! Już zdobyłeś mój szacunek, bo zdecydowałeś się sięgnąć po książkę, zamiast budować swoje rozumienie TDD na podstawie miejskich legend i swoich wyobrażeń. Nieważne, czy to Twoja pierwsza książka podejmująca temat TDD, czy też miałeś styczność z innymi - jestem zaszczycony i szczęśliwy, że dziś wybrałeś moją książkę. Mam nadzieję, że przeczytasz ją od deski do deski. Gdybyś jeszcze się wahał, chcę zadać Ci pomocnicze pytanie, które pomoże Ci stwierdzić, czy naprawdę masz ochotę na czytanie. Dlaczego właściwie chcesz się uczyć o TDD?
