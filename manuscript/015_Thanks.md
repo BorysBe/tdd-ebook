@@ -8,6 +8,7 @@ Chciałbym podziękować następującym osobom (wymienionym w kolejności alfabe
 -   Daniel Dec
 -   Daniel Żołopa (projekt okładaki)
 -   Donghyun Lee
+-   Łukasz Maternia
 -   Marek Radecki
 -   Martin Moene
 -   Michael Whelan
@@ -19,7 +20,7 @@ Chciałbym podziękować następującym osobom (wymienionym w kolejności alfabe
 -   Wiktor Żołnowski
 
 Książka ta nie jest niczym, czego by dotychczas nie napisano. Prezentuje zagadnienia, które już poruszono a które ja, kolejny raz, podjąłem.    
-Dlatego też, chciałbym bardzo podziękować moim mentorom i autorytetom, zajmujących się test-driven development i projektowaniem zorientowanym obiektowo, od których zdobyłem większość swojej wiedzy (wymienieni niżej alfabetycznie)
+Dlatego też, chciałbym bardzo podziękować moim mentorom i autorytetom, zajmujących się test-driven development i projektowaniem zorientowanym obiektowo, od których zdobyłem większość swojej wiedzy (wymienieni niżej w kolejności alfabetycznej)
 
 -   Amir Kolsky
 -   Dan North

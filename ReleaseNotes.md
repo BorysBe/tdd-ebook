@@ -1,3 +1,49 @@
+# 31-01-2018
+
+A new version of the book is available! Notable changes are:
+
+1. **An entirely new chapter** on mock objects applied in a test-first manner. I did three or four passes through the content to ensure it reads smoothly. Of course, any sugggestions, bug fixes etc. are welcome. You can always use the github page for these.
+1. **New supporting chapter**: *About code examples* is added. As some of the readers are more familiar with Java than C# and I want them to get the most out of this book, I made some rough notes at the beginning of the book that point towards some of the differences between the two languages. A small piece of this chapter is also dedicated to C# users. If you use a different language and still enjoy the book, I encourage you to contribute notes that allow the users of your language of choice to access the book more easily.
+1. **Part statuses**. Many times I have been asked whether a particular part of the book is stable enough. Some readers didn't want to read something that was about to change soon in a big way. Likewise, many would rather read a nearly finished thing than an "alpha chapter". This is why I decided to be more open about the status and each part begins with a status note that says what I currently think about the content maturity.
+
+Happy reading and, as usual, I'm looking forward to your opinions and suggestions.
+
+# 18-11-2017
+
+Hi, today's update brings to you a cosmetically revised version of factories chapter (the most changes were made to "Factories are themselves polymorphic (encapsulation of rule)" section, where the existing example was changed to one I consider better) as well as a new chapter on mock objects. You may also note that I changed the numbering of parts. Part 2 is entirely devoted to object oriented design primer and object-oriented TDD was moved to newsly created chapter 3. There are also some placeholders as I have lots of ideas for new chapters. Everything will come, in time. Looking at all the hype around functional programming, I can only hope that OO doesn't become obsolete before I finish the book :-D.
+
+Enjoy, and, as always, I welcome any feedback!
+
+# 22-07-2017
+
+Hi, a new version is available and it contains polished and reviewed version of a new chapter that up to this moment was in a "preview" state. Namely - Aspects of value objects design. This concludes the set of chapters devoted to value objects. Enjoy!
+
+# 03-07-2017
+
+Hi,
+
+The main dish of this release is a fix for bug "Is BroadcastingObserver really more flexible? #93". I took this opportunity to do a slight face-lift of the impacted chapter as well as split the object composition chapter into three (it was a really long one) along with style corrections. The bulk of the content is unchanged, so if you already read these chapters and didn't have issues with them, there's probably not a great need to re-read it. 
+
+My next step will be going back to the value objects chapters that I left half-finished and bring them into a production-ready stage. 
+
+As usual, happy reading and thanks for your support.
+
+# 05-05-2017
+
+After a long work, the triangulation chapter - the last chapter of part 1 is now refactored and partly rewritten.
+
+For starters, I renamed the chapter from Triangulation to "Driving the implementation from Specification", because all three techniques shown there are classic and equally important, even though I have my favourites.
+
+The second big change is a complete rewrite of the triangulation part of this chapter. I replaced the summing elements throughout a list example with two other examples - one very basic and the other a bit more advanced. The basic example is about calculating the sum of two integers, which is exactly the same example that was used to describe two other techniques. This way, readers can compare how all three techniques apply to the same coding problem to examine the differences in the mechanics. The advanced example is based on a a LED display kata from Corey Haines, although with modified rules and goal. Of course, I'll be more than happy to know your thoughts and suggestions.
+
+As for my next steps - now that I finished Part 1, I think I will not review Part 2 as thoroughly yet. I will probably fix several outstanding issues that were raised for some parts of Part 2 and then finish the chapters on value objects that I started before the big review of Part 1.
+
+Happy reading and thank you to all those who support me!!
+
+# 15-03-2017
+
+This version includes some fixes to the boundary chapter - the one that was most recently reviewed. Thanks to Łukasz Maternia for spotting some bugs and an area for improvement. This led me to change two examples in the boundaries and ranges sections.
+
 # 13-02-2017
 
 One day before the Valentine's day, I'd like to present you with another version of the tutorial. This time, I did an overhaul of the chapter about specifying boundaries and functional conditions. Since I last wrote it, my approach changed a bit to a more nuanced one and I tried to convey a bit about the different situations in which I make different choices. Also, I incorporated one or two small but useful fixes by others (thanks!!). Where I knew there are still open issues (this is true for two chapters), I decided to add a note at the beginning of each chapter do that you can find it. These issues are very minor, so they should not get in the way when reading.

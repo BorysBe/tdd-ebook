@@ -1,5 +1,6 @@
 010_Dedication.md
 015_Thanks.md
+017_CodeExamples.md
 020_Part1Marker.md
 030_Motivations.md
 040_Three_Essential_Tools.md
@@ -20,14 +21,19 @@
 190_Why_do_we_need_composability.md
 200_What_does_it_mean_to_compose_objects.md
 210_How_are_objects_composed.md
+211_When_are_objects_composed.md
+212_How_are_the_connections_made.md
+213_Where_are_objects_composed.md
 220_Designing_for_composabiity_interfaces.md
 230_Designing_for_composabiity_protocols.md
 235_Classes.md
 240_Refactoring_Object_Composition.md
 250_Value_Objects.md
 255_Value_Objects_properties.md
-End.md
 257_Value objects_general_topics.md
-260_Object_oriented_primer_summary.md
+260_Part3Marker.md
 270_Mock_Objects.md
+280_Start_with_a_failing_test_mocks.md
+End.md
+300_Dealing_with_3rd_party.md
 990_Further_reading.md

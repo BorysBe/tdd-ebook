@@ -140,14 +140,14 @@ I met a lot developers that find using factory methods somehow unfamiliar, but t
 #### Ensuring consistent initialization of objects
 
 In case where we have different ways of initializing an object that share a common part (i.e. whichever way we choose, part of the initialization must always be done the same), having several constructors that delegate to one common seems like a good idea. For example, we can have two constructors, one delegating to the other, that holds a common initialization logic:
-  
+
 ```csharp
 // common initialization logic
 public ProductName(string value)
-{ 
+{
   _value = value;
 }
-  
+
 //another constructo that uses the common initialization
 public ProductName(string model, string onfiguration)
  : this(model + " " + configuration) //delegation to "common" constructor
@@ -161,10 +161,10 @@ The issue with this approach is this binding between constructors is not enforce
 
 ```csharp
 public ProductName(string value)
-{ 
+{
   _value = value;
 }
-  
+
 public ProductName(string model, string onfiguration)
  //oops, no delegation to the other constructor
 {
@@ -173,7 +173,7 @@ public ProductName(string model, string onfiguration)
 
 which leaves room for mistakes - we might forget to initialize all the fields all the time and allow creating objects with invalid state.
 
-I argue that using several static factory methods while leaving just a single constructor is safer in that it enforces every object creation to pass through this single constructor. This constructor can then ensure all fields of the object are properly initialized. There is no way in such case that we can bypass this constructor in any of the static factory methods, e.g.:  
+I argue that using several static factory methods while leaving just a single constructor is safer in that it enforces every object creation to pass through this single constructor. This constructor can then ensure all fields of the object are properly initialized. There is no way in such case that we can bypass this constructor in any of the static factory methods, e.g.:
 
 ```csharp
 public ProductName CombinedOf(string model, string configuration)
@@ -184,10 +184,10 @@ public ProductName CombinedOf(string model, string configuration)
 }
 ```
 
-What I wrote above might seem an unnecessary complication as the example of product names is very simple and we are unlikely to make a mistake like the one I described above, however:
+What I wrote above might seem an unnecessary complication as the example of product names is trivial and we are unlikely to make a mistake like the one I described above, however:
 
-1. There are more complex cases when we can indeed forget to initialize some fields in multiple constructors. 
-2. It is always better to be protected by the compiler than not when the price for the protection is considerably low. At the very least, when something happens, we'll have one place less to search for bugs.
+1. There are more complex cases when we can indeed forget to initialize some fields in multiple constructors.
+1. It is always better to be protected by the compiler than not when the price for the protection is considerably low. At the very least, when something happens, we'll have one place less to search for bugs.
 
 #### Better place for input validation
 
@@ -301,7 +301,7 @@ database.Save(dataRecord);
 
 Things get more complicated when a value object has multiple fields or when it wraps another type like `DateTime` or an `int` - we may have to implement other accessor methods to obtain this data. `ToString()` can then be used for diagnostic purposes to allow printing user-friendly data dump.
 
-Apart from the overridden `ToString()`, our `ProductName` type has an overload witj signature `ToString(Format format)`. This version of `ToString()` is not inherited from any other class, so it's a method we made to fit our goals. The `ToString()` name is used only out of convenience, as the name is good enough to describe what the method does and it feels familiar. Its purpose is to  be able to format the product name differently for different outputs, e.g. reports and on-screen printing. True, we could introduce a special method for each of the cases (e.g. `ToStringForScreen()` and `ToStringForReport()`), but that could make the `ProductName` know too much about how it is used - we would have to extend the type with new methods every time we wanted to print it differently. Instead, the `ToString()` accepts a `Format` (which is an interface,  by the way) which gives us a bit more flexibility.
+Apart from the overridden `ToString()`, our `ProductName` type has an overload with signature `ToString(Format format)`. This version of `ToString()` is not inherited from any other class, so it's a method we made to fit our goals. The `ToString()` name is used only out of convenience, as the name is good enough to describe what the method does and it feels familiar. Its purpose is to  be able to format the product name differently for different outputs, e.g. reports and on-screen printing. True, we could introduce a special method for each of the cases (e.g. `ToStringForScreen()` and `ToStringForReport()`), but that could make the `ProductName` know too much about how it is used - we would have to extend the type with new methods every time we wanted to print it differently. Instead, the `ToString()` accepts a `Format` (which is an interface,  by the way) which gives us a bit more flexibility.
 
 When we need to print the product name on screen, we can say:
 
@@ -334,7 +334,7 @@ One thing to note about the implementation of `ProductName` is that it implement
 public bool Equals(ProductName other);
 ```
 
-while the one inherited from `object` accepts an `object` as a parameter. The use and existence of `IEquatable<T>` interface is mostly C#-specific, so I won't go into the details here, but you can always [look it up in the documentation](https://msdn.microsoft.com/en-us/library/vstudio/ms131187%28v=vs.100%29.aspx). 
+while the one inherited from `object` accepts an `object` as a parameter. The use and existence of `IEquatable<T>` interface is mostly C#-specific, so I won't go into the details here, but you can always [look it up in the documentation](https://msdn.microsoft.com/en-us/library/ms131187.aspx). 
 
 When we override `Equals()`, the `GetHashCode()` method needs to be overridden as well. The rule is that all objects that are considered equal should return the same hash code and all objects considered not equal should return different hash codes. The reason is that hash codes are used to intentify objects in hash tables or hash sets - these data structures won't work properly with values if `GetHashCode()` is not properly implemented. That would be too bad, because values are often used as keys in various hash-based dictionaries.
 
