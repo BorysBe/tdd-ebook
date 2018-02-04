@@ -60,7 +60,7 @@ public static void Main(string[] args)
   }
 }
 ```
-Wygląda prosto, prawda? Teraz na tym kodzie oprzemy bardzo prymitywny szkielet testowy, aby pokazać fragmenty,z których składają się takie frameworki testowe. Pierwszym krokiem w tym kierunku będzie wyodrębnienie weryfikacji wyniku `result` do metody, którą będzie można używać wielokrotie. Po tym wszystkim, w mgnieniu oka dodamy do aplikacji dzielenie, pamiętasz? No to jedziemy:
+Wygląda prosto, prawda? Teraz na tym kodzie oprzemy bardzo prymitywny szkielet testowy, aby pokazać fragmenty, z których składają się frameworki testowe. Pierwszym krokiem w tym kierunku będzie wyodrębnienie sprawdzenia wyniku `result` do metody, którą będzie można używać wielokrotie. Po tym wszystkim, w mgnieniu oka dodamy do aplikacji dzielenie, pamiętasz? No to jedziemy:
 
 ```csharp
 public static void Main(string[] args) 
@@ -72,7 +72,7 @@ public static void Main(string[] args)
   AssertTwoIntegersAreEqual(expected: 21, actual: result);
 }
 
-//extracted code:
+//wyodrębiony kod:
 public static void AssertTwoIntegersAreEqual(
   int expected, int actual)
 {
@@ -131,9 +131,9 @@ Jak widzisz, możemy łatwo napisać zautomatyzowane testy, używając naszych p
 3.  Wkrótce będziesz musiał napisać wiele innych metod podobnych do `AssertTwoIntegersAreEqual()` -- ta, którą mamy porównuje dwie liczby całkowite, ale co jeśli chcemy sprawdzić inny warunek, np. czy jedna liczba całkowita jest większa od innej? Co by było, gdybyśmy chcieli sprawdzić równość nie dla liczb całkowitych, ale dla znaków, ciągów znaków, itp.? Co by było, gdybyśmy chcieli sprawdzić pewne właściwości kolekcji, np. czy kolekcja jest posortowana, lub czy wszystkie elementy w kolekcji są unikatowe?
 4.  Jeśli test się nie powiedzie, trudno będzie przenieść się od komunikatu na konsoli do odpowiedniego wiersza w kodzie źródłowym w twoim IDE. Czy nie byłoby łatwiej, kliknąć komunikat o błędzie i natychmiast być przeniesionym do tego miejsca w kodzie, dzie wystąpił błąd?
 
-For these and other reasons, advanced automated test frameworks were created such as CppUnit (for C++), JUnit (for Java) or NUnit (C#). Such frameworks are in principle based on the very idea that I sketched above, plus they make up for the deficiencies of our primitive approach. They derive their structure and functionality from Smalltalk's SUnit and are collectively referred to as **xUnit family** of test frameworks.
+Z tego względu i kilku innych, stworzono zaawansowane, zautomatyzowane platformy do testowania aplikacji - test frameworks, takie jak CppUnit (dla C ++), JUnit (dla Javy) lub NUnit (C#). W języku polskim nie ma odpowiednika słowa "framework", najbliżej jest słowo "platforma". Framework to coś, co wyznacza pewne ramy, dostarcza biblioteki, funkcje - w tym przypadku pomagające w pisaniu testów. Test frameworki są w zasadzie oparte na tej samej idei, którą opisałem powyżej, ale jednocześnie nadrabiają wady naszego wcześniejszego, prymitywnego podejścia. Struktura i funkcjonalność tych framework'ów wywodzą się ze Smalltalk's SUnit i są ogólnie określane jako rodzina testów **xUnit**.
 
-To be honest, I can't wait to show you how the test we just wrote looks like when a test framework is used. But first let's recap what we've got in our straightforward approach to writing automated tests and introduce some terminology that will help us understand how automated test frameworks solve our issues:
+Szczerze mówiąc, nie mogę się doczekać, by pokazać Ci jak będzie wyglądać test, który napisaliśmy wcześniej, przy użyciu test framework. Jednakże najpierw podsumujmy to, co się nam udało osiągnąć przed chwilą. Wprowadźmy też pewną terminologię, która pomoże nam zrozumieć, w jaki sposób zautomatyzowane test frameworki rozwiązują nasze problemy:
 
 1.  The `Main()` method serves as a **Test List** -- a place where it is decided which tests to run.
 2.  The `Multiplication_ShouldResultInAMultiplicationOfTwoPassedNumbers()` method is a **Test Method**.
@@ -482,4 +482,4 @@ In the next chapters, we'll see many different methods from the `Any` type, plus
 
 ## Podsumowanie
 
-W niniejszym rozdziale przedstawiono trzy narzędzia, których będziemy używać w tej książce, po opanowaniu których, Twoje wytwarzanie oprogramowania kierowane testami (test driven development - TDD) będzie szło Ci bardziej płynnie. Jeśli ten rozdział nie sprawił, żebyś uważał użycie tych trzech narzędzi za zasadne, nie martw się - zagłębimy się w filozofię stojącą za nimi w następnych rozdziałach. Na razie chcę tylko, żebyś zapoznał się z ich składnią. No dalej, pobierz te narzędzia z Internetu, uruchom je, spróbuj napisać coś prostego przy ich użyciu. Nie musisz jeszcze rozumieć ich pełnego celu, po prostu zacznij zabawę :-).
+W niniejszym rozdziale przedstawiono trzy narzędzia, których będziemy używać w tej książce, po opanowaniu których, Twoje wytwarzanie oprogramowania sterowane testami (test-driven development) będzie szło Ci bardziej płynnie. Jeśli ten rozdział nie sprawił, żebyś uważał użycie tych trzech narzędzi za zasadne, nie martw się - zagłębimy się w filozofię stojącą za nimi w następnych rozdziałach. Na razie chcę tylko, żebyś zapoznał się z ich składnią. No dalej, pobierz te narzędzia z Internetu, uruchom je, spróbuj napisać coś prostego przy ich użyciu. Nie musisz jeszcze rozumieć ich pełnego celu, po prostu zacznij zabawę :-).

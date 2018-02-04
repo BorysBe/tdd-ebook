@@ -101,11 +101,11 @@ public class User {
 
 Jeśli jesteś programistą języka Java to zauważ, że w C# `List<T>` nie jest klasą abstrakcyjną, ale konkretną. Ten typ jest zwykle używany tam, gdzie Ty używałbyś `ArrayList`
 
-### Typy generyczne
+### Typy uogólnione (generyczne)
 
-Jedną z największych różnic między Javą i C # jest to, jak traktuje się typy generyczne. Po pierwsze, C# pozwala na używanie typów prostych (prymitywnych) w deklaracjach typów generycznych, więc możesz napisać `List<int>` w języku C#, podczas gdy w Javie musisz napisać `List<Integer>`.
+Jedną z największych różnic między Javą i C # jest to, jak traktuje się typy generyczne. Po pierwsze, C# pozwala na używanie typów prostych (prymitywnych) w deklaracjach typów uogólnionych, więc możesz napisać `List<int>` w języku C#, podczas gdy w Javie musisz napisać `List<Integer>`.
 
-Inną różnicą jest to, że w języku C# nie ma wymazywania typów, tak jak w Javie. Kod napisany w C# zachowuje wszystkie informacje o typie generycznym w czasie wykonywania. To istotnie wpływa na to, jak można korzystać z API napisanego w C#.
+Inną różnicą jest to, że w języku C# nie ma wymazywania typów, tak jak w Javie. Kod napisany w C# zachowuje wszystkie informacje o typie generycznym w czasie wykonywania. To istotnie wpływa na to, jak są projektowane i jak można używać API korzystającego z typów generycznych.
 
 Definicja klas generycznych i ich tworzenie, w Javie i C# wyglądają mniej więcej tak samo. Istnieje jednak różnica na poziomie metody. Metoda generyczna w Javie wygląda tak:
 
