@@ -99,15 +99,16 @@ public class User {
 
 ### Konstrukcja `List<T>`
 
-Jeśli jesteś programistą języka Java, zauważ, że w C# `List <T>` nie jest klasą abstrakcyjną, ale konkretną. jest zwykle używany tam, gdzie Ty używałbyś `ArrayList`
+Jeśli jesteś programistą języka Java to zauważ, że w C# `List<T>` nie jest klasą abstrakcyjną, ale konkretną. Ten typ jest zwykle używany tam, gdzie Ty używałbyś `ArrayList`
 
 ### Typy generyczne
 
 Jedną z największych różnic między Javą i C # jest to, jak traktuje się typy generyczne. Po pierwsze, C# pozwala na używanie typów prostych (prymitywnych) w deklaracjach typów generycznych, więc możesz napisać `List<int>` w języku C#, podczas gdy w Javie musisz napisać `List<Integer>`.
 
-Inną różnicą jest to, że w języku C# nie ma wymazywania typów, tak jak w Javie. Kod napisany w C# zachowuje wszystkie informacje o typie generycznym w czasie wykonywania. This impacts how most generic APIs are declared and used in C#.
+Inną różnicą jest to, że w języku C# nie ma wymazywania typów, tak jak w Javie. Kod napisany w C# zachowuje wszystkie informacje o typie generycznym w czasie wykonywania. To istotnie wpływa na to, jak można korzystać z API napisanego w C#.
 
-A generic class definition and creation in Java and C# is roughly the same. There is, however, difference on the method level. A generic method in Java is typically written as:
+Definicja klas generycznych i ich tworzenie, w Javie i C# wyglądają mniej więcej tak samo. Istnieje jednak różnica na poziomie metody. Metoda generyczna w Javie wygląda tak:
+
 
 ```java
 public <T> List<T> createArrayOf(Class<T> type) {
@@ -115,13 +116,13 @@ public <T> List<T> createArrayOf(Class<T> type) {
 }
 ```
 
-and called like this:
+a używamy jej tak:
 
 ```java
 List<Integer> ints = createArrayOf(Integer.class);
 ```
 
-whereas in C# the same method would be defined as:
+podczas, gdy w C# ta sama metoda będzie zdefiniowana tak:
 
 ```java
 public List<T> CreateArrayOf<T>()
@@ -130,20 +131,20 @@ public List<T> CreateArrayOf<T>()
 }
 ```
 
-and called as such:
+i używana w taki sposób:
 
 ```csharp
 List<int> ints = CreateArrayOf<int>();
 ```
-
-These differences are visible in the design of the library that I use throughout this book for generating test data. While in the C# version, one generates test data by writing:
+Różnice te są widoczne w projekcie biblioteki, używanej w tej książce do generowania danych testowych[^anylibraryauthor]. W wersji C#, generujemy dane testowe, pisząc:
 
 ```csharp
 var data = Any.Instance<MyData>();
 ```
 
-the Java version of the library is used like this:
+ w jezyku Java zaś:
 
 ```java
 MyData data = Any.instanceOf(MyData.class);
 ```
+[^anyibraryauthor]: Również autorstwa Grzegorza Gałęzowskiego - przypis tłumacza
