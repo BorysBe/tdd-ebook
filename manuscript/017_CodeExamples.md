@@ -46,9 +46,9 @@ List<string> list = null; //nie można użyć var by wnioskować jakiego typu je
 
 C# ma typ `String`, podobnie jak Java. C# pozwala jednak na wpisanie nazwy tego typu jako słowa kluczowego, np. `string` zamiast` String`. To jest tylko lukier składniowy (syntactic sugar), który jest domyślnie używany przez społeczność C#.
 
-### Attributes instead of annotations
+### Atrybuty zamiast adnotacji
 
-W języku C# istnieją atrybuty, są używane w tym samym celu, co adnotacje w Javie. Tak więc, gdy widzisz:
+W języku C# istnieją atrybuty. Są używane w tym samym celu, co adnotacje (anntoations) w Javie. Tak więc, gdy widzisz:
 
 ```csharp
 [Whatever]
