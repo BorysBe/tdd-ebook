@@ -1,70 +1,70 @@
-# About code examples
+# O przykładach kodu
 
-## Notes for C# users
+## Uwagi dla programistów języka C#
 
-The language of choice for code examples is C#, however, I made some exception from the typical C# code conventions.
+Językiem, który wybrano dla przykładów jest C#, aczkolwiek zrobiłem kilka wyjątków od typowej C# konwencji.
 
-### Dropping "I" from interface names
+### Usunięcie "I" z nazw interfejsów
 
-Personally, I am not a big fan of using `ISomething` as interface name, so I decided to drop the `I` even though most C# developers expect to see it. I hope you can forgive me this one.
+Osobiście, nie jestem fanem używania `ISomething` dla nazw interfejsu, więc zdecydowałem się nie umieszczać przedrostka `I` nawet jeśli większość programistów C# by tego oczekiwała. Mam nadzieję, że tym razem mi wybaczą.
 
-### Idiomatic C\#
+### Konstrukcje języka charakterystyczne dla C\#
 
-Most of the code in this book is not idiomatic C#. I tried to avoid properties, events, and most modern features. My goal is to allow users of other languages (especially Java) to benefit from the book.
+Większość kodu w tej książce to nie jest typowy C# ze swoimi idiomami. Próbowałem unikać właściwości (properties), zdarzeń (events) i większości nowoczesnych funkcji. Moim celem jest umożliwienie użytkownikom innych języków (zwłaszcza Javy) korzystanie z tej książki.
 
-### Using underscore in field names
+### Używanie podkreśleń w nazwach pól
 
-Some people like it, some not. I decided to stick to the convention of putting an underscore (`_`) before a class field name.
+Niektórzy to lubią, inni nie. Postanowiłem trzymać konwencję umieszczania znaku podkreślenia (`_`) przed nazwą pola klasy.
 
-## Notes for Java users
+##  Uwagi dla programistów języka Java
 
-The language of choice for code examples is C#. That said, I wanted the book to be as technology-agnostic as possible, to allow especially Java programmers to benefit from it. I tried using a minimum number of C#-specific features and in several places even made remarks targeted at Java users to make it easier for them. Still, there are some things I could not avoid. That's why I wrote up a list containing several of the differences between Java and C# that Java users could benefit from knowing when reading the book.
+Językiem, w którym ukazano przykłady kodu, jest C#. Zaznaczyłem jednak, że chcę, aby książka była jak najmniej związana z konkretną technologią, by umożliwić programistom języka Java czerpanie z niej korzyści. Próbowałem używać minimalnej liczby funkcji specyficznych dla C#, a w kilku miejscach nawet robiłem uwagi skierowane do programistów Java, aby im ułatwić zrozumienie. Jest jednak kilka rzeczy, których nie mogłem uniknąć, toteż stworzyłem listę opisującą kilka różnic między Javą i C#, co może się przydać.
 
-### Naming conventions
+### Konwencja nazewnictwa
 
-Most languages have their default naming conventions. For example, in Java, a class name is written with pascal case (e.g. `UserAccount`), methods and fields are written with camel case, e.g. `payTaxes` and constants/readonly fields are typically written in underscored upper-case (e.g. `CONNECTED_NODES`).
+Większość języków ma swoje domyślne konwencje nazewnictwa. Na przykład w języku Java nazwa klasy jest zapisana za pomocą PascalCase (np. `UserAccount`), metody i pola są zapisywane za pomocą camelCase, np. "payTaxes" a stałe/pola tylko do odczytu są zapisywane wielkimi literami z podkreśleniem (np. `CONNECTED_NODES`).
 
-C# uses pascal case for both classes and methods (e.g. `UserAccount`, `PayTaxes`, `ConnectedNodes`). For fields, there are several naming conventions. I chose the one starting with underscore (e.g. `_myDependency`). There are other minor differences, but these are the ones you are going to encounter quite often.
+C# używa pascalCase dla nazw klas i metod (np. `UserAccount`,` PayTaxes`, `ConnectedNodes`). W przypadku pól istnieje kilka konwencji nazewnictwa. Wybrałem tą, która zaczyna się od znaku podkreślenia (np. `_myDependency`). Są jeszcze inne drobne różnice, ale z tymi się spotkasz najczęściej.
 
-### `var` keyword
+### słowo kluczowe `var`
 
-For example brevity, I chose to use the `var` keyword in the examples. This keyword serves as automatic type inference, e.g.
-
-```csharp
-var x = 123; //x inferred as integer
-```
-
-Of course, this is no dynamic typing by any means - everything is resolved at compile time.
-
-One more thing - `var` keyword can only be used when the type can be inferred, so ocassionally, you will see me declaring types explicitly as in:
+By uczynić zapis bardziej zwięzłym, zdecydowałem się użyć  w przykładach słowa kluczowego `var`. To słowo kluczowe służy do automatycznego wnioskowania jakiego typu jest zmienna, np.
 
 ```csharp
-List<string> list = null; //list cannot be inferred
+var x = 123; // wnioskuję, że x jest liczbą całkowitą
 ```
 
-### `string` as keyword
+Oczywiście, to nie jest typowanie dynamiczne (dynamic typing) - wszystko jest określane na etapie kompilacji.
 
-C# has a `String` type, similar to Java. It allows, however, to write this type name as keyword, e.g. `string` instead of `String`. This is only syntactic sugar which is used by default by the C# community.
+Jeszcze jedno - słowo kluczowe "var" może być użyte tylko wtedy, kiedy można wywnioskować z jakim typem mamy do czynienia, w nnych wypadkach musiałem deklarować typy jawnie, jak w przypadku:
+
+```csharp
+List<string> list = null; //nie można użyć var by wnioskować jakiego typu jest lista
+```
+
+### słowo kluczowe `string`
+
+C# ma typ `String`, podobnie jak Java. C# pozwala jednak na wpisanie nazwy tego typu jako słowa kluczowego, np. `string` zamiast` String`. To jest tylko lukier składniowy (syntactic sugar), który jest domyślnie używany przez społeczność C#.
 
 ### Attributes instead of annotations
 
-In C#, attributes are used for the same purpose as annotations in Java. So, whenever you see:
+W języku C# istnieją atrybuty, są używane w tym samym celu, co adnotacje w Javie. Tak więc, gdy widzisz:
 
 ```csharp
 [Whatever]
 public void doSomething()
 ```
 
-think:
+myśl:
 
 ```java
 @Whatever
 public void doSomething()
 ```
 
-### `readonly` and `const` instead of `final`
+### `readonly` i `const` w miejscu `final`
 
-Where Java uses final for constants (together with `static`) and read-only fields, C# uses two keywords: `const` and `readonly`. Without going into details, whenever you see something like:
+Tam, gdzie w Javie używa słowa `final` dla stałych (wraz z `static`) i pól tylko do odczytu, w C# używa się dwóch słów kluczowych:` const` i `readonly`. Bez wchodzenia w szczegóły, za każdym razem, gdy zobaczysz coś takiego:
 
 ```csharp
 public class User
@@ -81,7 +81,7 @@ public class User
 }
 ```
 
-think:
+myśl:
 
 ```java
 public class User {
@@ -97,15 +97,15 @@ public class User {
 }
 ```
 
-### A `List<T>`
+### Konstrukcja `List<T>`
 
-If you are a Java user, note that in C#, `List<T>` is not an abstract class, but a concrete one. it is typically used where you would use an `ArrayList`.
+Jeśli jesteś programistą języka Java, zauważ, że w C# `List <T>` nie jest klasą abstrakcyjną, ale konkretną. jest zwykle używany tam, gdzie Ty używałbyś `ArrayList`
 
-### Generics
+### Typy generyczne
 
-One of the biggest difference between Java and C# is how they treat generics. First of all, C# allows using primitive types in generic declarations, so you can write `List<int>` in C# where in Java you have to write `List<Integer>`. 
+Jedną z największych różnic między Javą i C # jest to, jak traktuje się typy generyczne. Po pierwsze, C# pozwala na używanie typów prostych (prymitywnych) w deklaracjach typów generycznych, więc możesz napisać `List<int>` w języku C#, podczas gdy w Javie musisz napisać `List<Integer>`.
 
-The other difference is that in C# there is no type erasure as there is in Java. C# code retains all the generic information at runtime. This impacts how most generic APIs are declared and used in C#.
+Inną różnicą jest to, że w języku C# nie ma wymazywania typów, tak jak w Javie. Kod napisany w C# zachowuje wszystkie informacje o typie generycznym w czasie wykonywania. This impacts how most generic APIs are declared and used in C#.
 
 A generic class definition and creation in Java and C# is roughly the same. There is, however, difference on the method level. A generic method in Java is typically written as:
 
