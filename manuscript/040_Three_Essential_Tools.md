@@ -1,20 +1,20 @@
-# The essential tools {#chapter-essential-tools}
+# Niezbędne narzędzia {#chapter-essential-tools}
 
-Ever watched Karate Kid, either the old version or the new one? The thing they have in common is that when the "kid" starts learning karate (or kung-fu) from his master, he is given a basic, repetitive task (like taking off a jacket, and putting it on again), not knowing yet where it would lead him. Or look at the first Rocky film (yeah, the one starring Sylvester Stallone), where Rocky chases a chicken in order to train agility.
+Czy kiedykolwiek oglądałeś film Karate Kid, starą lub nową wersję? W obu chodzi o to, że kiedy "dzieciak" zaczyna uczyć się od swojego mistrza karate (lub kung-fu), otrzymuje najprostsze zadanie do powtarzania (jak zdjęcie kurtki i założenie jej), nie wiedząc jeszcze po co to robi i gdzie go to zaprowadzi. ALbo, włącz sobie pierwszy film Rocky (tak, ten z udziałem Sylvestra Stallone'a), w którym Rocky ściga kurczaka, aby trenować zwinność.
 
-When I first tried to learn how to play guitar, I found two pieces of advice on the web: the first was to start by mastering a single, difficult song. The second was to play with a single string, learn how to make it sound in different ways and try to play some melodies by ear just with this one string. Do I have to tell you that the second advice worked better?
+Kiedy po raz pierwszy próbowałem nauczyć się grać na gitarze, znalazłem dwie porady w Internecie: pierwszą było opanowanie pojedynczego, trudnego utworu. Druga rada polegała na graniu na jednej strunie, nauczeniu się jak ta struna może brzmieć i próbie zagrania melodii ze słuchu właśnie na tej jednej strunie. Chyba nie muszę dodawać, że ta druga rada działała lepiej?
 
-Honestly, I could dive right into the core techniques of TDD, but I feel this would be like putting you on a ring with a demanding opponent -- you would most probably be discouraged before gaining the necessary skills. So, instead of explaining how to win a race, in this chapter we will take a look at what shiny cars we will be driving.
+Szczerze mówiąc, mógłbym od razu rozpocząć od podstawowych technik TDD, ale wydaje mi się, że byłoby to tak, jakbym postawił Cię na ringu z bardzo wymagającym przeciwnikiem - prawdopodobnie zniechęciłbyś się przed zdobyciem niezbędnych umiejętności. Zamiast wyjaśniać, jak się wygrywa wyścigi, w tym rozdziale przyjrzymy się raczej, jakie błyszczące samochody będziemy prowadzić.
 
-In other words, I will give you a brief tour of the three tools we will use throughout this book.
+Innymi słowy, zaprezentuję króko trzy narzędzia, z których będziemy korzystać w tej książce
 
-In this chapter, I will oversimplify some things just to get you up and running without getting into the philosophy of TDD yet (think: physics lessons in primary school). Don't worry about it :-), I will make up for it in the coming chapters!
+W tym rozdziale upraszczam niektóre rzeczy tylko po to, abyś zaczął działać bez wchodzenia w filozofię TDD (skojarz: lekcje fizyki w szkole podstawowej). Nie przejmuj się :-), nadrobię to w nadchodzących rozdziałach!
 
 ## Test framework
 
-The first tool we'll use is a test framework. A test framework allows us to specify and execute our tests.
+Pierwszym narzędziem, które wykorzystamy, będzie odpowiednia platforma do testów (framework testowy). Struktura testowa pozwala nam określić i wykonać nasze testy.
 
-Let's assume for the sake of this introduction that we have an application that accepts two numbers from commandline, multiplies them and prints the result on the console. The code is pretty straightforward:
+Załóżmy, na potrzeby naszego wprowadzenia, że mamy aplikację, która przyjmuje dwie liczby z linii poleceń, mnoży je i wypisuje wynik na konsoli. Kod jest dość prosty:
 
 ```csharp
 public static void Main(string[] args) 
@@ -36,17 +36,16 @@ public static void Main(string[] args)
 }
 ```
 
-Now, let's assume we want to check whether this application produces correct results. The most obvious way would be to invoke it from the command line manually with some exemplary arguments, then check the output to the console and compare it with what we expected to see. Such testing session could look like this:
+Teraz załóżmy, że chcemy sprawdzić, czy program daje prawidłowe wyniki. Najbardziej oczywistym sposobem byłoby wywołanie go z linii poleceń, ręcznie, za pomocą kilku przykładowych argumentów, następnie sprawdzenie wyników na konsoli i porównanie ich z tym, co czekaliśmy. Taka sesja testowa może wyglądać następująco:
 
 ```text
 C:\MultiplicationApp\MultiplicationApp.exe 3 7
 21
 C:\MultiplicationApp\
 ```
+Jak widać, nasz program daje wynik 21 dla mnożenia 3 przez 7. Jest to poprawne, więc zakładamy, że program zdał test.
 
-As you can see, our application produces a result of 21 for the multiplication of 3 by 7. This is correct, so we assume the application has passed the test. 
-
-Now, what if the application also performed addition, subtraction, division, calculus etc.? How many times would we have to invoke the application manually to make sure every operation works correctly? Wouldn't that be time-consuming? But wait, we are programmers, right? So we can write programs to do the testing for us! For example, here is a source code of a program that uses the Multiplication class, but in a slightly different way then the original application:
+Co się stanie, jeśli program będzie miał również zaimplementowane dodawanie, odejmowanie, dzielenie, całkowanie itp.? Ile razy będziemy musieli ręcznie wywołać aplikację, aby upewnić się, że każda operacja, po naszych zmianach, wciąż działa poprawnie? Czy nie byłoby to czasochłonne? Ale czekaj, jesteśmy programistami, prawda? Tak więc możemy napisać programy do testowania dla nas! Na przykład poniżej znajdziesz kod źródłowy innej aplikacji, który używa klasy Multiplication, ale w nieco inny sposób niż robił to nasz wcześniejszy program:
 
 ```csharp
 public static void Main(string[] args) 
@@ -61,8 +60,7 @@ public static void Main(string[] args)
   }
 }
 ```
-
-Looks simple, right? Now, let's use this code as a basis to build a very primitive test framework, just to show the pieces that such frameworks consist of. As a step in that direction, we can extract the verification of the `result` into a reusable method -- after all, we will be adding division in a second, remember? So here goes:
+Wygląda prosto, prawda? Teraz na tym kodzie oprzemy bardzo prymitywny szkielet testowy, aby pokazać fragmenty,z których składają się takie frameworki testowe. Pierwszym krokiem w tym kierunku będzie wyodrębnienie weryfikacji wyniku `result` do metody, którą będzie można używać wielokrotie. Po tym wszystkim, w mgnieniu oka dodamy do aplikacji dzielenie, pamiętasz? No to jedziemy:
 
 ```csharp
 public static void Main(string[] args) 
@@ -87,27 +85,33 @@ public static void AssertTwoIntegersAreEqual(
 }
 ```
 
-Note that I started the name of this extracted method with "Assert" -- we will get back to the naming soon, for now just assume that this is a good name for a method that verifies that a result matches our expectation. Let's take one last round and extract the test itself so that its code is in a separate method. This method can be given a name that describes what the test is about:
+Zauważ, że nazwę tej wyodrębnionej metody zacząłem od "Assert" - wkrótce wrócimy do nazewnictwa, na razie przyjmijmy, że jest to dobra nazwa dla metody, która sprawdza, czy wynik pasuje do naszych oczekiwań. Ostatnim krokiem będzie wyodrębnienie samego test, aby jego kod był w osobnej metodzie. Tej metodzie nadamy nazwę opisującą, co sprawdza ten test:
 
 ```csharp
 public static void Main(string[] args) 
 {
-  Multiplication_ShouldResultInAMultiplicationOfTwoPassedNumbers();
+  Multiplication_ShouldResultInAMultiplicationOfTwoPassedNumbers(); //
 }
+```
+Oczekujemy iloczynu dwóch liczb przekazanych do aplikacji
 
+```csharp
 public void 
 Multiplication_ShouldResultInAMultiplicationOfTwoPassedNumbers()
 {
-  //Assuming...
+  //Zakładając, że...
   var multiplication = new Multiplication(3,7);
   
-  //when this happens:
+  //Kiedy dzieje się coś takiego...
   var result = multiplication.Perform();
   
-  //then the result should be...
+  //wtedy wynik powinien być taki...
   AssertTwoIntegersAreEqual(expected: 21, actual: result);
 }
+```
+Sprawdzamy, że podane liczby całkowite (w tym przypadku oczekiwana i zwrócona) są sobie równe.
 
+```csharp
 public static void AssertTwoIntegersAreEqual(
   int expected, int actual)
 {
@@ -118,10 +122,9 @@ public static void AssertTwoIntegersAreEqual(
   }
 }
 ```
+I to wszystko. Teraz, jeśli potrzebujemy kolejnego testu, np. dla dzielenia, możemy po prostu dodać nowe wywołanie metody testujacej do metody `Main ()` a następnie  zaimplementować tą metodę. Wewnątrz tego nowego testu możemy ponownie użyć metody `AssertTwoIntegersAreEqual()`, ponieważ sprawdzenie wyników dzielenia będzie również opierało się na porównania dwóch wartości całkowitych - oczekiwanej i tej faktycznie zwróconej.
 
-And we're done. Now if we need another test, e.g. for division, we can just add a new method call to the `Main()` method and implement it. Inside this new test, we can reuse the `AssertTwoIntegersAreEqual()` method, since the check for division would also be about comparing two integer values.
-
-As you see, we can easily write automated checks like this, using our primitive methods. However, this approach has some disadvantages:
+Jak widzisz, możemy łatwo napisać zautomatyzowane testy, używając naszych prymitywnych metod. Takie podejście ma jednak pewne wady:
 
 1.  Every time we add a new test, we have to update the `Main()` method with a call to the new test. If we forget to add such a call, the test will never be run. At first it isn't a big deal, but as soon as we have dozens of tests, an omission will become hard to notice.
 2.  Imagine your system consists of more than one application -- you would have some problems trying to gather summary results for all of the applications that your system consists of.
