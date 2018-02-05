@@ -12,7 +12,7 @@ W tym rozdziale upraszczam niektóre rzeczy tylko po to, abyś zaczął działa�
 
 ## Test framework
 
-Pierwszym narzędziem, które wykorzystamy, będzie test framework (framework testujący). W języku polskim nie ma odpowiednika słowa "framework", najbliżej jest słowo "platforma". Framework to coś, co wyznacza pewne ramy, dostarcza biblioteki, funkcje - w tym przypadku funkcje pomagające w pisaniu testów. Pozwala nam opisać i wykonać nasze testy.
+Pierwszym narzędziem, które wykorzystamy, będzie test framework (framework testujący). *W języku polskim nie ma odpowiednika słowa "framework", najbliżej jest słowo "platforma". Framework to coś, co wyznacza pewne ramy, dostarcza biblioteki, funkcje - w tym przypadku funkcje pomagające w pisaniu i wykonaniu testów.*
 
 Załóżmy, na potrzeby naszego wprowadzenia, że mamy aplikację, która przyjmuje dwie liczby z linii poleceń, mnoży je i wypisuje wynik na konsoli. Kod jest dość prosty:
 
@@ -72,7 +72,7 @@ public static void Main(string[] args)
   AssertTwoIntegersAreEqual(expected: 21, actual: result);
 }
 
-//wyodrębiony kod:
+// Wyodrębiony kod:
 public static void AssertTwoIntegersAreEqual(
   int expected, int actual)
 {
@@ -90,31 +90,28 @@ Zauważ, że nazwę tej wyodrębnionej metody zacząłem od "Assert" - wkrótce 
 ```csharp
 public static void Main(string[] args) 
 {
-  Multiplication_ShouldResultInAMultiplicationOfTwoPassedNumbers(); //
+  // Oczekujemy iloczynu dwóch liczb przekazanych do aplikacji
+  Multiplication_ShouldResultInAMultiplicationOfTwoPassedNumbers();
 }
-```
-Oczekujemy iloczynu dwóch liczb przekazanych do aplikacji
 
-```csharp
+
 public void 
 Multiplication_ShouldResultInAMultiplicationOfTwoPassedNumbers()
 {
   //Zakładając, że...
   var multiplication = new Multiplication(3,7);
   
-  //Kiedy dzieje się coś takiego...
+  //Kiedy dzieje się coś takiego:
   var result = multiplication.Perform();
   
-  //wtedy wynik powinien być taki...
+  //Wtedy wynik powinien być taki...
   AssertTwoIntegersAreEqual(expected: 21, actual: result);
 }
-```
-Sprawdzamy, że podane liczby całkowite (w tym przypadku oczekiwana i zwrócona) są sobie równe.
 
-```csharp
 public static void AssertTwoIntegersAreEqual(
   int expected, int actual)
 {
+  // Sprawdzamy, że podane liczby całkowite (w tym przypadku oczekiwana i zwrócona) są sobie równe.
   if(actual != expected)
   {
     throw new Exception(
@@ -126,7 +123,7 @@ I to wszystko. Teraz, jeśli potrzebujemy kolejnego testu, np. dla dzielenia, mo
 
 Jak widzisz, możemy łatwo napisać zautomatyzowane testy, używając naszych prymitywnych metod. Takie podejście ma jednak pewne wady:
 
-1.  Za każdym razem, gdy dodajemy nowy test, musimy zaktualizować metodę `Main ()` o wywołanie nowego testu. Jeśli zapomnimy tego, test nigdy nie zostanie uruchomiony. Na początku nie jest to wielka sprawa, ale gdy już będziemy mieć dziesiątki testów, trudno będzie zauważyć te niedodane.
+1.  Za każdym razem, gdy dodajemy nowy test, musimy zaktualizować metodę `Main()` o wywołanie nowego testu. Jeśli zapomnimy tego, test nigdy nie zostanie uruchomiony. Na początku nie jest to wielka sprawa, ale gdy już będziemy mieć dziesiątki testów, trudno będzie zauważyć te niedodane.
 2.  Wyobraź sobie, że Twój system składa się z więcej niż jednej aplikacji - miałbyś problemy ze zbieraniem wyników testów z wszystkich aplikacji, z których składa się twój system.
 3.  Wkrótce będziesz musiał napisać wiele innych metod podobnych do `AssertTwoIntegersAreEqual()` -- ta tutaj porównuje dwie liczby całkowite, ale co jeśli chcemy sprawdzić inny warunek, np. czy jedna liczba całkowita jest większa od innej? Co by było, gdybyśmy chcieli sprawdzić równość nie dla liczb całkowitych, ale dla znaków, ciągów znaków, itp.? Co by było, gdybyśmy chcieli sprawdzić pewne właściwości kolekcji, np. czy kolekcja jest posortowana, lub czy wszystkie elementy w kolekcji są unikatowe?
 4.  Jeśli test się nie powiedzie, trudno będzie przenieść się od komunikatu na konsoli do odpowiedniego wiersza w kodzie źródłowym w twoim IDE. Czy nie byłoby łatwiej - kliknąć komunikat o błędzie i zostać przeniesionym do miejsca w kodzie, dzie wystąpił błąd?
@@ -135,40 +132,39 @@ Z tego względu i kilku innych, stworzono zaawansowane, zautomatyzowane narzędz
 
 Szczerze mówiąc, nie mogę się doczekać, by pokazać Ci jak będzie wyglądać nasz wcześniejszy test, napisany przy użyciu frameworka testujacego. Jednakże najpierw podsumujmy to, co się nam udało osiągnąć do tej pory. Wprowadźmy też pewną terminologię, która pomoże nam zrozumieć, w jaki sposób zautomatyzowane frameworki testujące rozwiązują nasze problemy:
 
-1.  The `Main()` method serves as a **Test List** -- a place where it is decided which tests to run.
-2.  The `Multiplication_ShouldResultInAMultiplicationOfTwoPassedNumbers()` method is a **Test Method**.
-3.  The `AssertTwoIntegersAreEqual()` method is an **Assertion** -- a condition that, when not met, ends a test with failure.
+1. Metoda `Main()` posłużyła nam jako lista testów (**Test List**) - miejsce, w którym decyduje się, które testy należy uruchomić.
+2. Metoda `Multiplication_ShouldResultInAMultiplicationOfTwoPassedNumbers()` była naszą metodą testową (**Test Method**).
+3. Metoda `AssertTwoIntegersAreEqual ()` jest asercją (**Assertion**) - warunkiem, który - gdy nie zostanie spełniony - kończy test niepowodzeniem.
 
-To our joy, those three elements are present as well when we use a test framework. Moreover, they are far more advanced than what we have. To illustrate this, here is (finally!) the same test we wrote above, now using the [xUnit.Net](http://xunit.github.io/) test framework:
+Ku naszej radości, te trzy chwalebne elementy są również obecne, gdy używamy frameworka testującego. Ponadto są znacznie bardziej zaawansowane. Aby to zilustrować, oto (nareszcie!) ten sam test, który napisaliśmy powyżej, teraz używający frameworka testowego [xUnit.Net] (http://xunit.github.io/):
 
 ```csharp
 [Fact] public void 
 Multiplication_ShouldResultInAMultiplicationOfTwoPassedNumbers()
 {
-  //Assuming...
+  //Zakładając, że...
   var multiplication = new Multiplication(3,7);
   
-  //when this happens:
+  //Kiedy dzieje się to:
   var result = multiplication.Perform();
   
-  //then the result should be...
+  //Wtedy wyniki powinny być takie...
   Assert.Equal(21, result);
 }
 ```
+Patrząc na przykład widzimy, że metoda testu jest jedyną rzeczą, która pozostała - lista testów i asercja, które poprzednio mieliśmy, zniknęły. Cóż, prawdę mówiąc, one nie do końca znikają - po prostu framework testujący oferuje zastępstwa, które są o wiele lepsze - więc ich użyliśmy. Odświeżmy sobie trzy elementy z poprzedniej wersji testu, o których mówiłem, że teraz również będą obecne:
 
-Looking at the example, we can see that the test method itself is the only thing that's left -- the two methods (the test list and assertion) that we previously had are gone now. Well, to tell you the truth, they are not literally gone -- it's just that the test framework offers replacements that are far better, so we used them instead. Let's reiterate the three elements of the previous version of the test that I promised would be present after the transition to the test framework:
+1.  Lista testów (**Test List**) jest teraz tworzona automatycznie przez framework na podstawie wszystkich metod oznaczonych atrybutem `[Fact]`. Nie ma potrzeby zarządzać z poziomu kodu już żadnymi listami, dlatego znika metoda `Main()`.
+2.  Metoda testująca (**Test Method**) wciąż jest obecna i wygląda niemalże tak jak wcześniej.
+3.  Asercja (**Assertion**) przyjęła kształt statycznej metody `Assert.Equal()` -- xUnit.NET framework posiada szeroki zakres takich asercji, a więc użyłem jednej z nich. Oczywiście, nie ma przeszkód byś napisał swoją własną asercję, jeśli framework nie oferuje Ci tego, czego szukasz.
 
-1.  The **Test List** is now created automatically by the framework from all methods marked with a `[Fact]` attribute. There's no need to maintain one or more central lists anymore, so the `Main()` method is no more.
-2.  The **Test Method** is present and looks almost the same as before.
-3.  The **Assertion** takes the form of a call to the static `Assert.Equal()` method -- the xUnit.NET framework is bundled with a wide range of assertion methods, so I used one of them. Of course, no one stops you from writing your own custom assertion if the built-in assertion methods don't offer what you are looking for.
+Uff, mam nadzieję, że to przejście do frameworka testującego okazało się w miarę bezbolesne dla Ciebie. Teraz ostatnia rzecz - skoro nie ma już metody `Main()`, to pewnie się zastanawiasz jakim cudem uruchamiamy te testy, prawda? Dobrze, wyjawię Ci ostatni sekret -- używamy zewnętrzenej aplikacji do tego celu (*po polsku można ją nazwać odpalaczem testów, po angielsku to* **Test Runner**) -- określamy które zestawy z testami (assemblies) chcemy załadować, rest runner uruchamia testy, tworzy raporty na podstawie wyników etc. Nasz odpalacz może przyjać wiele form, to może być aplikacja konsolowa, aplikacja z GUI albo plugin do IDE. Oto przykład test runner'a dostarczanego jako plugin do Visual Studio IDE, nazywającego się Resharper:
 
-Phew, I hope I made the transition quite painless for you. Now the last thing to add -- as there is no `Main()` method anymore in the last example, you surely must wonder how we run those tests, right? Ok, the last big secret unveiled -- we use an external application for this (we will refer to it using the term **Test Runner**) -- we tell it which assemblies to run and then it loads them, runs them, reports the results etc. A Test Runner can take various forms, e.g. it can be a console application, a GUI application or a plugin for an IDE. Here is an example of a test runner provided by a plugin for Visual Studio IDE called Resharper:
-111
 ![Resharper test runner docked as a window in Visual Studio 2015 IDE](images/Resharper_Test_Runner.PNG)
 
-## Mocking framework
+## Framework mockujący
 
-W> This introduction is written for those who are not proficient with using mocks. Even though, I accept the fact that the concept may be too difficult for you to grasp. If, while reading this section, you find youreslf lost, please skip it. We won't be dealing with mock objects until part 2, where I offer a richer and more accurate description of the concept.
+W> To wprowadzenie jest przeznaczone dla tych, którzy nie są biegli w używaniu mocków (*czytaj: "moków", `mock` to kolejny angielskojęzyczny termin w informatyce, który nie ma swojego odpowiednika w jęzku polskim - dosłownie tłumacząc z angielskiego, mock to imitacja*). Mocki mogą nie być najłatwiejsze do zrozumienia i dlatego jestem w stanie zaakceptować, jeśli na razie będziesz miał problemy z uchwyceniem koncepcji. Jeśli, podczas czytania tego wprowadzenia, zgubisz się - nie zwacaj na to w ogóle uwagi i idź dalej. Będziemy zajmować się mocno mockami w drugiej części książki, gdzie zagwarantuję Ci bogatszy i dokładniejszy opis.
 
 When we want to test a class that depends on other classes, we may think it's a good idea to include those classes in the test as well. This, however, does not allow us to test a single object or a small cluster of objects in isolation, where we would be able to verify that just a small part of the application works correctly. Thankfully, if we make our classes depend on interfaces rather than other classes, we can easily implement those interfaces with special "fake" classes that can be crafted in a way that makes our testing easier. For example, objects of such classes may contain pre-programmed return values for some methods. They can also record the methods that are invoked on them and allow the test to verify whether the communication between our object under test and its dependencies is correct.
 
