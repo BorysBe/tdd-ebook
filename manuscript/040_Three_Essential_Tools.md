@@ -88,22 +88,21 @@ public static void AssertTwoIntegersAreEqual(
 Zauważ, że nazwę tej wyodrębnionej metody zacząłem od "Assert" - wkrótce wrócimy do nazewnictwa, na razie przyjmijmy, że jest to dobra nazwa dla metody, która sprawdza, czy wynik pasuje do naszych oczekiwań. Ostatnim krokiem będzie wyodrębnienie samego test, aby jego kod był w osobnej metodzie. Tej metodzie nadamy nazwę opisującą, co sprawdza ten test:
 
 ```csharp
-public static void Main(string[] args) 
+public static void Main(string[] args)
 {
   // Oczekujemy iloczynu dwóch liczb przekazanych do aplikacji
   Multiplication_ShouldResultInAMultiplicationOfTwoPassedNumbers();
 }
-
 
 public void 
 Multiplication_ShouldResultInAMultiplicationOfTwoPassedNumbers()
 {
   //Zakładając, że...
   var multiplication = new Multiplication(3,7);
-  
+
   //Kiedy dzieje się coś takiego:
   var result = multiplication.Perform();
-  
+
   //Wtedy wynik powinien być taki...
   AssertTwoIntegersAreEqual(expected: 21, actual: result);
 }
@@ -119,14 +118,15 @@ public static void AssertTwoIntegersAreEqual(
   }
 }
 ```
+
 I to wszystko. Teraz, jeśli potrzebujemy kolejnego testu, np. dla dzielenia, możemy po prostu dodać kolejne wywołanie, innej metody testujacej do `Main()` a następnie zaimplementować tę metodę. Wewnątrz nowego testu możemy ponownie użyć metody `AssertTwoIntegersAreEqual()`, ponieważ sprawdzenie wyników dzielenia będzie również opierało się na porównania dwóch wartości całkowitych - oczekiwanej i tej faktycznie zwróconej.
 
 Jak widzisz, możemy łatwo napisać zautomatyzowane testy, używając naszych prymitywnych metod. Takie podejście ma jednak pewne wady:
 
-1.  Za każdym razem, gdy dodajemy nowy test, musimy zaktualizować metodę `Main()` o wywołanie nowego testu. Jeśli zapomnimy tego, test nigdy nie zostanie uruchomiony. Na początku nie jest to wielka sprawa, ale gdy już będziemy mieć dziesiątki testów, trudno będzie zauważyć te niedodane.
-2.  Wyobraź sobie, że Twój system składa się z więcej niż jednej aplikacji - miałbyś problemy ze zbieraniem wyników testów z wszystkich aplikacji, z których składa się twój system.
-3.  Wkrótce będziesz musiał napisać wiele innych metod podobnych do `AssertTwoIntegersAreEqual()` -- ta tutaj porównuje dwie liczby całkowite, ale co jeśli chcemy sprawdzić inny warunek, np. czy jedna liczba całkowita jest większa od innej? Co by było, gdybyśmy chcieli sprawdzić równość nie dla liczb całkowitych, ale dla znaków, ciągów znaków, itp.? Co by było, gdybyśmy chcieli sprawdzić pewne właściwości kolekcji, np. czy kolekcja jest posortowana, lub czy wszystkie elementy w kolekcji są unikatowe?
-4.  Jeśli test się nie powiedzie, trudno będzie przenieść się od komunikatu na konsoli do odpowiedniego wiersza w kodzie źródłowym w twoim IDE. Czy nie byłoby łatwiej - kliknąć komunikat o błędzie i zostać przeniesionym do miejsca w kodzie, dzie wystąpił błąd?
+1. Za każdym razem, gdy dodajemy nowy test, musimy zaktualizować metodę `Main()` o wywołanie nowego testu. Jeśli zapomnimy tego, test nigdy nie zostanie uruchomiony. Na początku nie jest to wielka sprawa, ale gdy już będziemy mieć dziesiątki testów, trudno będzie zauważyć te niedodane.
+2. Wyobraź sobie, że Twój system składa się z więcej niż jednej aplikacji - miałbyś problemy ze zbieraniem wyników testów z wszystkich aplikacji, z których składa się twój system.
+3. Wkrótce będziesz musiał napisać wiele innych metod podobnych do `AssertTwoIntegersAreEqual()` -- ta tutaj porównuje dwie liczby całkowite, ale co jeśli chcemy sprawdzić inny warunek, np. czy jedna liczba całkowita jest większa od innej? Co by było, gdybyśmy chcieli sprawdzić równość nie dla liczb całkowitych, ale dla znaków, ciągów znaków, itp.? Co by było, gdybyśmy chcieli sprawdzić pewne właściwości kolekcji, np. czy kolekcja jest posortowana, lub czy wszystkie elementy w kolekcji są unikatowe?
+4. Jeśli test się nie powiedzie, trudno będzie przenieść się od komunikatu na konsoli do odpowiedniego wiersza w kodzie źródłowym w twoim IDE. Czy nie byłoby łatwiej - kliknąć komunikat o błędzie i zostać przeniesionym do miejsca w kodzie, dzie wystąpił błąd?
 
 Z tego względu i kilku innych, stworzono zaawansowane, zautomatyzowane narzędzia do testowania aplikacji - frameworki testujące, takie jak CppUnit (dla C++), JUnit (dla Javy) lub NUnit (C#). Frameworki testujące są w zasadzie oparte na tej samej idei, którą opisałem powyżej, ale jednocześnie nadrabiają wady naszego wcześniejszego, prymitywnego podejścia. Struktura i funkcjonalność tych framework'ów wywodzą się ze Smalltalk's SUnit, są określane jako rodzina testów **xUnit**.
 
@@ -144,18 +144,19 @@ Multiplication_ShouldResultInAMultiplicationOfTwoPassedNumbers()
 {
   //Zakładając, że...
   var multiplication = new Multiplication(3,7);
-  
+
   //Kiedy dzieje się to:
   var result = multiplication.Perform();
-  
+
   //Wtedy wyniki powinny być takie...
   Assert.Equal(21, result);
 }
 ```
+
 Patrząc na przykład widzimy, że metoda testu jest jedyną rzeczą, która pozostała - lista testów i asercja, które poprzednio mieliśmy, zniknęły. Cóż, prawdę mówiąc, one nie do końca znikają - po prostu framework testujący oferuje zastępstwa, które są o wiele lepsze - więc ich użyliśmy. Odświeżmy sobie trzy elementy z poprzedniej wersji testu, o których mówiłem, że teraz również będą obecne:
 
-1.  Lista testów (**Test List**) jest teraz tworzona automatycznie przez framework na podstawie wszystkich metod oznaczonych atrybutem `[Fact]`. Nie ma potrzeby zarządzać z poziomu kodu już żadnymi listami, dlatego znika metoda `Main()`.
-2.  Metoda testująca (**Test Method**) wciąż jest obecna i wygląda niemalże tak jak wcześniej.
+1. Lista testów (**Test List**) jest teraz tworzona automatycznie przez framework na podstawie wszystkich metod oznaczonych atrybutem `[Fact]`. Nie ma potrzeby zarządzać z poziomu kodu już żadnymi listami, dlatego znika metoda `Main()`.
+2. Metoda testująca (**Test Method**) wciąż jest obecna i wygląda niemalże tak jak wcześniej.
 3.  Asercja (**Assertion**) przyjęła kształt statycznej metody `Assert.Equal()` -- xUnit.NET framework posiada szeroki zakres takich asercji, a więc użyłem jednej z nich. Oczywiście, nie ma przeszkód byś napisał swoją własną asercję, jeśli framework nie oferuje Ci tego, czego szukasz.
 
 Uff, mam nadzieję, że to przejście do frameworka testującego okazało się w miarę bezbolesne dla Ciebie. Teraz ostatnia rzecz - skoro nie ma już metody `Main()`, to pewnie się zastanawiasz jakim cudem uruchamiamy te testy, prawda? Dobrze, wyjawię Ci ostatni sekret -- używamy zewnętrzenej aplikacji do tego celu (*po polsku można ją nazwać odpalaczem testów, po angielsku to* **Test Runner**) -- określamy które zestawy z testami (assemblies) chcemy załadować, rest runner uruchamia testy, tworzy raporty na podstawie wyników etc. Nasz odpalacz może przyjać wiele form, to może być aplikacja konsolowa, aplikacja z GUI albo plugin do IDE. Oto przykład test runner'a dostarczanego jako plugin do Visual Studio IDE, nazywającego się Resharper:
@@ -239,7 +240,7 @@ Teraz wyobraź sobie, że musimy to przetestować -- jak to robimy? Już widzę,
 }
 ```
 
-At the beginning of the test we open a connection to the database and clean all existing orders in it (more on that shortly), then create an order object, insert it into the database and query the database for all orders it contains. At the end, we make an assertion that the order we tried to insert is among all orders in the database.
+Na początku testu otwieramy połączenie z bazą danych i czyścimy wszystkie istniejące w niej zamówienia (więcej o tym wkrótce), następnie tworzymy obiekt zamówienia, wstawiamy go do bazy danych, a potem pobieramy wszystkie zamówienia z bazy. Na koniec sprawdzamy, czy zamówienie, które próbowaliśmy wprowadzić, znajduje się wśród wszystkich zamówień.
 
 Why do we clean up the database at the beginning of the test? Remember that a database provides persistent storage. If we don't clean it up before executing the logic of this test, the database may already contain the item we are trying to add, e.g. from previous executions of this test. The database might not allow us to add the same item again and the test would fail. Ouch! It hurts so bad, because we wanted our tests to prove something works, but it looks like it can fail even when the logic is coded correctly. Of what use would be such a test if it couldn't reliably tell us whether the implemented logic is correct or not? So, to make sure that the state of the persistent storage is the same every time we run this test, we clean up the database before each run.
 
@@ -377,9 +378,9 @@ Note that we don't need the `SelectAllOrders()` method on the database connectio
 
 This explanation of mock objects is very shallow and its purpose is only to get you up and running. We'll get back to mocks later as we've only scratched the surface here.
 
-## Anonymous values generator
+## Generator wartości anonimizowanych
 
-Looking at the test data in the previous section we see that many values are specified literally, e.g. in the following code:
+Patrząc na dane testowe z poprzedniej sekcji widzimy, że wiele wartości podano bardzo konkretnie, np. w następującym kodzie:
 
 ```csharp
 var order = new Order(
@@ -390,7 +391,7 @@ var order = new Order(
   quantity: 1);
 ```
 
-the name, surname, product, date and quantity are very specific. This might suggest that the exact values are important from the perspective of the behavior we are testing. On the other hand, when we look at the tested code again:
+imię, nazwisko, produkt, data i ilość są bardzo specyficzne. Może to sugerować, że te konkretne wartości są ważne z punktu widzenia zachowania, które testujemy. Z drugiej strony, gdy ponownie spojrzymy na kod, który jest testowany:
 
 ```csharp
 public void Place(Order order)
@@ -406,7 +407,7 @@ public void Place(Order order)
 }
 ```
 
-we can spot that these values are not used anywhere -- the tested class does not use or check them in any way. These values are important from the database point of view, but we already took the real database out of the picture. Doesn't it trouble you that we fill the order object with so many values that are irrelevant to the test logic itself and that clutter the structure of the test with needless details? To remove this clutter let's introduce a method with a descriptive name to create the order and hide the details we don't need from the reader of the test:
+możemy zauważyć, że wartości te nie są nigdzie używane - testowana klasa nie wymaga ich, ani nie sprawdza w żaden sposób. Te wartości mogłyby być ważne z punktu widzenia bazy danych, ale już zdążyliśmy pozbyć się prawdziwej bazy danych z testów. Czy nie przeszkadza ci, że wypełniamy obiekt zamówienia tak wieloma wartościami, które nie mają związku z samą logiką testu i które zakłócają strukturę testu niepotrzebnymi szczegółami? Aby usunąć ten bałagan, wprowadźmy metodę o opisowej nazwie, tworzącą zamówienie ale ukrywającą szczegóły, których osoba czytająca test wcale nie potrzebuje:
 
 ```csharp
 [Fact] public void 
@@ -435,17 +436,16 @@ public Order AnonymousOrder()
 }
 ```
 
-Now, that's better. Not only did we make the test shorter, we also provided a hint to the reader that the actual values used to create an order don't matter from the perspective of tested order-processing logic. Hence the name `AnonymousOrder()`.
+Teraz jest znacznie lepiej. Nie tylko sprawiliśmy, że test był krótszy, ale również pokazaliśmy czytelnikowi, że wartości użyte do utworzenia zamówienia nie mają znaczenia z punktu widzenia przetestowanej logiki przetwarzania zamówień, są zanonimizowane. Dlatego też nazwa `AnonymousOrder()`.
 
-By the way, wouldn't it be nice if we didn't have to provide the anonymous objects ourselves, but could rely on another library to generate these for us? Susprise, surprise, there is one! It's called [**Autofixture**](https://github.com/AutoFixture/AutoFixture). It is an example of so-called anonymous values generator (although its creator likes to say that it is also an implementation of Test Data Builder pattern, but let's skip this discussion here). 
+Przy okazji, czy nie byłoby miło, gdybyśmy sami nie musieli anonimizować obiektów, ale mogli polegać na innej bibliotece, która by dla nas generowała obiekty już zanonimizowane? Niespodzianka, jest jedna! Nazywa się [** Autofixture **] (https://github.com/AutoFixture/AutoFixture). Jest to przykład tak zwanego generatora anonimizowanych wartości (choć jego twórca lubi mówić, że jest to również implementacja wzorca projektowego Konstruktor Danych Testowych (Test Data Builder), ale pomińmy tutaj tę dyskusję.
 
-After changing our test to use AutoFixture, we arrive at the following:
+Po zmianie naszego testu tak, by używał biblioteki `AutoFixture` dochodzimy do tego:
 
 ```csharp
 private Fixture any = new Fixture();
 
-[Fact] public void 
-ShouldInsertNewOrderToDatabase()
+[Fact] public void ShouldInsertNewOrderToDatabase()
 {
   //GIVEN
   var orderDatabase = Substitute.For<OrderDatabase>();
@@ -460,21 +460,22 @@ ShouldInsertNewOrderToDatabase()
 }
 ```
 
-W tym teście używamy instancji klasy `Fixture` (która jest częścią AutoFixture) do tworzenia anonimowych wartości za pomocą metody o nazwie `Create()`. To pozwala nam usunąć metodę `AnonymousOrder()`, dzięki czemu konfiguracja testu jest krótsza.
+W tym teście używamy instancji klasy `Fixture` (która jest częścią `AutoFixture`) do tworzenia anonimizowanych wartości za pomocą metody o nazwie `Create()`. Tym samym, to pozwala nam usunąć metodę `AnonymousOrder()`, dzięki czemu konfiguracja testu jest krótsza.
 
-Nieźle, co? AutoFixture ma wiele zaawansowanych funkcji, ale żeby wszystko było proste, chciałbym ukryć jego użycie za statyczną klasą o nazwie `Any`. Najprostsza implementacja takiej klasy wyglądałaby tak:
+Nieźle, co? AutoFixture ma wiele zaawansowanych funkcji, ale żeby wszystko było proste, chciałbym ukryć jego obecność za statyczną klasą o nazwie `Any`. Najprostsza implementacja takiej klasy wyglądałaby tak:
 
 ```csharp
 public static class Any
 {
   private static any = new Fixture();
-  
+
   public static T Instance<T>()
   {
     return any.Create<T>();
   }
 }
 ```
+
 W następnych rozdziałach zobaczymy wiele różnych metod klasy `Any`, a także pełne wyjaśnienie filozofii, która za tym stoi. Im dłużej używasz tej klasy, tym bardziej rozszerza się ona o nowe metody tworzenia niestandardowych obiektów.
 
 ## Podsumowanie
