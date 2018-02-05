@@ -178,17 +178,17 @@ W dzisiejszych czasach możemy zdać się na narzędzia do generowania takiej "f
 
 Zawężając sprawę do samego C# - framework mockujący jest mechanizmem, który pozwala nam tworzyć obiekty-imitacje (zwane "mockami"), które kojarzone są z interfejsem, w czasie wykonywania. Działa to tak: typ interfejsu, który chcemy zaimplementować, jest zwykle przekazywany do specjalnej metody, która zwraca obiekt `mock` oparty na tym interfejsie (zobaczymy przykład w kilka sekund). Oprócz tworzenia imitacji obiektów, taki framework zapewnia interfejs API do określania, jak mocki powinny suę zachowywać podczas wywyływania określonych metod. To API pozwala nam również sprawdzić, które metody zostały wywołane. Jest to bardzo ważna funkcja, ponieważ możemy zasymulować takie sytuację lub zweryfikować takie warunki początkowe, które byłyby trudne do osiągnięcia przy użyciu kodu produkcyjnego. Frameworki do mockowania nie są tak stare jak frameworki do testowania, więc nie były używane w TDD od samego początku.
 
-I'll give you a quick example of a mocking framework in action now and defer further explanation of their purpose to later chapters, as the full description of mocks and their place in TDD is not so easy to convey.
+Teraz pokażę Ci krótki przykład użycia frameworka mockującego, natomiast przełożę dalsze wyjaśnienie do późniejsztch rozdziałów, ponieważ pełny opis mocków i ich miejsca w TDD nie jest taki łatwy do przekazania.
 
-Let's pretend that we have a class that allows placing orders and then puts these orders into a database (using an implementation of an interface called `OrderDatabase`). In addition, it handles any exception that may occur, by writing it into a log. The class itself does not do any important stuff, but let's try to imagine really hard that this is some serious domain logic. Here's the code for this class:
+Załóżmy, że mamy klasę, która umożliwia składanie zamówień, a następnie umieszcza te zamówienia w bazie danych (za pomocą implementacji interfejsu o nazwie `OrderDatabase`). Dodatkowo, klasa obsługuje wszelkie wyjątki, które mogą wystąpić i zapisuje je do logu. Klasa sama w sobie nie robi żadnych ważnych rzeczy, ale spróbujmy wyobrazić sobie naprawdę mocno, że to ważna logika domenowa. Oto kod dla tej klasy:
 
 ```csharp
 public class OrderProcessing
 {
-  OrderDatabase _orderDatabase; //OrderDatabase is an interface
+  OrderDatabase _orderDatabase; // OrderDatabase to interfejs
   Log _log;
 
-  //we get the database object  from outside the class:
+  // pobieramy obiekt bazodanowy spoza klasy:
   public OrderProcessing(
     OrderDatabase database,
     Log log)
@@ -196,8 +196,6 @@ public class OrderProcessing
     _orderDatabase = database;
     _log = log;
   }
-
-  //other code...
 
   public void Place(Order order)
   {
@@ -211,20 +209,19 @@ public class OrderProcessing
     }
   }
 
-  //other code...
+   // reszta kodu...
 }
 ```
 
-Now, imagine we need to test it -- how do we do that? I can already see you shake your head and say: "Let's just create a database connection, invoke the `Place()` method and see if the record is added properly into the database". If we did that, the first test would look like this:
+Teraz wyobraź sobie, że musimy to przetestować -- jak to robimy? Już widzę, jak potrząsasz głową i mówisz: "Stwórzmy połączenie z bazą danych, wywołajmy metodę `Place()` i sprawdźmy, czy rekord jest poprawnie dodany do bazy danych". Jeśli to zrobimy, pierwszy test będzie wyglądał następująco:
 
 ```csharp
-[Fact] public void 
-ShouldInsertNewOrderToDatabaseWhenOrderIsPlaced()
+[Fact] public void ShouldInsertNewOrderToDatabaseWhenOrderIsPlaced()
 {
   //GIVEN
-  var orderDatabase = new MySqlOrderDatabase(); //uses real database
+  var orderDatabase = new MySqlOrderDatabase(); //użycie prawdziwej bazy danych
   orderDatabase.Connect();
-  orderDatabase.Clean(); //clean up after potential previous tests
+  orderDatabase.Clean(); //posprzątaj po poprzednim teście
   var orderProcessing = new OrderProcessing(orderDatabase, new FileLog());
   var order = new Order(
     name: "Grzesiek", 
@@ -272,9 +269,9 @@ public class FakeOrderDatabase : OrderDatabase
 }
 ```
 
-Note that the fake order database is an instance of a custom class that implements the same interface as `MySqlOrderDatabase`. Thus, if we try, we can make the tested code use our fake without knowing. 
+Zauważ, że nieprawdziwa, udawana baza danych jest instancją klasy, która implementuje ten sam interfejs co `MySqlOrderDatabase`. Tak więc, możemy sprawić, że testowany kod użyje fałszywej bazy danych nawet o tym nie widząc.
 
-Let's replace the real implementation of the order database by the fake instance in the test:
+Zastąpmy prawdziwą implementację bazę danych zamówień fałszywą instancją w naszym teście:
 
 ```csharp
 [Fact] public void 
@@ -299,7 +296,7 @@ ShouldInsertNewOrderToDatabaseWhenOrderIsPlaced()
 }
 ```
 
-Note that we do not clean the fake database object like we did with the real database, since we create a fresh object each time the test is run and the results are stored in a memory location different for each instance. The test will also be much quicker now, because we are not accessing the database anymore. What's more, we can now easily write a test for the error case. How? Just make another fake class, implemented like this:
+Zauważ, że nie czyścimy obiektu fałszywej bazy danych, tak jak robiliśmy to z prawdziwą bazą danych, ponieważ tworzymy nowy obiekt za każdym razem, gdy test jest uruchamiany, a wyniki są przechowywane w innym miejscu pamięci dla każdej instancji. Test będzie teraz znacznie szybszy, ponieważ nie mamy już dostępu do prawdziwej bazy danych. Co więcej, możemy teraz łatwo napisać test na wypadek błędu przy dodawaniu nowego zamówienia. W jaki sposób? Po prostu zrobimy kolejną, fałszywą bazę danych, zaimplementowaną w ten sposób:
 
 ```csharp
 public class ExplodingOrderDatabase : OrderDatabase
@@ -315,7 +312,7 @@ public class ExplodingOrderDatabase : OrderDatabase
 }
 ```
 
-Ok, so far so good, but now we have two classes of fake objects to maintain (and chances are we will need even more). Any method added to the `OrderDatabase` interface must also be added to each of these fake classes. We can spare some coding by making our mocks a bit more generic so that their behavior can be configured using lambda expressions:
+Ok, na razie dobrze, ale teraz mamy dwie klasy fałszywych baz danych do utrzymania (i są szanse, że będziemy potrzebować ich jeszcze więcej). Każda metoda dodana do interfejsu `OrderDatabase` musi również zostać dodana do każdej z tych fałszywych klas. Możemy zaoszczędzić trochę kodu, czyniąc nasze imitacje nieco bardziej generycznymi, byśmy ich zachowania mogli konfigurować za pomocą wyrażeń lambda:
 
 ```csharp
 public class ConfigurableOrderDatabase : OrderDatabase
@@ -335,7 +332,7 @@ public class ConfigurableOrderDatabase : OrderDatabase
 }
 ```
 
-Now, we don't have to create additional classes for new scenarios, but our syntax becomes awkward. Here's how we configure the fake order database to remember and yield the inserted order:
+Teraz nie musimy tworzyć dodatkowych klas dla nowych scenariuszy, ale nasza składnia stała się bardziej uciążliwa. Oto jak konfigurujemy fałszywą bazę zamówień, by pamiętała i pozwalała odczytać wprowadzone zamówienie:
 
 ```csharp
 var db = new ConfigurableOrderDatabase();
@@ -344,20 +341,19 @@ db.doWhenInsertCalled = o => {gotOrder = o;};
 db.doWhenSelectAllOrdersCalled = () => new List<Order>() { gotOrder };
 ```
 
-And if we want it to throw an exception when anything is inserted:
+A jeśli chcemy rzucić wyjątek, gdy coś jest wstawiane:
 
 ```csharp
 var db = new ConfigurableOrderDatabase();
 db.doWhenInsertCalled = o => {throw new Exception();};
 ```
 
-Thankfully, some smart programmers created libraries that provide further automation in such scenarios. One such a library is [**NSubstitute**](http://nsubstitute.github.io/). It provides an API in a form of C# extension methods, which is why it might seem a bit magical at first, especially if you're not familiar with C#. Don't worry, you'll get used to it.
+Na szczęście niektórzy sprytni programiści stworzyli biblioteki, które zapewniają dalszą automatyzację w takich sytuacjach. Jedną z takich bibliotek jest [**NSubstitute**] (http://nsubstitute.github.io/). Zapewnia ona API w postaci metod rozszerzających (extension methods) C# - co może Ci się na początku wydawać się nieco magiczne, szczególnie jeśli nie znasz C#. Nie martw się, przyzwyczaisz się do tego.
 
-Using NSubstitute, our first test can be rewritten as:
+Używając NSubstitute, nasz pierwszy test może zostać napisany w taki sposób:
 
 ```csharp
-[Fact] public void 
-ShouldInsertNewOrderToDatabaseWhenOrderisPlaced()
+[Fact] public void ShouldInsertNewOrderToDatabaseWhenOrderisPlaced()
 {
   //GIVEN
   var orderDatabase = Substitute.For<OrderDatabase>();
