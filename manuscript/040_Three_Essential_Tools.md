@@ -12,7 +12,7 @@ W tym rozdziale upraszczam niektóre rzeczy tylko po to, abyś zaczął działa�
 
 ## Test framework
 
-Pierwszym narzędziem, które wykorzystamy, będzie test framework (framework testujący). *W języku polskim nie ma odpowiednika słowa "framework", najbliżej jest słowo "platforma". Framework to coś, co wyznacza pewne ramy, dostarcza biblioteki, funkcje - w tym przypadku funkcje pomagające w pisaniu i wykonaniu testów.*
+Pierwszym narzędziem, które wykorzystamy, będzie test framework (framework testujący). *W języku polskim nie ma odpowiednika słowa "framework", najbliżej jest słowo "platforma" lub "struktura". Framework to coś, co wyznacza pewne ramy, definiuje struktury do wykorzystania, dostarcza biblioteki, funkcje - w tym przypadku funkcje pomagające w pisaniu i wykonaniu testów.*
 
 Załóżmy, na potrzeby naszego wprowadzenia, że mamy aplikację, która przyjmuje dwie liczby z linii poleceń, mnoży je i wypisuje wynik na konsoli. Kod jest dość prosty:
 
@@ -166,11 +166,17 @@ Uff, mam nadzieję, że to przejście do frameworka testującego okazało się w
 
 W> To wprowadzenie jest przeznaczone dla tych, którzy nie są biegli w używaniu mocków (*czytaj: "moków", `mock` to kolejny angielskojęzyczny termin w informatyce, który nie ma swojego odpowiednika w jęzku polskim - dosłownie tłumacząc z angielskiego, mock to imitacja*). Mocki mogą nie być najłatwiejsze do zrozumienia i dlatego jestem w stanie zaakceptować, jeśli na razie będziesz miał problemy z uchwyceniem koncepcji. Jeśli, podczas czytania tego wprowadzenia, zgubisz się - nie zwacaj na to w ogóle uwagi i idź dalej. Będziemy zajmować się mocno mockami w drugiej części książki, gdzie zagwarantuję Ci bogatszy i dokładniejszy opis.
 
-When we want to test a class that depends on other classes, we may think it's a good idea to include those classes in the test as well. This, however, does not allow us to test a single object or a small cluster of objects in isolation, where we would be able to verify that just a small part of the application works correctly. Thankfully, if we make our classes depend on interfaces rather than other classes, we can easily implement those interfaces with special "fake" classes that can be crafted in a way that makes our testing easier. For example, objects of such classes may contain pre-programmed return values for some methods. They can also record the methods that are invoked on them and allow the test to verify whether the communication between our object under test and its dependencies is correct.
+Kiedy chcemy przetestować klasę, która zależy od innej klasy, możnaby sądzić, że dobrym pomysłem jest umieszczenie w teście również tej drugiej klasy. To, jednakże, nie pozwoli nam testować wyłącznie jednego obiektu, czy też małej grupy obiektów tak, byśmy mogli sprawdzić prawidłowe działanie najmniejszego fragmentu aplikacji. *Testujemy najmniejszy fragment programu, bo gdy test nie będzie przechodził, łatwiej będzie znaleźć w małym fragmencie miejsce i przyczynę wystąpienia błędu*. Jeśli sprawimy, iż nasza klasa nie zależy od innych klas, ale zależy raczej od abstrakcji w postaci interfejsów - możemy z łatwością implementować te interfejsy za pomocą specjalnych, "fałszywych" klas, stworzonych w taki sposób, by ułatwić nam testowanie. Na przykład obiekty takich klas mogą zawierać wstępnie zaprogramowane wartości zwracane dla metody zadeklarowanej w interfejsie. Mogą także zapamiętywać, które metody były wywoływane i zezwalać testowi na sprawdzenie, czy komunikacja między obiektem poddawanym testowi a jego zależnościami jest poprawna. 
 
-Nowadays, we can rely on tools to generate such a "fake" implementation of a given interface for us and let us use this generated implementation in place of a real object in tests. This happens in a different way, depending on a language. Sometimes, the interface implementations can be generated at runtime (like in Java or C#), sometimes we have to rely more on compile-time generation (e.g. in C++). 
+To może nie mieć znaczenia w Twoim przypadku, ale preferowanym podejściem jest stworzenie imitacji obiektu na podstawie interfejsu, a nie klasy, ponieważ normalnie, jeśli podążasz za TDD (Test Driven Development), możesz napisać testy jednostkowe jeszcze przed napisaniem implementacji zależnych klas. Dlatego, nawet jeśli nie masz konkretnej klasy DataAccessImpl, nadal możesz używać interfejsu DataAccess.
 
-Narrowing it down to C# -- a mocking framework is just that -- a mechanism that allows us to create objects (called "mock objects" or just "mocks"), that adhere to a certain interface, at runtime. It works like this: the type of the interface we want to have implemented is usually passed to a special method which returns a mock object based on that interface (we'll see an example in a few seconds). Aside from the creation of mock objects, such framework provides an API to configure the mocks on how they behave when certain methods are called on them and allows us to inspect which calls they received. This is a very powerful feature, because we can simulate or verify conditions that would be difficult to achieve or observe using only production code. Mocking frameworks are not as old as test frameworks so they haven't been used in TDD since the very beginning.
+ *Niekorzystanie z interfejsów skutecznie utrudnia TDD, bo zmusza nas do tworzenia zależnych klas wraz z ciałami metod, nawet wtedy, kiedy ich jeszcze nie potrzebujemy. Żeby skomplikować sprawę, dodam - że w Javie można, bez przeszkód, stworzyć imitacje na podstawie definicji klasy - a nie da się tego samego równie bezproblemowo zrobić w C#. Warto zaznaczyć, że interfejs w C# nigdy nie będzie zawierał metod. Interfejsy w Javie również były zbiorem sygnatur metod (bez ciała), ale Java 8 wprowadziła metody domyślne pozwalające zdefiniować ciało metody w interfejsie.*
+
+Co więcej, frameworki do mockowania (imitowania) mają ograniczenia w imitowaniu klas, a niektóre frameworki pozwalają tylko na imitowanie interfejsów.
+
+W dzisiejszych czasach możemy zdać się na narzędzia do generowania takiej "fałszywej" implementacji danego interfejsu, co pozwoli nam wykorzystać tę wygenerowaną implementację zamiast prawdziwego obiektu w testach. Dzieje się to na różny sposób, w zależności od języka. Czasami implementacje interfejsu mogą być generowane w czasie wykonywania (tak jak w Javie lub C#), czasami musimy polegać bardziej na generowaniu w czasie kompilacji (np. w C++).
+
+Zawężając sprawę do samego C# - framework mockujący jest mechanizmem, który pozwala nam tworzyć obiekty-imitacje (zwane "mockami"), które kojarzone są z interfejsem, w czasie wykonywania. Działa to tak: typ interfejsu, który chcemy zaimplementować, jest zwykle przekazywany do specjalnej metody, która zwraca obiekt `mock` oparty na tym interfejsie (zobaczymy przykład w kilka sekund). Oprócz tworzenia imitacji obiektów, taki framework zapewnia interfejs API do określania, jak mocki powinny suę zachowywać podczas wywyływania określonych metod. To API pozwala nam również sprawdzić, które metody zostały wywołane. Jest to bardzo ważna funkcja, ponieważ możemy zasymulować takie sytuację lub zweryfikować takie warunki początkowe, które byłyby trudne do osiągnięcia przy użyciu kodu produkcyjnego. Frameworki do mockowania nie są tak stare jak frameworki do testowania, więc nie były używane w TDD od samego początku.
 
 I'll give you a quick example of a mocking framework in action now and defer further explanation of their purpose to later chapters, as the full description of mocks and their place in TDD is not so easy to convey.
 
@@ -458,9 +464,9 @@ ShouldInsertNewOrderToDatabase()
 }
 ```
 
-In this test, we use an instance of a `Fixture` class (which is a part of AutoFixture) to create anonymous values for us via a method called `Create()`. This allows us to remove the `AnonymousOrder()` method, thus making our test setup shorter.
+W tym teście używamy instancji klasy `Fixture` (która jest częścią AutoFixture) do tworzenia anonimowych wartości za pomocą metody o nazwie `Create()`. To pozwala nam usunąć metodę `AnonymousOrder()`, dzięki czemu konfiguracja testu jest krótsza.
 
-Nice, huh? AutoFixture has a lot of advanced features, but to keep things simple I like to hide its use behind a static class called `Any`. The simplest implementation of such class would look like this:
+Nieźle, co? AutoFixture ma wiele zaawansowanych funkcji, ale żeby wszystko było proste, chciałbym ukryć jego użycie za statyczną klasą o nazwie `Any`. Najprostsza implementacja takiej klasy wyglądałaby tak:
 
 ```csharp
 public static class Any
@@ -473,8 +479,7 @@ public static class Any
   }
 }
 ```
-
-In the next chapters, we'll see many different methods from the `Any` type, plus the full explanation of the philosophy behind it. The more you use this class, the more it grows with other methods for creating customized objects.
+W następnych rozdziałach zobaczymy wiele różnych metod klasy `Any`, a także pełne wyjaśnienie filozofii, która za tym stoi. Im dłużej używasz tej klasy, tym bardziej rozszerza się ona o nowe metody tworzenia niestandardowych obiektów.
 
 ## Podsumowanie
 
