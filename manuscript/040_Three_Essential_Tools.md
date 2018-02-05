@@ -12,7 +12,7 @@ W tym rozdziale upraszczam niektóre rzeczy tylko po to, abyś zaczął działa�
 
 ## Test framework
 
-Pierwszym narzędziem, które wykorzystamy, będzie odpowiednia platforma do testów (framework testowy). Struktura testowa pozwala nam określić i wykonać nasze testy.
+Pierwszym narzędziem, które wykorzystamy, będzie test framework (framework testujący). W języku polskim nie ma odpowiednika słowa "framework", najbliżej jest słowo "platforma". Framework to coś, co wyznacza pewne ramy, dostarcza biblioteki, funkcje - w tym przypadku funkcje pomagające w pisaniu testów. Pozwala nam opisać i wykonać nasze testy.
 
 Załóżmy, na potrzeby naszego wprowadzenia, że mamy aplikację, która przyjmuje dwie liczby z linii poleceń, mnoży je i wypisuje wynik na konsoli. Kod jest dość prosty:
 
@@ -36,7 +36,7 @@ public static void Main(string[] args)
 }
 ```
 
-Teraz załóżmy, że chcemy sprawdzić, czy program daje prawidłowe wyniki. Najbardziej oczywistym sposobem byłoby wywołanie go z linii poleceń, ręcznie, za pomocą kilku przykładowych argumentów, następnie sprawdzenie wyników na konsoli i porównanie ich z tym, co czekaliśmy. Taka sesja testowa może wyglądać następująco:
+Teraz załóżmy, że chcemy sprawdzić, czy program daje prawidłowe wyniki. Najbardziej oczywistym sposobem sprawdzenia byłoby wywołanie go z linii poleceń - ręcznie - za pomocą kilku przykładowych argumentów, następnie sprawdzenie wyników programu na konsoli i porównanie ich z tym, co czekaliśmy. Taka sesja testowa może wyglądać następująco:
 
 ```text
 C:\MultiplicationApp\MultiplicationApp.exe 3 7
@@ -45,7 +45,7 @@ C:\MultiplicationApp\
 ```
 Jak widać, nasz program daje wynik 21 dla mnożenia 3 przez 7. Jest to poprawne, więc zakładamy, że program zdał test.
 
-Co się stanie, jeśli program będzie miał również zaimplementowane dodawanie, odejmowanie, dzielenie, całkowanie itp.? Ile razy będziemy musieli ręcznie wywołać aplikację, aby upewnić się, że każda operacja, po naszych zmianach, wciąż działa poprawnie? Czy nie byłoby to czasochłonne? Ale czekaj, jesteśmy programistami, prawda? Tak więc możemy napisać programy do testowania dla nas! Na przykład poniżej znajdziesz kod źródłowy innej aplikacji, który używa klasy Multiplication, ale w nieco inny sposób niż robił to nasz wcześniejszy program:
+Co się stanie, jeśli program będzie miał również zaimplementowane dodawanie, odejmowanie, dzielenie, całkowanie itp.? Ile razy będziemy musieli go ręcznie wywołać na różne sposoby, by upewnić się, że każda operacja, po naszych zmianach, wciąż działa poprawnie? Czy nie byłoby to czasochłonne? Ale czekaj, jesteśmy programistami, prawda? Tak więc możemy napisać programy do testowania dla nas! Poniżej znajdziesz kod źródłowy innej aplikacji, który używa naszej klasy Multiplication, ale w nieco inny sposób niż robił to nasz wcześniejszy program:
 
 ```csharp
 public static void Main(string[] args) 
@@ -60,7 +60,7 @@ public static void Main(string[] args)
   }
 }
 ```
-Wygląda prosto, prawda? Teraz na tym kodzie oprzemy bardzo prymitywny szkielet testowy, aby pokazać fragmenty, z których składają się frameworki testowe. Pierwszym krokiem w tym kierunku będzie wyodrębnienie sprawdzenia wyniku `result` do metody, którą będzie można używać wielokrotie. Po tym wszystkim, w mgnieniu oka dodamy do aplikacji dzielenie, pamiętasz? No to jedziemy:
+Wygląda prosto, prawda? Teraz na tym kodzie oprzemy bardzo prymitywny szkielet testowy - by pokazać fragmenty, z których składają się frameworki testujące. Pierwszym krokiem w tym kierunku będzie wyodrębnienie sprawdzenia wyniku (`result`) do metody, którą będzie można używać wielokrotie. Po tym wszystkim, w mgnieniu oka dodamy do aplikacji dzielenie, pamiętasz? No to jedziemy:
 
 ```csharp
 public static void Main(string[] args) 
@@ -122,18 +122,18 @@ public static void AssertTwoIntegersAreEqual(
   }
 }
 ```
-I to wszystko. Teraz, jeśli potrzebujemy kolejnego testu, np. dla dzielenia, możemy po prostu dodać nowe wywołanie metody testujacej do metody `Main ()` a następnie  zaimplementować tą metodę. Wewnątrz tego nowego testu możemy ponownie użyć metody `AssertTwoIntegersAreEqual()`, ponieważ sprawdzenie wyników dzielenia będzie również opierało się na porównania dwóch wartości całkowitych - oczekiwanej i tej faktycznie zwróconej.
+I to wszystko. Teraz, jeśli potrzebujemy kolejnego testu, np. dla dzielenia, możemy po prostu dodać kolejne wywołanie, innej metody testujacej do `Main()` a następnie zaimplementować tę metodę. Wewnątrz nowego testu możemy ponownie użyć metody `AssertTwoIntegersAreEqual()`, ponieważ sprawdzenie wyników dzielenia będzie również opierało się na porównania dwóch wartości całkowitych - oczekiwanej i tej faktycznie zwróconej.
 
 Jak widzisz, możemy łatwo napisać zautomatyzowane testy, używając naszych prymitywnych metod. Takie podejście ma jednak pewne wady:
 
-1.  Za każdym razem, gdy dodajemy nowy test, musimy zaktualizować metodę `Main ()` o wywołanie nowego testu. Jeśli zapomnimy dodać takowe, test nigdy nie zostanie uruchomiony. Na początku nie jest to wielka sprawa, ale gdy tylko będziemy mieć dziesiątki testów, trudno będzie zauważyć te niedodane.
-2.  Wyobraź sobie, że twój system składa się z więcej niż jednej aplikacji - miałbyś problemy ze zbieraniem wyników testów z wszystkich aplikacji, z których składa się twój system.
-3.  Wkrótce będziesz musiał napisać wiele innych metod podobnych do `AssertTwoIntegersAreEqual()` -- ta, którą mamy porównuje dwie liczby całkowite, ale co jeśli chcemy sprawdzić inny warunek, np. czy jedna liczba całkowita jest większa od innej? Co by było, gdybyśmy chcieli sprawdzić równość nie dla liczb całkowitych, ale dla znaków, ciągów znaków, itp.? Co by było, gdybyśmy chcieli sprawdzić pewne właściwości kolekcji, np. czy kolekcja jest posortowana, lub czy wszystkie elementy w kolekcji są unikatowe?
-4.  Jeśli test się nie powiedzie, trudno będzie przenieść się od komunikatu na konsoli do odpowiedniego wiersza w kodzie źródłowym w twoim IDE. Czy nie byłoby łatwiej, kliknąć komunikat o błędzie i natychmiast być przeniesionym do tego miejsca w kodzie, dzie wystąpił błąd?
+1.  Za każdym razem, gdy dodajemy nowy test, musimy zaktualizować metodę `Main ()` o wywołanie nowego testu. Jeśli zapomnimy tego, test nigdy nie zostanie uruchomiony. Na początku nie jest to wielka sprawa, ale gdy już będziemy mieć dziesiątki testów, trudno będzie zauważyć te niedodane.
+2.  Wyobraź sobie, że Twój system składa się z więcej niż jednej aplikacji - miałbyś problemy ze zbieraniem wyników testów z wszystkich aplikacji, z których składa się twój system.
+3.  Wkrótce będziesz musiał napisać wiele innych metod podobnych do `AssertTwoIntegersAreEqual()` -- ta tutaj porównuje dwie liczby całkowite, ale co jeśli chcemy sprawdzić inny warunek, np. czy jedna liczba całkowita jest większa od innej? Co by było, gdybyśmy chcieli sprawdzić równość nie dla liczb całkowitych, ale dla znaków, ciągów znaków, itp.? Co by było, gdybyśmy chcieli sprawdzić pewne właściwości kolekcji, np. czy kolekcja jest posortowana, lub czy wszystkie elementy w kolekcji są unikatowe?
+4.  Jeśli test się nie powiedzie, trudno będzie przenieść się od komunikatu na konsoli do odpowiedniego wiersza w kodzie źródłowym w twoim IDE. Czy nie byłoby łatwiej - kliknąć komunikat o błędzie i zostać przeniesionym do miejsca w kodzie, dzie wystąpił błąd?
 
-Z tego względu i kilku innych, stworzono zaawansowane, zautomatyzowane platformy do testowania aplikacji - test frameworks, takie jak CppUnit (dla C ++), JUnit (dla Javy) lub NUnit (C#). W języku polskim nie ma odpowiednika słowa "framework", najbliżej jest słowo "platforma". Framework to coś, co wyznacza pewne ramy, dostarcza biblioteki, funkcje - w tym przypadku pomagające w pisaniu testów. Test frameworki są w zasadzie oparte na tej samej idei, którą opisałem powyżej, ale jednocześnie nadrabiają wady naszego wcześniejszego, prymitywnego podejścia. Struktura i funkcjonalność tych framework'ów wywodzą się ze Smalltalk's SUnit i są ogólnie określane jako rodzina testów **xUnit**.
+Z tego względu i kilku innych, stworzono zaawansowane, zautomatyzowane narzędzia do testowania aplikacji - frameworki testujące, takie jak CppUnit (dla C++), JUnit (dla Javy) lub NUnit (C#). Frameworki testujące są w zasadzie oparte na tej samej idei, którą opisałem powyżej, ale jednocześnie nadrabiają wady naszego wcześniejszego, prymitywnego podejścia. Struktura i funkcjonalność tych framework'ów wywodzą się ze Smalltalk's SUnit, są określane jako rodzina testów **xUnit**.
 
-Szczerze mówiąc, nie mogę się doczekać, by pokazać Ci jak będzie wyglądać test, który napisaliśmy wcześniej, przy użyciu test framework. Jednakże najpierw podsumujmy to, co się nam udało osiągnąć przed chwilą. Wprowadźmy też pewną terminologię, która pomoże nam zrozumieć, w jaki sposób zautomatyzowane test frameworki rozwiązują nasze problemy:
+Szczerze mówiąc, nie mogę się doczekać, by pokazać Ci jak będzie wyglądać nasz wcześniejszy test, napisany przy użyciu frameworka testujacego. Jednakże najpierw podsumujmy to, co się nam udało osiągnąć do tej pory. Wprowadźmy też pewną terminologię, która pomoże nam zrozumieć, w jaki sposób zautomatyzowane frameworki testujące rozwiązują nasze problemy:
 
 1.  The `Main()` method serves as a **Test List** -- a place where it is decided which tests to run.
 2.  The `Multiplication_ShouldResultInAMultiplicationOfTwoPassedNumbers()` method is a **Test Method**.
