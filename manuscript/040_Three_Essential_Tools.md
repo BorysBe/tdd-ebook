@@ -43,6 +43,7 @@ C:\MultiplicationApp\MultiplicationApp.exe 3 7
 21
 C:\MultiplicationApp\
 ```
+
 Jak widać, nasz program daje wynik 21 dla mnożenia 3 przez 7. Jest to poprawne, więc zakładamy, że program zdał test.
 
 Co się stanie, jeśli program będzie miał również zaimplementowane dodawanie, odejmowanie, dzielenie, całkowanie itp.? Ile razy będziemy musieli go ręcznie wywołać na różne sposoby, by upewnić się, że każda operacja, po naszych zmianach, wciąż działa poprawnie? Czy nie byłoby to czasochłonne? Ale czekaj, jesteśmy programistami, prawda? Tak więc możemy napisać programy do testowania dla nas! Poniżej znajdziesz kod źródłowy innej aplikacji, który używa naszej klasy Multiplication, ale w nieco inny sposób niż robił to nasz wcześniejszy program:
@@ -51,15 +52,16 @@ Co się stanie, jeśli program będzie miał również zaimplementowane dodawani
 public static void Main(string[] args) 
 {
   var multiplication = new Multiplication(3,7);
-  
+
   var result = multiplication.Perform();
-  
+
   if(result != 21)
   {
     throw new Exception("Failed! Expected: 21 but was: " + result);
   }
 }
 ```
+
 Wygląda prosto, prawda? Teraz na tym kodzie oprzemy bardzo prymitywny szkielet testowy - by pokazać fragmenty, z których składają się frameworki testujące. Pierwszym krokiem w tym kierunku będzie wyodrębnienie sprawdzenia wyniku (`result`) do metody, którą będzie można używać wielokrotie. Po tym wszystkim, w mgnieniu oka dodamy do aplikacji dzielenie, pamiętasz? No to jedziemy:
 
 ```csharp
@@ -157,7 +159,7 @@ Patrząc na przykład widzimy, że metoda testu jest jedyną rzeczą, która poz
 
 1. Lista testów (**Test List**) jest teraz tworzona automatycznie przez framework na podstawie wszystkich metod oznaczonych atrybutem `[Fact]`. Nie ma potrzeby zarządzać z poziomu kodu już żadnymi listami, dlatego znika metoda `Main()`.
 2. Metoda testująca (**Test Method**) wciąż jest obecna i wygląda niemalże tak jak wcześniej.
-3.  Asercja (**Assertion**) przyjęła kształt statycznej metody `Assert.Equal()` -- xUnit.NET framework posiada szeroki zakres takich asercji, a więc użyłem jednej z nich. Oczywiście, nie ma przeszkód byś napisał swoją własną asercję, jeśli framework nie oferuje Ci tego, czego szukasz.
+3. Asercja (**Assertion**) przyjęła kształt statycznej metody `Assert.Equal()` -- xUnit.NET framework posiada szeroki zakres takich asercji, a więc użyłem jednej z nich. Oczywiście, nie ma przeszkód byś napisał swoją własną asercję, jeśli framework nie oferuje Ci tego, czego szukasz.
 
 Uff, mam nadzieję, że to przejście do frameworka testującego okazało się w miarę bezbolesne dla Ciebie. Teraz ostatnia rzecz - skoro nie ma już metody `Main()`, to pewnie się zastanawiasz jakim cudem uruchamiamy te testy, prawda? Dobrze, wyjawię Ci ostatni sekret -- używamy zewnętrzenej aplikacji do tego celu (*po polsku można ją nazwać odpalaczem testów, po angielsku to* **Test Runner**) -- określamy które zestawy z testami (assemblies) chcemy załadować, rest runner uruchamia testy, tworzy raporty na podstawie wyników etc. Nasz odpalacz może przyjać wiele form, to może być aplikacja konsolowa, aplikacja z GUI albo plugin do IDE. Oto przykład test runner'a dostarczanego jako plugin do Visual Studio IDE, nazywającego się Resharper:
 
@@ -171,7 +173,7 @@ Kiedy chcemy przetestować klasę, która zależy od innej klasy, możnaby sądz
 
 To może nie mieć znaczenia w Twoim przypadku, ale preferowanym podejściem jest stworzenie imitacji obiektu na podstawie interfejsu, a nie klasy, ponieważ normalnie, jeśli podążasz za TDD (Test Driven Development), możesz napisać testy jednostkowe jeszcze przed napisaniem implementacji zależnych klas. Dlatego, nawet jeśli nie masz konkretnej klasy DataAccessImpl, nadal możesz używać interfejsu DataAccess.
 
- *Niekorzystanie z interfejsów skutecznie utrudnia TDD, bo zmusza nas do tworzenia zależnych klas wraz z ciałami metod, nawet wtedy, kiedy ich jeszcze nie potrzebujemy. Żeby skomplikować sprawę, dodam - że w Javie można, bez przeszkód, stworzyć imitacje na podstawie definicji klasy - a nie da się tego samego równie bezproblemowo zrobić w C#. Warto zaznaczyć, że interfejs w C# nigdy nie będzie zawierał metod. Interfejsy w Javie również były zbiorem sygnatur metod (bez ciała), ale Java 8 wprowadziła metody domyślne pozwalające zdefiniować ciało metody w interfejsie.*
+ *Niekorzystanie z interfejsów skutecznie utrudnia TDD, bo zmusza nas do tworzenia zależnych klas wraz z ciałami metod, nawet wtedy, kiedy ich jeszcze nie potrzebujemy. Żeby skomplikować sprawę, dodam - że w Javie można, bez przeszkód, stworzyć imitacje na podstawie definicji klasy - nie da się tego samego równie bezproblemowo zrobić w C#. Warto zaznaczyć, że interfejs w C# nigdy nie będzie zawierał metod.*
 
 Co więcej, frameworki do mockowania (imitowania) mają ograniczenia w imitowaniu klas, a niektóre frameworki pozwalają tylko na imitowanie interfejsów.
 
