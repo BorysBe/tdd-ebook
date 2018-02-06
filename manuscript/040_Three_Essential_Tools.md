@@ -242,16 +242,16 @@ Teraz wyobraź sobie, że musimy to przetestować -- jak to robimy? Już widzę,
 
 Na początku testu otwieramy połączenie z bazą danych i czyścimy wszystkie istniejące w niej zamówienia (więcej o tym wkrótce), następnie tworzymy obiekt zamówienia, wstawiamy go do bazy danych, a potem pobieramy wszystkie zamówienia z bazy. Na koniec sprawdzamy, czy zamówienie, które próbowaliśmy wprowadzić, znajduje się wśród wszystkich zamówień.
 
-Why do we clean up the database at the beginning of the test? Remember that a database provides persistent storage. If we don't clean it up before executing the logic of this test, the database may already contain the item we are trying to add, e.g. from previous executions of this test. The database might not allow us to add the same item again and the test would fail. Ouch! It hurts so bad, because we wanted our tests to prove something works, but it looks like it can fail even when the logic is coded correctly. Of what use would be such a test if it couldn't reliably tell us whether the implemented logic is correct or not? So, to make sure that the state of the persistent storage is the same every time we run this test, we clean up the database before each run.
+Dlaczego czyścimy bazę danych na początku testu? Pamiętaj, że baza danych trwale przechowuje dane. Jeśli nie wyczyścimy ich przed wykonaniem logiki testu, baza danych może już zawierać element, który próbujemy dodać, np. z poprzedniego wykonania się testu. Co więcej, baza danych może nie pozwolić nam na ponowne dodanie tego samego produktu, a test zakończy się niepowodzeniem. Ałaaa! To tak bardzo boli - chcieliśmy, aby nasze testy udowodniły, że coś działa, ale wygląda na to, że mogą zawieść nawet wtedy, gdy logika jest poprawnie zakodowana. Jakie zastosowanie miałby taki test, gdyby nie mógł nam odpowiedzieć na pytanie, czy zaimplementowana logika jest poprawna czy nie? Tak więc, aby upewnić się, że stan bazy danych jest taki sam za każdym razem, gdy uruchamiamy test, przed każdym uruchomieniem czyścimy bazę danych.
 
-Now that the test is ready, did we get what we wanted from it? I would be hesitant to answer "yes". There are several reasons for that:
+Czy teraz, kiedy test jest gotowy, dostaliśmy to, czego chcieliśmy? Wahałbym się, czy odpowiedzieć "tak". Jest kilka powodów:
 
 1. The test will most probably be slow, because accessing database is relatively slow. It is not uncommon to have more than a thousand tests in a suite and I don't want to wait half an hour for results every time I run them. Do you?
 2. Everyone who wants to run this test will have to set up a special environment, e.g. a local database on their machine. What if their setup is slightly different from ours? What if the schema gets outdated -- will everyone manage to notice it and update the schema of their local databases accordingly? Should we re-run our database creation script only to ensure we have got the latest schema available to run your tests against?
 3. There may be no implementation of the database engine for the operating system running on our development machine if our target is an exotic or mobile platform.
 4. Note that the test we wrote is only one out of two. We still have to write another one for the scenario where inserting an order ends with an exception. How do we setup the database in a state where it throws an exception? It is possible, but requires significant effort (e.g. deleting a table and recreating it after the test, for use by other tests that might need it to run correctly), which may lead some to the conclusion that it is not worth writing such tests at all.
 
-Now, let's try to approach this problem in a different way. Let's assume that the `MySqlOrderDatabase` that queries a real database query is already tested (this is because I don't want to get into a discussion on testing database queries just yet - we'll get to it in later chapters) and that the only thing we need to test is the `OrderProcessing` class (remember, we're trying to imagine really hard that there is some serious domain logic coded here). In this situation we can leave the `MySqlOrderDatabase` out of the test and instead create another, fake implementation of the `OrderDatabase` that acts as if it was a connection to a database but does not write to a real database at all -- it only stores the inserted records in a list in memory. The code for such a fake connection could look like this: 
+Teraz spróbujmy podejść do tego problemu w inny sposób. Załóżmy, że klasa `MySqlOrderDatabase` wysyłająca zapytania do bazy danych, jest już przetestowana (nie chcę jeszcze wdawać się w dyskusję na temat testowania zapytań do bazy danych - dojdziemy do tego w późniejszych rozdziałach) i załóżmy, że jedyną rzeczą, którą musimy przetestować, jest klasa `OrderProcessing` (pamiętajcie, staramy się naprawdę mocno wyobrazić, że jest tu zakodowana pewna poważna logika domenowa). W tej sytuacji możemy usunąć `MySqlOrderDatabase` z testu i zamiast tego stworzyć fałszywą implementację `OrderDatabase`. Będzie ona działała tak, jakby wykonywała prawdziwe połączenie z bazą danych, ale nie będzie w ogóle zapisywała tam informacji (zapisze wstawione rekordy na liście, w pamięci RAM komputera). Kod takiego udawanego połączenia może wyglądać tak:
 
 ```csharp
 public class FakeOrderDatabase : OrderDatabase
@@ -270,9 +270,9 @@ public class FakeOrderDatabase : OrderDatabase
 }
 ```
 
-Zauważ, że nieprawdziwa, udawana baza danych jest instancją klasy, która implementuje ten sam interfejs co `MySqlOrderDatabase`. Tak więc, możemy sprawić, że testowany kod użyje fałszywej bazy danych nawet o tym nie widząc.
+Zauważ, że klasa imitująca połączenie z bazą danych jest instancją klasy implementującą ten sam interfejs co `MySqlOrderDatabase`. Tak więc, możemy sprawić, że testowany kod użyje fałszywej bazy danych nawet o tym nie widząc.
 
-Zastąpmy prawdziwą implementację bazę danych zamówień fałszywą instancją w naszym teście:
+Zastąpmy, w naszym teście, prawdziwe połączenia z bazą danych fałszywą implementacją:
 
 ```csharp
 [Fact] public void 
@@ -297,7 +297,7 @@ ShouldInsertNewOrderToDatabaseWhenOrderIsPlaced()
 }
 ```
 
-Zauważ, że nie czyścimy obiektu fałszywej bazy danych, tak jak robiliśmy to z prawdziwą bazą danych, ponieważ tworzymy nowy obiekt za każdym razem, gdy test jest uruchamiany, a wyniki są przechowywane w innym miejscu pamięci dla każdej instancji. Test będzie teraz znacznie szybszy, ponieważ nie mamy już dostępu do prawdziwej bazy danych. Co więcej, możemy teraz łatwo napisać test na wypadek błędu przy dodawaniu nowego zamówienia. W jaki sposób? Po prostu zrobimy kolejną, fałszywą bazę danych, zaimplementowaną w ten sposób:
+Zauważ, że nie czyścimy obiektu fałszywej bazy danych, tak jak robiliśmy to z prawdziwą bazą danych, ponieważ tworzymy nowy obiekt za każdym razem, gdy test jest uruchamiany, a wyniki są przechowywane w innym miejscu pamięci dla każdej instancji. Test będzie teraz znacznie szybszy, ponieważ nie mamy już dostępu do prawdziwej bazy danych. Co więcej, możemy teraz łatwo napisać test na wypadek błędu przy dodawaniu nowego zamówienia. W jaki sposób? Po prostu zaimplementujemy kolejne połączenie z nieprawdziwą bazą danych w ten sposób:
 
 ```csharp
 public class ExplodingOrderDatabase : OrderDatabase
@@ -313,7 +313,7 @@ public class ExplodingOrderDatabase : OrderDatabase
 }
 ```
 
-Ok, na razie dobrze, ale teraz mamy dwie klasy fałszywych baz danych do utrzymania (i są szanse, że będziemy potrzebować ich jeszcze więcej). Każda metoda dodana do interfejsu `OrderDatabase` musi również zostać dodana do każdej z tych fałszywych klas. Możemy zaoszczędzić trochę kodu, czyniąc nasze imitacje nieco bardziej generycznymi, byśmy ich zachowania mogli konfigurować za pomocą wyrażeń lambda:
+Ok, na razie dobrze, ale teraz mamy dwie klasy połączeń z fałszywą bazą danych do utrzymania (i są szanse, że będziemy potrzebować ich jeszcze więcej). Każda metoda dodana do interfejsu `OrderDatabase` musi również zostać dodana do każdej z tych fałszywych klas. Możemy zaoszczędzić trochę kodu, czyniąc nasze imitacje nieco bardziej generycznymi, byśmy ich zachowania mogli konfigurować za pomocą wyrażeń lambda:
 
 ```csharp
 public class ConfigurableOrderDatabase : OrderDatabase
@@ -333,7 +333,7 @@ public class ConfigurableOrderDatabase : OrderDatabase
 }
 ```
 
-Teraz nie musimy tworzyć dodatkowych klas dla nowych scenariuszy, ale nasza składnia stała się bardziej uciążliwa. Oto jak konfigurujemy fałszywą bazę zamówień, by pamiętała i pozwalała odczytać wprowadzone zamówienie:
+Teraz nie musimy tworzyć dodatkowych klas dla nowych scenariuszy, ale nasza składnia stała się bardziej uciążliwa. Oto jak konfigurujemy fałszywą bazę danych, by pamiętała i pozwalała odczytać wprowadzone zamówienie:
 
 ```csharp
 var db = new ConfigurableOrderDatabase();
@@ -374,9 +374,9 @@ Używając NSubstitute, nasz pierwszy test może zostać napisany w taki sposób
 }
 ```
 
-Note that we don't need the `SelectAllOrders()` method on the database connection interface anymore. It was there only to make writing the test easier -- no production code used it. We can delete the method and get rid of some more maintenance trouble. Instead of the call to `SelectAllOrders()`, mocks created by NSubstitute record all calls received and allow us to use a special method called `Received()` on them (see the last line of this test), which is actually a camouflaged assertion that checks whether the `Insert()` method was called with the order object as parameter.
+Zauważ, że nie potrzebujemy już metody `SelectAllOrders()` w interfejsie do komunikacji z bazą danych. Istniała tylko po to, aby ułatwić pisanie testu - nie używał jej żaden kod produkcyjny. Możemy usunąć tę metodę i pozbyć się kolejnych problemów z utrzymaniem kodu. Zamiast wywoływania funkcji `SelectAllOrders()`, nasz mock utworzony przez NSubstitute zapisuje wywołania wszystkich swoich funkcji, pozwalając nam na skorzystanie ze specjalnej metody o nazwie `Received()` (patrz ostatnia linia tego testu). W istocie, jest to zakamuflowana asercja sprawdzająca, czy metoda `Insert()` została wywołana z konkretnym obiektem zamówienia jako parametr.
 
-This explanation of mock objects is very shallow and its purpose is only to get you up and running. We'll get back to mocks later as we've only scratched the surface here.
+To objaśnienie mocków jest bardzo płytkie, a jego celem jest tylko sprawienie, abyś zaczął działać. Wrócimy do mocków później, ponieważ zaledwie podrapaliśmy powierzchnię.
 
 ## Generator wartości anonimizowanych
 
