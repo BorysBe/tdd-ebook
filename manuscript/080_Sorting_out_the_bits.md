@@ -1,15 +1,15 @@
-# Sorting out the bits
+# Odnajdźmy się odrobinę
 
-In the last chapter, there has been a lively conversation between Johnny and Benjamin. Even in such a short session, Benjamin, as a TDD novice, had a lot of questions and a lot of things he needed sorted out. We will pick up all those questions that were not already answered and try to answer in the coming chapters. Here are the questions:
+W ostatnim rozdziale nastąpiła ożywiona rozmowa między Johnnym i Benjaminem. Nawet podczas tak krótkiej sesji Benjamin, jako nowicjusz TDD, miał wiele pytań i wiele rzeczy potrzebował jeszcze ustalić. Zbierzmy wszystkie pytania, na które jeszcze nie udzielono odpowiedzi i spróbujemy odpowiedzieć na nie w następnych rozdziałach. Oto pytania:
 
--   How to name a Statement?
--   How to start writing a Statement?
--   How is TDD about analysis and what does this "GIVEN-WHEN-THEN" mean?
--   What exactly is the scope of a Statement? A class, a method, or something else?
--   What is the role of TODO list in TDD?
--   Why use anonymous generated values instead of literals as input of a specified behavior?
--   Why and how to use the `Any` class?
--   What code to extract from a Statement to shared utility methods?
--   Why such a strange approach to create enumerated constants?
+- Jak nazwać wymaganie?
+- Jak rozpocząć pisanie wymagania?
+- Co mówi TDD o analizie wymagań i co, w zasadzie, znaczy "GIVEN-WHEN-THEN"?
+- Jaki dokładnie jest zakres wymagania? Klasa, metoda lub coś innego?
+- Jaka jest rola listy TODO w TDD?
+- Dlaczego warto używać generowanych, anonimizowanych wartości zamiast literałów jako danych wejściowych testowanego zachowania?
+- Po co i w jaki sposób korzystać z klasy `Any`?
+- Jaki kod wyodrębnić z wymagania do stworzenia pomocniczej, współdzielonej biblioteki?
+- Skąd takie dziwne podejście do tworzenia stałych - przy pomocy typu wyliczeniowego enum?
 
-A lot of questions, isn't it? It is unfortunate that TDD has this high entry barrier, at least for someone used to the traditional way of writing code. Anyway, that is what this tutorial is for -- to answer such questions and lower this barrier. Thus, we will try to answer those questions one by one.
+Wiele pytań, prawda? Niefortunnie, TDD ma wysoki próg wejścia, przynajmniej dla kogoś przyzwyczajonego do tradycyjnego sposobu pisania kodu. W każdym razie, ten samouczek służy do znalezienia odpowiedzi na takie pytania i obniżeniu tego progu. Tak więc, postaramy się odpowiedzieć na te pytania jedno po drugim.
