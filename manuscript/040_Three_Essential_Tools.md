@@ -1,6 +1,6 @@
 # Niezbędne narzędzia {#chapter-essential-tools}
 
-Czy kiedykolwiek oglądałeś film Karate Kid, starą lub nową wersję? W obu chodzi o to, że kiedy "dzieciak" zaczyna uczyć się od swojego mistrza karate (lub kung-fu), otrzymuje najprostsze zadanie do powtarzania (jak zdjęcie kurtki i założenie jej), nie wiedząc jeszcze po co to robi i gdzie go to zaprowadzi. ALbo, włącz sobie pierwszy film Rocky (tak, ten z udziałem Sylvestra Stallone'a), w którym Rocky ściga kurczaka, aby trenować zwinność.
+Czy kiedykolwiek oglądałeś film Karate Kid, starą lub nową wersję? W obu chodzi o to, że kiedy "dzieciak" zaczyna uczyć się od swojego mistrza karate (lub kung-fu), otrzymuje najprostsze zadanie do powtarzania (jak zdjęcie kurtki i założenie jej), nie wiedząc jeszcze po co to robi i gdzie go to zaprowadzi. Albo, włącz sobie pierwszy film Rocky (tak, ten z udziałem Sylvestra Stallone'a), w którym Rocky ściga kurczaka, aby trenować zwinność.
 
 Kiedy po raz pierwszy próbowałem nauczyć się grać na gitarze, znalazłem dwie porady w Internecie: pierwszą było opanowanie pojedynczego, trudnego utworu. Druga rada polegała na graniu na jednej strunie, nauczeniu się jak ta struna może brzmieć i próbie zagrania melodii ze słuchu właśnie na tej jednej strunie. Chyba nie muszę dodawać, że ta druga rada działała lepiej?
 
