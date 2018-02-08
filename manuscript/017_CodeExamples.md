@@ -1,6 +1,6 @@
 # O przykładach kodu
 
-## Uwagi dla programistów języka C#
+## Uwagi dla programistów języka C\#
 
 Językiem, który wybrano dla przykładów jest C#, aczkolwiek zrobiłem kilka wyjątków od typowej C# konwencji.
 
