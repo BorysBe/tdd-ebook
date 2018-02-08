@@ -47,19 +47,19 @@ Spójrzmy na te trzy (tylko!) linie kodu i wyobraźmy sobie, że kod produkcyjny
 
 Ponadto, już jesteśmy po fazie projektowania interfejsu API (ponieważ test już używa jakiegoś API), który pasowałby do powyższych wymagań. Czy nie sądzisz, że to całkiem dużo informacji o funkcjach aplikacji - wnioskując po zaledwie trzech liniach kodu?
 
-## A Specification rather than a test suite
+## Raczej specyfikacja niż zbiór testów
 
-I hope you can see now that what we called "a test" can also be seen as a kind of specification. This is also the answer to the question I raised at the beginning of this chapter. 
+Mam nadzieję, że teraz widzicie, że to, co nazywaliśmy "testem", może być również postrzegane jako rodzaj specyfikacji. Jest to również odpowiedź na pytanie, które zadałem na początku tego rozdziału (o to, co jest rolą testu)
 
-In reality, the role of a test, if written before production code, can be broken down even further:
+W rzeczywistości test, napisany przed kodem produkcyjnym, ma następujące funkcje :
 
-* designing a scenario - is when we specify our requiremnts by giving concrete examples of behaviors we expect
-* writing the test code - is when we specify an API through which we want to use the code that we are testing
-* compiling - is when we get feedback on whether the production code has the classes and methods required by the specification we wrote. If it doesn't, the compilation will fail. 
-* execution - is where we get feedback on whether the production code exhibits the behaviors that the specification describes
-* reading - is where we use the already written specification to obtain knowledge about the production code.
- 
-Thus, the name "test" seems like narrowing down what we are doing here too much. My feelings is that maybe a different name would be better - hence the term *specification*.
+* projektowanie scenariusza - kiedy określamy nasze wymagania, podając konkretne przykłady zachowań, których się spodziewamy
+* pisanie kodu testowego - kiedy określamy interfejs API, za pomocą którego chcemy wywoływać testowany kod
+* kompilowanie - gdy otrzymujemy informację od kompilatora, że kod produkcyjny ma klasy i metody wymagane przez specyfikację, którą napisaliśmy. Jeśli nie, kompilacja zakończy się niepowodzeniem. 
+* wykonanie - kiedy otrzymujemy informację zwrotną od testu, czy kod produkcyjny zachowuje się tak jak opisano w specyfikacji. Jeśli nie, test powinien zakończyć się fiaskiem (failed).
+*  czytanie - to miejsce, w którym wykorzystujemy już napisaną specyfikację, aby uzyskać wiedzę na temat tego, jak korzystać z kodu produkcyjnego.
+
+Dlatego nazwa "test" to trochę za mało, by oddać co tutaj robimy. Moje odczucia są takie, że inna nazwa mogłaby być lepsza - stąd określenie *specyfikacja*.
 
 The discovery of tests' role as a specification is quite recent and there is no uniform terminology connected to it yet. Some like to call the process of using tests as specifications *Specification By Example* to say that the tests are examples that help specify and clarify the functionality being developed. Some use the term BDD (*Behavior-Driven Development*) to emphasize that writing tests is really about analysing and describing behaviors. Also, you might encounter different names for some particular elements of this approach, for example, a "test" can be referred to as a "spec", or an "example", or a "behavior description", or a "specification statement" or "a fact about the system" (as you already saw in the chapter on tools, the xUnit.NET framework marks each "test" with a `[Fact]` attribute, suggesting that by writing it, we are stating a single fact about the developed code. By the way, xUnit.NET also allows us to state ‘theories' about our code, but let's leave this topic for another time).
 
