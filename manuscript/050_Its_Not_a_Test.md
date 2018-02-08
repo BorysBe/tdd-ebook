@@ -61,34 +61,32 @@ W rzeczywistości test, napisany przed kodem produkcyjnym, ma następujące funk
 
 Dlatego nazwa "test" to trochę za mało, by oddać co tutaj robimy. Moje odczucia są takie, że inna nazwa mogłaby być lepsza - stąd określenie *specyfikacja*.
 
-The discovery of tests' role as a specification is quite recent and there is no uniform terminology connected to it yet. Some like to call the process of using tests as specifications *Specification By Example* to say that the tests are examples that help specify and clarify the functionality being developed. Some use the term BDD (*Behavior-Driven Development*) to emphasize that writing tests is really about analysing and describing behaviors. Also, you might encounter different names for some particular elements of this approach, for example, a "test" can be referred to as a "spec", or an "example", or a "behavior description", or a "specification statement" or "a fact about the system" (as you already saw in the chapter on tools, the xUnit.NET framework marks each "test" with a `[Fact]` attribute, suggesting that by writing it, we are stating a single fact about the developed code. By the way, xUnit.NET also allows us to state ‘theories' about our code, but let's leave this topic for another time).
+Odkrycie, że testy pełnią rolę specyfikacji jest dość niedawne i nie ma jeszcze jednolitej terminologii. Niektórzy lubią nazywać proces używania testów jako specyfikacje. *Specyfikacja przez przykłady* (specification by example) żeby przekazać, że testy są przykładami, które pomagają określić i wyjaśnić rozwijaną funkcjonalność. Niektórzy używają terminu BDD (*Behavior-Driven Development*), aby podkreślić, że pisanie testów polega na analizowaniu i opisywaniu zachowań. Ponadto możesz napotkać różne nazwy dla niektórych elementów takiego podejścia, na przykład "test" może być określany jako "specyfikacja", "przykład", "opis zachowania", lub "opis zachowania", albo "fakt o systemie". Zresztą, widzieliśmy w rozdziale o narzędziach, że xUnit.NET Framework oznacza każdy test atrybutem `[Fact]`, sugerując, że stwierdzamy pojedynczy fakt o tworzonym kodzie. Przy okazji, xUnit.NET pozwala nam również na określenie teorii na temat naszego kodu, ale zostawmy ten temat na inny czas.
 
-Given this variety in terminology, I'd like to make a deal: to be consistent throughout this book, I will establish a naming convention, but leave you with the freedom to follow your own if you so desire. The reason for this naming convention is pedagogical -- I am not trying to create a movement to change established terms or to invent a new methodology or anything -- my hope is that by using this terminology throughout the book, you'll look at some things differently[^opensourcebook]. So, let's agree that for the sake of this book: 
+Wziąwszy pod uwagę różnorodność w terminologii, umówmy się tak: żeby być spójnym przez całą książkę, ustanowię konwencje nazewniczą, ale ostatecznie Tobie zostawiam prawo wyboru tego, jaka nazwa jest dla Ciebie najodpowiedniejsza. Powodem takiego podejścia do nazewnictwa jest pedagogika - nie próbuję stworzyć ruchu na rzecz lansowania określonych pojęć, nie chcę wynaleźć nowej metodyki, ani niczego podobnego - mam nadzieję, że konsekwnetne używanie w książce poniższej terminologii, pozwoli Ci spojrzeć na niektóre rzeczy inaczej. Zgadzamy się więc, że ze względu na tę książkę: 
 
-**Specification Statement** (or simply **Statement**, with a capital 'S')
+Specyfikacja Wymagania (**Specification Statement**), lub po prostu Wymaganie (**Statement**), wielką literą 'W'
 
-:   will be used instead of the words "test" and "test method"
+:   będzie używane zamiast słowa "test" i "metoda testowa" ("test method")
 
-**Specification** (or simply **Spec**, also with a capital 'S')
+Specyfikacja (**Specification**) również wielką literą 'S'
 
-:   will be used instead of the words "test suite" and "test list"
+:   będzie używana zamiast słów "zestaw testów" ("test suite") i lista testów ("test list")
 
-**False Statement**
+Wymaganie niespełnione (**False Statement**)
 
-:   will be used instead of "failing test"
+:   będzie używane zamiast "fiasko testu" ("failing test")
 
-**True Statement**
+Wymaganie spełnione (**True Statement**)
 
-:   will be used instead of "passing test"
+:   będzie używane zamiast "test, co przeszedł" ("passing test")
 
-From time to time I'll refer back to the "traditional" terminology, because it is better established and because you may have already heard some other established terms and wonder how they should be understood in the context of thinking of tests as a specification.
+Od czasu do czasu będę powracał do "tradycyjnej" terminologii, ponieważ jest lepiej utrwalona w środowisku IT i dlatego, że słyszeliście już jakieś inne terminy, które zdążyły się zadomowić w świadomości programistów i zastanawiacie się, jak należy je rozumieć w kontekście myślenia o testach jako specyfikacji.
 
-## The differences between executable and "traditional" specifications
+## Różnice między "wykonywalnymi" specyfikacjami i tymi "tradycyjnymi"
 
-You may be familiar with requirements specifications or design specifications that are written in plain English or other spoken language. However, our Specifications differ from them in at least few ways. In particular, the kind of Specification that we create by writing tests:
+Użytkownik może być zaznajomiony ze specyfikacjami wymagań lub specyfikacjami projektowymi napisanymi prostym językiem angielskim lub innym językiem mówionym. Jednakże nasze specyfikacje różnią się od nich w kilku kwestiach. W szczególności specyfikacja, którą tworzymy pisząc testy:
 
-1.  Is not *completely* written up-front like many of such "traditional" specs have been written (which doesn't mean it's written after the code is done - more on this in the next chapters).
-2.  Is executable -- you can run it to see whether the code adheres to the specification or not. This lowers the risk of inaccuracies in the Specification and falling our of sync with the production code.
-3.  Is written in source code rather than in spoken language -- which is both good, as the structure and formality of code leave less room for misunderstanding, and challenging, as great care must be taken to keep such specification readable.
-
-[^opensourcebook]: besides, this book is open source, so if you don't like the terminology, you are free to create a fork and change it to your liking!
+1. Nie jest *całkowicie* narzucona nam z góry, tak jak wiele "tradycyjnych" specyfikacji (co nie znaczy, że jest pisana po stworzeniu kodu - więcej na ten temat w następnych rozdziałach).
+2. Jest "wykonywalna" - można ją uruchomić, aby sprawdzić, czy kod jest zgodny ze specyfikacją, czy też nie. Zmniejsza to ryzyko wystąpienia nieścisłości w Specyfikacji i nieprzystawalności Specyfikacji do kodu produkcyjnego.
+3. Jest napisana w za pomocą kodu źródłowego, a nie w języku mówionym - co jest dobre, ponieważ struktura kodu i sformalizowany styl pozostawiają mniej miejsca na nieporozumienia. Jednakże, jest to także wyzwanie, ponieważ należy zachować szczególną ostrożność, by utrzymać czytelność takiej Specyfikacji.
