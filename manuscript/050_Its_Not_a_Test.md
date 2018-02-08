@@ -10,22 +10,25 @@ Studiowałem w Łodzi, dużym mieście w centrum Polski. Jak (zapewne) wszyscy i
 
 Wiedząc, że egzaminy były trudne i że trudno było nauczyć się wszystkiego w trakcie semestru, wykładowcy czasami dostarczali nam przykładowe egzaminy z poprzednich lat. Pytania różniły się od tych na naszych egzaminach, ale struktura i rodzaje zadawanych pytań (praktyka i teoria itp.) były podobne. Zazwyczaj otrzymywaliśmy przykładowe pytania, zanim nauka stawała się naprawdę ciężka (co zwykle miało miejsce pod koniec semestru). Zgadnij, co się wtedy działo? Jak możecie podejrzewać, nie skorzystaliśmy z testów, które otrzymaliśmy tylko po to, by "zweryfikować" lub "sprawdzić" naszą wiedzę po ukończeniu nauki. Wręcz przeciwnie - zbadanie tych testów było pierwszym krokiem naszego przygotowania. Dlaczego tak było? Jakie było zastosowanie tych testów, skoro wiedzieliśmy, że i tak nie znaliśmy większości odpowiedzi?
 
-Myślę, że moi wykładowcy nie zgodziliby się wcale ze mną, ale mam dość zabawne spostrzeżenie, że to co robiliśmy było podobne do "Lean Software Development". Lean to filozofia gdzie kładzie się nacisk na pozbywanie się tego, co niepotrzebne (unikanie marnotrawstwa). Każda funkcjonalność lub produkt, które nie są nikomu potrzebne, są uważane za stratę, marnotrawstwo. To dlatego, że jeśli coś nie jest potrzebne teraz to nie ma najmniejszego powodu by założyć, że kiedykolwiek będzie potrzebne. Cała taka funkcjonalność lub produkt nie dodaje żadnej wartości biznesowej. Nawet jeśli kiedykolwiek *będzie* potrzebne, to - bardzo prawdopodobne - że i tak będzie wymagać pracy, aby dopasować to do potrzeb klienta. W takim przypadku, praca - która została włożona w oryginalne rozwiązanie teraz wymagające adaptacji - jest marnotrawstwem. To kosztowało, ale nie przyniosło korzyści (nie mówię o takich rzeczach jak demo dla klienta, ale gotowy, dopracowany produkt lub funkcjonalność.
+Chociaż myślę, że moi wykładowcy nie zgodziliby się tutaj ze mną, to mam dość zabawne spostrzeżenie, że to co robiliśmy było podobne do "Lean Software Development". Lean to filozofia gdzie kładzie się nacisk na pozbywanie się tego, co niepotrzebne (unikanie marnotrawstwa). Każda funkcjonalność lub produkt, które nie są nikomu potrzebne, są uważane za stratę, marnotrawstwo. To dlatego, że jeśli coś nie jest potrzebne teraz to nie ma najmniejszego powodu by założyć, że kiedykolwiek będzie potrzebne. Cała taka funkcjonalność lub produkt nie dodaje żadnej wartości biznesowej. Nawet jeśli kiedykolwiek *będzie* potrzebne, to - bardzo prawdopodobne - że i tak będzie wymagać pracy, aby dopasować to do potrzeb klienta. W takim przypadku, praca - która została włożona w oryginalne rozwiązanie teraz wymagające adaptacji - jest marnotrawstwem. To kosztowało, ale nie przyniosło korzyści (nie mówię o takich rzeczach jak demo dla klienta, ale gotowy, dopracowany produkt lub funkcjonalność.
 
 Aby wyeliminować marnotrawstwo, zazwyczaj staramy się dodawać funkcjonalności których się od nas żąda, zamiast "wpychać" funkcjonalności do produktu w nadziei, że pewnego dnia staną się one przydatne. Innymi słowy, każda funkcja ma zaspokoić konkretną potrzebę. Jeśli nie, pracę uważa się za zmarnowaną, a pieniądze poszły w błoto.
 
-Going back to the exams example, why can the approach of first looking through the exemplary tests be considered "lean"? That's because, when we treat passing an exam as our goal, then everything that does not put us closer to this goal is considered wasteful. Let's suppose the exam concerns theory only -- why then practice the exercises? It would probably pay off a lot more to study the theoretical side of the topics. Such knowledge could be obtained from those exemplary tests. So, the tests were a kind of specification of what was needed to pass the exam. It allowed us to pull the value (i.e. our knowledge) from the demand (information obtained from realistic tests) rather that push it from the implementation (i.e. learning everything in a course book chapter after chapter).
+Wracając do egzaminów - dlaczego podejście polegające na przejrzeniu przykładowych testów można uznać za "lean"? Załóżmy, że naszym celem jest zaliczenie egzaminu. Dlatego - wszystko co nie przybliża nas do tego celu, jest uważane za marnotrawstwo. Jeśli egzamin z przedmiotu dotyczył tylko teorii - po co było przed egzaminem zajmować się ćwiczeniami? To, jaki jest egzamin, można było uzyskać na podstawie przykładowych testów. Testy były więc swoistą specyfikacją tego, co było potrzebne do zdania egzaminu. Pozwoliło nam to uzyskać wartościowe informacje (np. wiedzę o kształcie egzaminu) na podstawie wymagań (informacji uzyskanych z realistycznych testów), zamiast zmuszać nas do przeszukiwania wszystkiego, co już istniało (tj. wczytwywać się w materiały pod kątem i ćwiczeń, i teorii).
 
-So the tests became something more. They proved very valuable before the "implementation" (i.e. learning for the exam) because:
+Dlatego też testy okazały się czymś więcej, niźli tylko testami. Okazały się bardzo cenne jeszcze przed "implementacją" (tj. uczeniem się do egzaminu). Stało się tak, bo:
 
-1.  they helped us focus on what was needed to reach our goal
-2.  they brought our attention away from what was **not** needed to reach our goal
+1. pomogły nam skupić się na tym, co było potrzebne, aby osiągnąć nasz cel
+2. odciągnęły naszą uwagę od tego, co **nie** było konieczne, aby osiągnąć nasz cel
 
-That was the value of a test before learning. Note that the tests we would usually receive were not exactly what we would encounter at the time of the exam, so we still had to guess. Yet, the role of a **test as a specification of a need** was already visible.
+*Swoją drogą, nie muszę chyba mówić, że celem nauki nie powinno być wyłącznie zdanie egzaminu?* 
 
-## Taking it to the software development land
+Taka właśnie była wartość testu przed nauką. Zwróć uwagę, że testy, które otrzymywaliśmy, nie były dokładnie takie same, jak te w czasie egzaminu, więc nadal musieliśmy zgadywać. Jednak rola **testu jako wyszczególnienia potrzeby, wymagania** była już widoczna. *Można powiedzieć, specyfikacji wymagań.* 
 
-I chose this lengthy metaphor to show you that a writing a "test" is really another way of specifying a requirement or a need and that it's not counter-intuitive to think about it this way -- it occurs in our everyday lives. This is also true in software development. Let's take the following "test" and see what kind of needs it specifies: 
+## Testy w świecie programistów
+
+Wybrałem tę długą metaforę, aby pokazać, że napisanie "testu" jest innym sposobem określenia wymagań, potrzeb - i że myślenie w ten sposób o testach nie jest sprzeczne z intuicją. Przykład z testami z poprzednich lat, przed egzaminem, to coś wziętego z codziennego życia. Ta sama sytuacja ma miejsce w przypadku rozwoju oprogramowania. Weźmy następujący "test" i zobaczmy, jakie potrzeby on określa:
+
 
 ```csharp
 var reporting = new ReportingFeature();
@@ -33,16 +36,16 @@ var anyPowerUser = Any.Of(Users.Admin, Users.Auditor);
 Assert.True(reporting.CanBePerformedBy(anyPowerUser));
 ```
 
-(In this example, we used `Any.Of()` method that returns any enumeration value from the specified list. Here, we say "give me a value that is either `Users.Admin` or `Users.Auditor`".)
+(W tym przykładzie użyliśmy metody `Any.Of()`, która zwraca jakąś wartość z podanej listy. Chcemy powiedzieć: "podaj mi wartość, która jest albo `Users.Admin` albo `Users.Auditor`".)
 
-Let's look at those (only!) three lines of code and imagine that the production code that makes this "test" pass does not exist yet. What can we learn from these three lines about what this production code needs to supply? Count with me: 
+Spójrzmy na te trzy (tylko!) linie kodu i wyobraźmy sobie, że kod produkcyjny, który sprawi, że ​​test zakończy się sukcesem, jeszcze w ogóle nie istnieje. Czego możemy się nauczyć na podstawie tych trzech linii o tym, co kod produkcyjny musi zrobić? Wyliczaj ze mną:
 
-1. We need a reporting feature.
-2. We need to support a notion of users and privileges.
-3. We need to support a concept of power user, who is either an administrator or an auditor.
-4. Power users need to be allowed to use the reporting feature (note that it does not specify which other users should or should not be able to use this feature -- we would need a separate "test" for that).
+1. Potrzebujemy czegoś, co cechuje możliwość raportowania.
+2. Musimy używać pojęcia użytkowników i przywilejów.
+3. Musimy używać koncepcji użytkownika zaawansowanego, który jest administratorem lub przeprowadza audyt.
+4. Tak zwani `Power users`, czyli "użytkownicy mający moc", muszą mieć możliwość raportowania (pamiętaj, że nie określiliśmy, czy jacyś inni użytkownicy powinni lub nie powinni mieć możliwości korzystania z funkcji raportowania - potrzebowalibyśmy do tego osobnego "testu").
 
-Also, we are already after the phase of designing an API (because the test is already using it) that will fulfill the need. Don't you think this is already quite some information about the application functionality from just three lines of code?
+Ponadto, już jesteśmy po fazie projektowania interfejsu API (ponieważ test już używa jakiegoś API), który pasowałby do powyższych wymagań. Czy nie sądzisz, że to całkiem dużo informacji o funkcjach aplikacji - wnioskując po zaledwie trzech liniach kodu?
 
 ## A Specification rather than a test suite
 
