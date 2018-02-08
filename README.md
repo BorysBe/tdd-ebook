@@ -2,7 +2,17 @@
 
 ### Link do książki
 
-Oryginalna, angielskojęzyczna wersja książki jest dostępna na Leanpub https://leanpub.com/tdd-ebook.
+Książkę w polskiej wersji językowej można pobrać z Leanpub<br> 
+<a href="https://leanpub.com/web-of-objects">
+  <img src="https://raw.github.com/grzesiek-galezowski/tdd-ebook/master/manuscript/images/webpage/tdd-toolkit.png" />&nbsp;pobierz - język polski
+</a>
+
+
+
+Oryginalna, angielskojęzyczna, bezpłatna wersja książki jest dostępna na Leanpub<br>
+<a href="https://leanpub.com/tdd-ebook">
+  <img src="https://raw.github.com/grzesiek-galezowski/tdd-ebook/master/manuscript/images/webpage/tdd-toolkit.png" />&nbsp;pobierz - język angielski
+</a>
 
 
 ### Dodatkowe odnośniki
