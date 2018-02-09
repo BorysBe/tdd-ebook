@@ -39,7 +39,7 @@ Oczywiście, to nie jest typowanie dynamiczne (dynamic typing) - wszystko jest o
 Jeszcze jedno - słowo kluczowe "var" może być użyte tylko wtedy, kiedy można wywnioskować z jakim typem mamy do czynienia, w nnych wypadkach musiałem deklarować typy jawnie, jak w przypadku:
 
 ```csharp
-List<string> list = null; //nie można użyć var by wnioskować jakiego typu jest lista
+List<string> list = null; //nie można użyć var by wnioskować jakiego typu to lista
 ```
 
 ### słowo kluczowe `string`
