@@ -6,34 +6,40 @@ Jedną z najbardziej znanych rzeczy na temat TDD jest to, że piszemy nieprzecho
 
 W poprzednim rozdziale powiedziałem, że w TDD "test" przyjmuje dodatkową rolę -- wymagania, które jest częścią specyfikacji. Jeśli tak postawimy sprawę, cała kontrowersyjna koncepcja "pisania testu przed kodem" wcale nie stanowi problemu. Wręcz przeciwnie -- wydaje się naturalne, aby sprecyzować, czego oczekujemy od kodu, zanim spróbujemy go napisać. Czy odwrotnie też to ma sens? Specyfikacja napisana po zakończeniu implementacji jest niczym więcej jak próbą udokumentowania istniejącego rozwiązania. Oczywiście, takie próby mogą stanowić jakąś wartość, gdy są wykonywane jako rodzaj inżynierii wstecznej (tj. gdy dokumentujemy istniejące rozwiązanie, albo zapisujemy specyfikację dla czegoś, co zostało zaimplementowane dawno temu i dla czego odkrywamy wcześniej niejawne reguły biznesowe). Pisanie specyfikacji ma w sobie coś z ekscytującego odkrywania, ale po tym, jak sami podjęliśmy wszystkie decyzje, nie wydaje mi się, aby był to produktywny sposób spędzania czasu. Nie wspominając o tym, że uważam to za nudne (możesz sprawdzić na własnej skórze, czy jesteś w stanie się ze mną zgodzić - spróbuj stworzyć prostą aplikację - kalkulator, a następnie napisz jej specyfikację zaraz po implementacji i ręcznym sprawdzeniu, czy działa). W każdym razie trudno mi doszukiwać się, jak coś powinno działać po tym jak to już zostanie stworzone. Może właśnie dlatego przez te lata zdążyłem zauważyć, że specyfikacje napisane "po" - są znacznie mniej kompletne niż te napisane przed wdrożeniem.
 
-Aha, i czy mówiłem wam, że bez jakiejkolwiek specyfikacji, nie wiemy, czy skończyliśmy prowadzać zmiany do kodu, czy nie? Dzieje się tak, ponieważ aby ustalić, czy zmiana jest kompletna, musimy z "czymś" porównać zaimplementowaną funkcjonalność, nawet jeśli to "coś" znajduje się tylko w głowie klienta. w TDD "porównujemy" funkcjonalność z oczekiwaniami zaszytymi w zestawie automatycznych testów.
+Aha, i czy mówiłem wam, że bez jakiejkolwiek specyfikacji, nie wiemy, czy skończyliśmy wprowadzać zmiany do kodu, czy nie? Dzieje się tak, ponieważ aby ustalić, czy zmiana jest kompletna, musimy z "czymś" porównać zaimplementowaną funkcjonalność, nawet jeśli to "coś" znajduje się tylko w głowie klienta. w TDD "porównujemy" funkcjonalność z oczekiwaniami zaszytymi w zestawie automatycznych testów.
 
-Another thing I mentioned in the previous chapter is that we approach writing a Specification of executable Statements differently from writing a textual design or requirements specification: even though a behavior is implemented after its Specification is ready, we do not write the Specification entirely up-front. The usual sequence is to specify a bit first and then code a bit, repeating it one Statement at a time. When doing TDD, we are traversing repeatedly through a few phases that make up a cycle. We like these cycles to be short, so that we get feedback early and often. This is essential, because it allows us to move forward, confident that what we already have works as we intended. It also enables us to make the next cycle more efficient thanks to the knowledge we gained in the previous cycle (if you don't believe me that fast feedback matters, ask yourself a question: "how many times a day do I compile the code I'm working on?").
+Inną rzeczą, o której wspomniałem w poprzednim rozdziale jest to, że zabieramy się za pisanie Specyfikacji za pomocą uruchamialnych Wymagań (Specification Statement) zupełnie inaczej niż gdy implementujemy, krok pro kroku, wygląd i działanie aplikacji korzystając z opisu, lub - chociażby - mamy z góry narzucone biznesowe wymagania (Requirements). W TDD, nawet jeśli zachowanie jest implementowane po tym, jak już istnieje koncepcja działania aplikacji, nie piszemy Specyfikacji tak, jakbyśmy mieli tekst przed oczyma i przekładali go na kod jota w jotę.
+Zwyczajne postępowanie polega na napisaniu trochę Specyfikacji, a potem trochę kodu aplikacji i tak w kółko. W TDD przechodzimy wielokrotnie przez kilka faz, które składają się na cykl. Chcemy by te cykle były krótkie, abyśmy otrzymywali informacje zwrotne często i odpowiednio wcześnie. Te są niezbędne, ponieważ pozwalają nam iść do przodu, dając pewność, że to co już mamy, działa zgodnie z naszymi zamierzeniami. Pozwalają nam również na usprawnienie następnego cyklu, dzięki wiedzy zdobytej w poprzednim cyklu (jeśli nie wierzysz, że liczy się szybka reakcja, zadaj sobie pytanie: "ile razy dziennie kompiluję kod, nad którym pracuję?").
 
-Reading so much about cycles, it is probably no surprise that the traditional illustration of the TDD process is modeled visually as a circular flow:
+Przeczytawszy tyle o cyklach, nie będzie dla Ciebie pewnie zaskoczeniem, że tradycyjna ilustracja procesu TDD jest modelowana wizualnie jako przepływ cykliczny:
 
 ![Basic TDD cycle](images/RedGreenRefactor.png)
 
-Note that the above form uses the traditional terminology of TDD, so before I explain the steps, here's a similar illustration that uses our terms of Specification and Statements: 
+
+Zwróć uwagę, że powyższy ilustarcja wykorzystuje tradycyjną terminologię TDD, więc zanim wyjaśnię kroki, oto podobna ilustracja, która korzysta z naszych pojęć Specyfikacji (Specifiction) i Wymagania (Statement): 
 
 ![Basic TDD cycle with changed terminology](images/RedGreenRefactor2.png)
 
-The second version seems more like common sense than the first one -- specifying how something should behave before putting that behavior in place is way more intuitive than testing something that does not yet exist.
+1. Napisz Wymaganie, które chciałbyś, by było spełnione ale nie jest. 
+2. Dodaj kod, by Wymganie zostało spełnione. 
+3. Zrefaktoruj kod.
 
-Anyway, these three steps deserve some explanation. In the coming chapters I'll give you some examples of how this process works in practice and introduce an expanded version, but in the meantime it suffices to say that:
+Druga wersja wydaje się mieć bardziej sens niż pierwsza - określenie, jak coś powinno się zachowywać przed napisaniem tego zachowania, jest bardziej intuicyjne niż "testowanie" czegoś, co jeszcze nie istnieje.
 
-Write a Statement you wish were true but is not
-:   means that the Statement evaluates to false. In the test list it appears as failing, which most xUnit frameworks mark with red color.
+W każdym razie te trzy kroki zasługują na wyjaśnienie. W następnych rozdziałach podam kilka przykładów tego, jak ten proces działa w praktyce i wprowadzę rozszerzoną wersję, ale w międzyczasie wystarczy powiedzieć:
 
-Add code to make it true
-:   means that we write just enough code to make the Statement true. In the test list it appears as passing, which most xUnit frameworks mark with green color. Later in the course of the book you'll see how little can be "just enough".
+Napisz Wymaganie, które chciałbyś, by było spełnione ale nie jest
+:   oznacza, że Wymaganie jest niespełnione. Na liście testów pojawia się to jako błąd, fiasko (fail), który większość frameworków xUnit zaznacza kolorem czerwonym.
 
-Refactor
-:   is a step that I have silently ignored so far and will do so for several more chapters. Don't worry, we'll get back to it eventually. For now it's important to be aware that the executable Specification can act as a safety net while we are improving the quality of the code without changing its externally visible behavior: by running the Specification often, we quickly discover any mistake we make in the process.
+Dodaj kod, by Wymganie zostało spełnione.
+:    oznacza, że piszemy tylko tyle kodu, aby Wymaganie było spelnione, nie więcej. Na liście testowej pojawia się jako sukces (pass), które większość frameworków xUnit zaznacza kolorem zielonym. W dalszej części książki zobaczysz, jak mało może oznaczać "wystarczająco dużo"..
 
-By the way, this process is sometimes referred to as "Red-Green-Refactor", because of the colors that xUnit tools display for failing and passing test. I am just mentioning it here for the record -- I will not be using this term further in the book.
+Zrefaktoruj kod
+:   jest krokiem, który do tej pory milcząco ignorowałem i zrobię to jeszcze przez kilka kolejnych rozdziałów. Nie martw się, w końcu wrócimy do tego. Na razie ważne jest, aby mieć świadomość, że Wykonywalna Specyfikacja może działać jak siatka zabezpieczając w cyrku. Podczas gdy my *poprawiamy jakość kodu bez zmiany jego zachowania zewnętrznego*, dzięki częstemu wykonywaniu kodu Specyfikacji, szybko odkrywamy każdy błąd, który popełniliśmy w tym procesie.
 
-## "Najpierw-test" oznacza patrzenie na fiasko
+Nawiasem mówiąc, proces ten jest czasami określany jako "Red-Green-Refactor", ze względu na kolory wyświetlane przez narzędzia xUnit w przypadku niepowodzenia i sukcesu testu. Tylko o tym tutaj wspominam -- nie będę używał tego terminu w dalszej części książki.
+
+## "Najpierw-test" oznacza patrzenie na niepowodzenie
 
 Explaining the illustration with the TDD process above, I pointed out that we are supposed to write a Statement that we wish was true **but is not**. It means that not only do we have to write a Statement before we provide implementation that makes it true, we also have to evaluate it (i.e. run it) and watch it fail its assertions before we provide the implementation. 
 

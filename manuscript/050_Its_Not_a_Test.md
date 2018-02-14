@@ -56,7 +56,7 @@ W rzeczywistości test, napisany przed kodem produkcyjnym, ma następujące funk
 * projektowanie scenariusza - kiedy określamy nasze wymagania, podając konkretne przykłady zachowań, których się spodziewamy
 * pisanie kodu testowego - kiedy określamy interfejs API, za pomocą którego chcemy wywoływać testowany kod
 * kompilowanie - gdy otrzymujemy informację od kompilatora, że kod produkcyjny ma klasy i metody wymagane przez specyfikację, którą napisaliśmy. Jeśli nie, kompilacja zakończy się niepowodzeniem. 
-* wykonanie - kiedy otrzymujemy informację zwrotną od testu, czy kod produkcyjny zachowuje się tak jak opisano w specyfikacji. Jeśli nie, test powinien zakończyć się fiaskiem (failed).
+* wykonanie - kiedy otrzymujemy informację zwrotną od testu, czy kod produkcyjny zachowuje się tak jak opisano w specyfikacji. Jeśli nie, test powinien zakończyć się niepowodzeniem, fiaskiem (failed).
 *  czytanie - to miejsce, w którym wykorzystujemy już napisaną specyfikację, aby uzyskać wiedzę na temat tego, jak korzystać z kodu produkcyjnego.
 
 Dlatego nazwa "test" to trochę za mało, by oddać co tutaj robimy. Moje odczucia są takie, że inna nazwa mogłaby być lepsza - stąd określenie *specyfikacja*.
@@ -75,13 +75,13 @@ Specyfikacja (**Specification**) również wielką literą 'S'
 
 Wymaganie niespełnione (**False Statement**)
 
-:   będzie używane zamiast "fiasko testu" ("failing test")
+:   będzie używane zamiast "niepowodzenie testu" ("failing test")
 
 Wymaganie spełnione (**True Statement**)
 
-:   będzie używane zamiast "test, co przeszedł" ("passing test")
+:   będzie używane zamiast "test, który przeszedł" ("passing test")
 
-Od czasu do czasu będę powracał do "tradycyjnej" terminologii, ponieważ jest lepiej utrwalona w środowisku IT i dlatego, że słyszeliście już jakieś inne terminy, które zdążyły się zadomowić w świadomości programistów i zastanawiacie się, jak należy je rozumieć w kontekście myślenia o testach jako specyfikacji.
+Od czasu do czasu będę powracał do "tradycyjnej" terminologii, ponieważ jest lepiej utrwalona w środowisku IT i ponieważ słyszeliście już jakieś inne terminy, które zdążyły się zadomowić w świadomości programistów. Z pewnością zastanawiacie się, jak należy je rozumieć w kontekście myślenia o testach jako specyfikacji.
 
 ## Różnice między "wykonywalnymi" specyfikacjami i tymi "tradycyjnymi"
 
@@ -89,4 +89,4 @@ Użytkownik może być zaznajomiony ze specyfikacjami wymagań lub specyfikacjam
 
 1. Nie jest *całkowicie* narzucona nam z góry, tak jak wiele "tradycyjnych" specyfikacji (co nie znaczy, że jest pisana po stworzeniu kodu - więcej na ten temat w następnych rozdziałach).
 2. Jest "wykonywalna" - można ją uruchomić, aby sprawdzić, czy kod jest zgodny ze specyfikacją, czy też nie. Zmniejsza to ryzyko wystąpienia nieścisłości w Specyfikacji i nieprzystawalności Specyfikacji do kodu produkcyjnego.
-3. Jest napisana w za pomocą kodu źródłowego, a nie w języku mówionym - co jest dobre, ponieważ struktura kodu i sformalizowany styl pozostawiają mniej miejsca na nieporozumienia. Jednakże, jest to także wyzwanie, ponieważ należy zachować szczególną ostrożność, by utrzymać czytelność takiej Specyfikacji.
+3. Jest napisana za pomocą kodu źródłowego, a nie w języku mówionym - co jest dobre, ponieważ struktura kodu i sformalizowany styl pozostawiają mniej miejsca na nieporozumienia. Jednakże, jest to także wyzwanie, ponieważ należy zachować szczególną ostrożność, by utrzymać czytelność takiej Specyfikacji.
