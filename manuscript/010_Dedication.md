@@ -4,5 +4,5 @@
 
 *Ad Deum qui laetificat iuventutem meam.*
 
-*Mej ukochanej żonie Monice i naszemu ukochanemu synowi Danielowi.*
+*Mej ukochanej zonie Monice i naszemu ukochanemu synowi Danielowi.*
 
