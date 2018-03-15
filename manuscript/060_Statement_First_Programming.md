@@ -9,9 +9,9 @@ W poprzednim rozdziale powiedziałem, że w TDD "test" przyjmuje dodatkową rol�
 Aha, i czy mówiłem wam, że bez jakiejkolwiek specyfikacji, nie wiemy, czy skończyliśmy wprowadzać zmiany do kodu, czy nie? Dzieje się tak, ponieważ aby ustalić, czy zmiana jest kompletna, musimy z "czymś" porównać zaimplementowaną funkcjonalność, nawet jeśli to "coś" znajduje się tylko w głowie klienta. w TDD "porównujemy" funkcjonalność z oczekiwaniami zaszytymi w zestawie automatycznych testów.
 
 Inną rzeczą, o której wspomniałem w poprzednim rozdziale jest to, że zabieramy się za pisanie Specyfikacji za pomocą uruchamialnych Wymagań (Specification Statement) zupełnie inaczej niż gdy implementujemy, krok pro kroku, wygląd i działanie aplikacji korzystając z opisu, lub - chociażby - mamy z góry narzucone biznesowe wymagania (Requirements). W TDD, nawet jeśli zachowanie jest implementowane po tym, jak już istnieje koncepcja działania aplikacji, nie piszemy Specyfikacji tak, jakbyśmy mieli tekst przed oczyma i przekładali go na kod jota w jotę.
-Zwyczajne postępowanie polega na napisaniu trochę Specyfikacji, a potem trochę kodu aplikacji i tak w kółko. W TDD przechodzimy wielokrotnie przez kilka faz, które składają się na cykl. Chcemy by te cykle były krótkie, abyśmy otrzymywali informacje zwrotne często i odpowiednio wcześnie. Te są niezbędne, ponieważ pozwalają nam iść do przodu, dając pewność, że to co już mamy, działa zgodnie z naszymi zamierzeniami. Pozwalają nam również na usprawnienie następnego cyklu, dzięki wiedzy zdobytej w poprzednim cyklu (jeśli nie wierzysz, że liczy się szybka reakcja, zadaj sobie pytanie: "ile razy dziennie kompiluję kod, nad którym pracuję?").
+Zazwyczaj postępujemy tak, że napiszemy trochę Specyfikacji, a potem trochę kodu aplikacji i tak w kółko. W TDD przechodzimy wielokrotnie przez kilka faz, które składają się na cykl. Chcemy by te cykle były krótkie, abyśmy otrzymywali informacje zwrotne często i odpowiednio wcześnie. Informacje te są niezbędne, ponieważ pozwalają nam iść do przodu, dając pewność, że to co już mamy, działa zgodnie z naszymi zamierzeniami. Pozwalają nam również na usprawnienie następnego cyklu, dzięki wiedzy zdobytej w poprzednim cyklu (jeśli nie wierzysz, że liczy się szybka reakcja, zadaj sobie pytanie: "ile razy dziennie kompiluję kod, nad którym pracuję?").
 
-Przeczytawszy tyle o cyklach, nie będzie dla Ciebie pewnie zaskoczeniem, że tradycyjna ilustracja procesu TDD jest modelowana wizualnie jako przepływ cykliczny:
+Przeczytawszy tyle o cyklach, nie będzie dla Ciebie pewnie zaskoczeniem, że tradycyjna ilustracja procesu TDD jest wizualnie modelowana jako przepływ cykliczny:
 
 ![Basic TDD cycle](images/RedGreenRefactor.png)
 
@@ -21,49 +21,49 @@ Zwróć uwagę, że powyższy ilustarcja wykorzystuje tradycyjną terminologię 
 ![Basic TDD cycle with changed terminology](images/RedGreenRefactor2.png)
 
 1. Napisz Wymaganie, które chciałbyś, by było spełnione ale nie jest. 
-2. Dodaj kod, by Wymganie zostało spełnione. 
+2. Dodaj kod, by Wymaganie zostało spełnione. 
 3. Zrefaktoruj kod.
 
-Druga wersja wydaje się mieć bardziej sens niż pierwsza - określenie, jak coś powinno się zachowywać przed napisaniem tego zachowania, jest bardziej intuicyjne niż "testowanie" czegoś, co jeszcze nie istnieje.
+Druga wersja wydaje się mieć bardziej sens niż pierwsza - określenie, jak coś powinno się zachowywać przed napisaniem kodu dla tego zachowania, jest bardziej intuicyjne niźli "testowaniu" czegoś, co jeszcze nie istnieje.
 
-W każdym razie te trzy kroki zasługują na wyjaśnienie. W następnych rozdziałach podam kilka przykładów tego, jak ten proces działa w praktyce i wprowadzę rozszerzoną wersję, ale w międzyczasie wystarczy powiedzieć:
+W każdym razie te trzy kroki zasługują na wyjaśnienie. W następnych rozdziałach podam kilka przykładów na to, jak proces ten działa w praktyce i wprowadzę rozszerzoną wersję, ale w międzyczasie wystarczy wyjaśnić, że:
 
-Napisz Wymaganie, które chciałbyś, by było spełnione ale nie jest
-:   oznacza, że Wymaganie jest niespełnione. Na liście testów pojawia się to jako błąd, fiasko (fail), który większość frameworków xUnit zaznacza kolorem czerwonym.
+Napisz Wymaganie, które chciałbyś, by było spełnione ale nie jest.
+:   oznacza, że Wymaganie jest niespełnione i na liście testów pojawia się to jako błąd, fiasko (fail), który większość frameworków xUnit zaznacza kolorem czerwonym.
 
 Dodaj kod, by Wymganie zostało spełnione.
-:    oznacza, że piszemy tylko tyle kodu, aby Wymaganie było spelnione, nie więcej. Na liście testowej pojawia się jako sukces (pass), które większość frameworków xUnit zaznacza kolorem zielonym. W dalszej części książki zobaczysz, jak mało może oznaczać "wystarczająco dużo"..
+:    oznacza, że piszemy tylko tyle kodu, aby Wymaganie było spelnione, nie więcej. Na liście testów takie Wymaganie jawi się jako sukces (pass), które większość frameworków xUnit zaznacza kolorem zielonym. W dalszej części książki zobaczysz, jak mało może oznaczać "wystarczająco dużo".
 
-Zrefaktoruj kod
-:   jest krokiem, który do tej pory milcząco ignorowałem i zrobię to jeszcze przez kilka kolejnych rozdziałów. Nie martw się, w końcu wrócimy do tego. Na razie ważne jest, aby mieć świadomość, że Wykonywalna Specyfikacja może działać jak siatka zabezpieczając w cyrku. Podczas gdy my *poprawiamy jakość kodu bez zmiany jego zachowania zewnętrznego*, dzięki częstemu wykonywaniu kodu Specyfikacji, szybko odkrywamy każdy błąd, który popełniliśmy w tym procesie.
+Zrefaktoruj kod.
+:   jest krokiem, który do tej pory milcząco ignorowałem i zrobię to jeszcze przez kilka kolejnych rozdziałów. Nie martw się, w końcu wrócimy do tego. Na razie ważne jest, aby mieć świadomość, że Wykonywalna Specyfikacja może działać jak siatka zabezpieczając w cyrku. Podczas gdy my *poprawiamy jakość kodu bez zmiany jego zachowania zewnętrznego*, dzięki częstemu wykonywaniu kodu Specyfikacji, szybko odkrywamy każdy błąd, który popełniliśmy w procesie refaktorzacji.
 
 Nawiasem mówiąc, proces ten jest czasami określany jako "Red-Green-Refactor", ze względu na kolory wyświetlane przez narzędzia xUnit w przypadku niepowodzenia i sukcesu testu. Tylko o tym tutaj wspominam -- nie będę używał tego terminu w dalszej części książki.
 
 ## "Najpierw-test" oznacza patrzenie na niepowodzenie
 
-Explaining the illustration with the TDD process above, I pointed out that we are supposed to write a Statement that we wish was true **but is not**. It means that not only do we have to write a Statement before we provide implementation that makes it true, we also have to evaluate it (i.e. run it) and watch it fail its assertions before we provide the implementation. 
+Wyjaśniając powyższy rysunek opisujący TDD, zwróciłem uwagę, że powinniśmy napisać Wymaganie, które chcielibyśmy, by było spełnione **ale nie jest**. Oznacza to, że nie tylko trzeba napisać Wymaganie, zanim napisze się implementację, która sprawia, że Wymaganie będzie spełnione, ale musimy również to Wymaganie ocenić (tj. uruchomić) i obserwować, że - w istocie - nie spełnia swoich założeń przed dostarczeniem implementacji.
 
-Why is it so important? Isn't it enough to write the Statement first? Why run it and watch it fail? There are several reasons and I will try to outline some of them briefly.
+Dlaczego to takie ważne? Czy nie wystarczy najpierw napisać Wymaganie? Przecież wiadomo, że nie jest spełnione, gdy nie ma kodu, po co je uruchamiać i oglądać jak na liście świeci na czerwono? Jest kilka powodów i postaram się pokrótce omówić kilka z nich.
 
-The main reason for writing a Statement and watching it fail is that otherwise, I don't have any proof that the Statement can ever fail.
+Głównym powodem sprawdzenia, czy Wymaganie nie jest spełnione jest fakt, iż nie ma żadnego dowodu na to, że napisane Wymaganie skończy się spektakularnym fiaskiem po uruchomieniu.
 
-Every accurate Statement fails when it isn't fulfilled and passes when it is. That's one of the main reasons why we write it -- to see this transition from *red* to *green*, which means that what previously was not implemented (and we had a proof for that) is now working (and we have a proof). Observing the transition proves that we made progress. 
+Każde dobrze napisane Wymaganie nigdy nie przechodzi sprawdzenia, gdy nie jest spełnione, a zawsze przechodzi sprawdzenie, gdy jest spełnione. Jest to jeden z głównych powodów, dla których je piszemy - chcemy zobaczyć przejście od *Red* (czerwonego) do *Green* (zielonego), co oznacza, że ​​to, co wcześniej nie zostało zaimplementowane nie działało (i mieliśmy na to dowód), a teraz działa (i również mamy na to dowód). Obserwacja przejścia Red-Green pokazuje, że ​​zrobiliśmy postęp.
 
-Another thing to note is that, after being fulfilled, the Statement becomes a part of the executable specification and starts failing as soon as the code stops fulfilling it, for example as a result of a mistake made during code refactoring. 
+Inną rzeczą, na którą należy zwrócić uwagę, jest to, że napisanie kodu, który spełnia Wymaganie, sprawia iż staje się ono częścią uruchamialnej Specyfikacji. Gdy, choć przez chwilę, kod przestaje spełniać Wymaganie dowiadujemy się o tym (to może być na przykład wynik pomyłki podczas refaktoryzacji kodu).
 
-Seeing a Statement proven as false gives us valuable feedback. If we run a Statement only *after* the behavior it describes has been implemented and it is evaluated as true, how do we know whether it really accurately describes a need? We never saw it failing, so what proof do we have that it ever will?
+Zauważenie, że Wymaganie nie jest spełnione dostarcza nam cennych informacji. Jeśli uruchomimy je wyłącznie *po* napisaniu kodu dla opisywanego zachowania, to skąd wiemy, że Wymaganie weryfikuje nasze prawdziwe oczekiwania i potrzeby? Nigdy nie widzieliśmy, by Wymaganie kiedykolwiek świeciło na czerwono, więc jaki mamy dowód, że w ogóle jest w stanie powiadomić nas o fiasku?
 
-The first time I encountered this argument was before I started thinking of tests as executable specification. "Seriously?" -- I thought -- "I know what I'm writing. If I make my tests small enough, it is self-evident that I am describing the correct behavior. This is paranoid". However, life quickly verified my claims and I was forced to withdraw my arguments. Let me describe three of the ways I experienced of how one can write a Statement that is always true, whether the code is correct or not. There are more ways, however I think giving you three should be an illustration enough. 
+Pierwszy raz spotkałem się z tym argumentem, tuż przed tym, gdy zacząłem myśleć o testach jak o uruchamialnej specyfikacji. "Poważnie?" -- pomyślałem -- "Wiem doskonale, co koduje, jeśli zrobię wystarczająco małe testy, będzie oczywiste, że opisują prawidłowe zachowania. To jest zwykła paranoja". Jednak życie szybko zweryfikowało moje założenia i byłem zmuszony wycofać moje argumenty. Pozwolę sobie opisać trzy sposoby, w jaki mogłem napisać Wymaganie, które zawsze jest spełnione, niezależnie od tego, czy kod jest poprawny czy też nie. Tych sposobów jest więcej, ale myślę, że danie wam trzech powinno być wystarczającą ilustracją.
 
-Test-first allowed me to avoid the following situations where Statements cheated me into thinking they were fulfilled even when they shouldn't be:
+Oto sytuacje, kiedy kod Wymagania wskazywał na to, że Wymaganie jest spełnione, nawet jeśli nie powinno być:
 
 ### 1. Omyłkowe nieoznaczenie Wymagań w Specyfikacji
 
-It's usually insufficient to just write the code of a Statement - we also have to let the test runner know that a method we wrote is really a Statement (not e.g. just a helper method) and it needs to be evaluated, i.e. ran by the runner. 
+Zazwyczaj nie wystarczy napisanie kodu Wymagania - musimy także poinformować proces uruchamiający testy, że metoda, którą napisaliśmy, jest faktycznie Wymaganiem (a nie np. jakąś metodą pomocniczą) i musi zostać uruchomiona przez ten proces.
 
-Most xUnit frameworks have some kind of mechanism to mark methods as Statements, whether by using attributes (C#, e.g. `[Fact]`) or annotations (Java, e.g `@Test`), or by using macros (C and C++), or by using a naming convention. We have to use such a mechanism to let the runner know that it should execute such methods.
+Większość frameworków typu xUnit ma jakiś mechanizm oznaczania metod jako Wymaganie, czy to przy użyciu atrybutów (C #, np. `[Fact]`) czy adnotacji (Java, np. `@ Test`), lub przy użyciu makr (C i C ++), lub przy użyciu konwencji nazewniczej. Musimy użyć takiego mechanizmu, aby proces uruchamiający testy wiedział, że powinien wykonywać takie metody.
 
-Let's take xUnit.Net as an example. To turn a method into a Statement in xUnit.Net, we have to mark it with the `[Fact]` attribute like this:
+Weźmy na przykład xUnit.Net. Aby przekształcić zwykłą metodę w Wymaganie, musimy oznaczyć ją za pomocą atrybutu `[Fact]`:
 
 ```csharp
 public class CalculatorSpecification
@@ -76,16 +76,17 @@ public class CalculatorSpecification
 }
 ```
 
-There is a chance that we forget to decorate a method with the `[Fact]` attribute - in such case, this method is never executed by the test runner. However funny it may sound, this is exactly what happened to me several times. Let's take the above Statement as an example and imagine that we are writing this Statement post-factum as a unit test in an environment that has, let's say, more than thirty Statements already written and passing. We have written the code and now we are just creating test after test to ensure the code works. Test -- pass, test -- pass, test -- pass. When I execute tests, I almost always run more than one at a time, since it's easier for me  than selecting what to evaluate each time. Besides, I get more confidence this way that I don't make a mistake and break something that is already working. Let's imagine we are doing the same here. Then the workflow is really: Test -- all pass, test -- all pass, test -- all pass... 
+Jest szansa, że zapomnimy oznaczyć metodę atrybutem `[Fact]` - w takim przypadku ta metoda nigdy nie będzie wykonywana przez proces uruchamiający testy. Choć może to zabrzmieć zabawnie, kilka razy mi się to przydarzyło. Weźmy powyższe Wymaganie i wyobraźmy sobie, że piszemy je post-factum jako test jednostkowy w środowisku, które ma, powiedzmy, ponad trzydzieści innych Wymagań już napisanych i spełnianych podczas uruchamiania. Napisaliśmy wcześniej kod dla naszych zachowań, a teraz właśnie dodajemy test po teście, aby upewnić się, że kod działa. Pierwszy test -- sukces, drugi test -- sukces, trzeci test -- suckes... i pięknie. Co ciekawe, kiedy wykonuję testy, prawie zawsze uruchamiam więcej niż jeden naraz, ponieważ jest to dla mnie łatwiejsze niż każdorazowe wybieranie z listy tego, co chcę aktualnie ewaluować. Poza tym, uruchamiając wszystkie testy, zyskuję więcej pewności, że nie popełniłem błędu i czegoś nie zepsułem. Nawet jeśli każę uruchomić wszystkie i wszystkie testy na liście testów przejdą, to testy, które nie są prawidłowo oznaczone, nigdy nie zostaną uruchomione.
 
-Over the time, I have learned to use code snippets mechanism of my IDE to generate a template body for my Statements. Still, in the early days, I have occasionally written something like this:
+Z biegiem czasu nauczyłem się używać mechanizmu code snippets mojgo IDE do generowania szkieletu moich Wymagań, ale kiedyś zdarzało mi się napisać coś takiego:
+
 
 ```csharp
 public class CalculatorSpecification
 {
-  //... some Statements here
+  //... jakieś inne Wymagania
 
-  //oops... forgot to insert the attribute!
+  //uups...zapomniałem wstawić atrybutu!
   public void ShouldDisplayZeroWhenResetIsPerformed()
   {
     //...
@@ -93,7 +94,7 @@ public class CalculatorSpecification
 }
 ```
 
-As you can see, the `[Fact]` attribute is missing, which means this Statement will not be executed. This has happened not only because of not using code generators -- sometimes -- to create a new Statement -- it made sense to copy-paste an existing Statement, change the name and few lines of code[^copypaste]. I didn't always remember to include the `[Fact]` attribute in the copied source code. The compiler was not complaining as well.
+Jak widzisz, brakuje atrybutu `[Fact]`, co oznacza, że to Wymaganie nie zostanie uruchomione. Nie tylko dlatego, że nie umiałem korzystać z generatorów kodu - po prostu w celu utworzenia nowego Wymagania - bardziej wygodne było skopiowanie i wklejenie innego Wymagania, zmiana jego nazwy i kilku linii jego kodu [^ copypaste]. Nie zawsze pamiętałem, aby dołączyć atrybut `[Fact]` w skopiowanym kodzie źródłowym. Kompilator też nie narzekał.
 
 The reason I didn't see my mistake was because I was running more than once at a time - when I got a green bar (i.e. all Statements proven true), I assumed that the Statement I just wrote works as well. It was unattractive for me to search for each new Statement in the list and make sure it's there. The more important reason, however, was that the absence of the `[Fact]` attribute did not disturb my work flow: test -- all pass, test -- all pass, test -- all pass... In other words, my process did not give me any feedback that I made a mistake. So, in such case, what I end up with is a Statement that not only will never be proven false -- **it won't be evaluated at all**.
 
@@ -219,5 +220,5 @@ What is the equivalent of the marked steps in the Statement-first approach? Ther
 
 W tym rozdziale starałem się pokazać, że wybór *kiedy* piszemy naszą Specyfikację często robi ogromną różnicę i że istnieje wiele korzyści w zaczynaniu od Wymagania. Kiedy traktujemy Specyfikację jako zapis tego, co rzeczywiście dzieje się w programie - a nie tylko jako zestaw testów sprawdzających poprawność środowiska wykonawczego - wówczas podejście "Najpier-test" staje się mniej kłopotliwe i mniej sprzeczne z intuicją.
 
-[^copypaste]: I know copy-pasting code is considered harmful and we shouldn't be doing that. When writing unit-level Statements, I make some exceptions from that rule. This will be explained in part 2.
+[^copypaste]: Wiem, że kopiowanie kodu jest uważane za szkodliwe i nie powinniśmy tego robić. Podczas pisania testów jednostkowych, robię kilka wyjątków od tej reguły. Zostanie to wyjaśnione w części 2.
 
