@@ -113,9 +113,9 @@ public class Frame /* ramka */
 }
 ```
 
-and we need to write a Specification for a `Validation` class that accepts a `Frame` as an argument and checks whether the time slot (whatever it is) is above a value specified in a constant called `TimeSlot.MaxAllowed` (so it's a constant defined in a `TimeSlot` class). If it is, then the validation returns `false`, if it's not, then it returns `true`.
+Musimy napisać specyfikację dla klasy `Validation` (*Walidacja*), która przyjmie `Frame` (*Ramkę*) jako argument i sprawdzić, czy przedział czasowy (czymkolwiek on jest) jest poprawny. Poprawność określamy porównując przedział czasowy z maksymalną, dozwoloną wartością `TimeSlot.MaxAllowed` (to stała zdefiniowana w klasie `TimeSlot`). Jeśli przedział czasowy jest większy niż dopuszczalne maksimum, uważamy go za niepoprawny a walidacja powinna zwrócić `false` (*fałsz*). W innym przypadku powinno być zwróćone `true` (*prawda*).
 
-Let's take a look at the following Statement which specifies that setting a value higher than allowed to a field of a `frame` should make the validation fail:
+Przyjrzyjmy się poniższemu Wymaganiu, które opisuje, że ustawienie wartości wyższej niż dozwolona dla pola `frame` powinno nie przejść walidacji:
 
 ```csharp
 [Fact]
