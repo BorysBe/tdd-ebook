@@ -76,9 +76,9 @@ public class CalculatorSpecification
 }
 ```
 
-Jest szansa, że zapomnimy oznaczyć metodę atrybutem `[Fact]` - w takim przypadku ta metoda nigdy nie będzie wykonywana przez proces uruchamiający testy. Choć może to zabrzmieć zabawnie, kilka razy mi się to przydarzyło. Weźmy powyższe Wymaganie i wyobraźmy sobie, że piszemy je post-factum jako test jednostkowy w środowisku, które ma, powiedzmy, ponad trzydzieści innych Wymagań już napisanych i spełnianych podczas uruchamiania. Napisaliśmy wcześniej kod dla naszych zachowań, a teraz właśnie dodajemy test po teście, aby upewnić się, że kod działa. Pierwszy test -- sukces, drugi test -- sukces, trzeci test -- suckes... i pięknie. Co ciekawe, kiedy wykonuję testy, prawie zawsze uruchamiam więcej niż jeden naraz, ponieważ jest to dla mnie łatwiejsze niż każdorazowe wybieranie z listy tego, co chcę aktualnie ewaluować. Poza tym, uruchamiając wszystkie testy, zyskuję więcej pewności, że nie popełniłem błędu i czegoś nie zepsułem. Nawet jeśli każę uruchomić wszystkie i wszystkie testy na liście testów przejdą, to testy, które nie są prawidłowo oznaczone, nigdy nie zostaną uruchomione.
+Jest szansa, że zapomnimy oznaczyć metodę atrybutem `[Fact]` - w takim przypadku ta metoda nigdy nie będzie wykonywana przez proces uruchamiający testy. Choć może to zabrzmieć zabawnie, kilka razy mi się to przydarzyło. Wyobrażmy sobie, że powyższe Wymaganie piszemy post-factum jako test jednostkowy w środowisku, które ma, powiedzmy, ponad trzydzieści innych Wymagań już napisanych i spełnianych podczas uruchamiania. Napisaliśmy wcześniej kod dla naszych zachowań, a teraz dodajemy test po teście, aby upewnić się, że kod działa. Pierwszy test -- sukces, drugi test -- sukces, trzeci test -- suckes... świetnie! Co ciekawe, kiedy wykonuję testy, prawie zawsze uruchamiam więcej niż jeden naraz (*służy do tego specjalny przycisk*), ponieważ jest to dla mnie łatwiejsze niż każdorazowe wybieranie z listy tego, co chcę aktualnie ewaluować. Poza tym, uruchamiając wszystkie testy, zyskuję więcej pewności, że nie popełniłem błędu i nie zepsułem czegoś, co było napisane wcześniej. Tu się pojawia problem, bo nawet jeśli każę uruchomić wszystkie testy i wszystkie przejdą, to te oznaczone nieprawidłwo nigdy nie zostaną uruchomione.
 
-Z biegiem czasu nauczyłem się używać mechanizmu code snippets mojgo IDE do generowania szkieletu moich Wymagań, ale kiedyś zdarzało mi się napisać coś takiego:
+Z biegiem czasu nauczyłem się używać mechanizmu code snippets (*wstawianie szablonów kodu w edytorze*) w moim IDE do generowania szkieletu Wymagań. Wcześniej zdarzało mi się jednak pisać coś takiego:
 
 
 ```csharp
@@ -94,22 +94,22 @@ public class CalculatorSpecification
 }
 ```
 
-Jak widzisz, brakuje atrybutu `[Fact]`, co oznacza, że to Wymaganie nie zostanie uruchomione. Nie tylko dlatego, że nie umiałem korzystać z generatorów kodu - po prostu w celu utworzenia nowego Wymagania - bardziej wygodne było skopiowanie i wklejenie innego Wymagania, zmiana jego nazwy i kilku linii jego kodu [^ copypaste]. Nie zawsze pamiętałem, aby dołączyć atrybut `[Fact]` w skopiowanym kodzie źródłowym. Kompilator też nie narzekał.
+Jak widzisz, brakowało atrybutu `[Fact]`, czyli Wymaganie nie było uruchamiane. Nawet nie dlatego, że nie umiałem korzystać z generatorów kodu - po prostu w celu utworzenia nowego Wymagania wygodniejsze było dla mnie skopiowanie i wklejenie innego Wymagania, zmiana jego nazwy i kilku linii jego kodu [^ copypaste]. Nie zawsze pamiętałem, aby dołączyć atrybut `[Fact]` w skopiowanym kodzie źródłowym. Kompilator też nie narzekał.
 
-Powodem, dla którego nie potrafiłem dostrzec swojego błędu był fakt, że uruchamiałem cały czas wszystkie testy jednocześnie - i kiedy pojawił się zielony pasek (który oznacza, że wszystkie Wymagania są spełnione), założyłem, że nowonapisane Wymaganie również jest spełnione. Nie jest rzeczą fajną sprawdzanie, że każde nowe Wymaganie faktycznie pojawia się na liście Wymagań, więc tego nie robiłem. Co gorsza, że brak atrybutu `[Fact]` nie zakłócał mojej pracy: pisałem test -- wszystkie testy przeszły, pisałem kolejny test -- wszystkie testy przeszły, kolejny test - wszystkie przeszły... Innymi słowy, mój sposób pracy nie dał mi żadnej informacji zwrotnej, że popełniłem gdzieś, jakiś błąd. Tak więc, w tym przypadku, nie chodziło o to, że Wymaganie może nie być spełnione, bo jest źle napisane, ale o to, że **ono w ogóle nie zostało uruchomione i nie podlegało żadnej ewaluacji**.
+Powodem, dla którego nie potrafiłem dostrzec swojego błędu był fakt, że uruchamiałem cały czas wszystkie testy jednocześnie - i kiedy pojawił się zielony pasek (który oznacza, że wszystkie Wymagania są spełnione), założyłem, że nowonapisane Wymaganie również jest spełnione. Nie jest rzeczą fajną sprawdzanie, że każde nowe Wymaganie faktycznie pojawia się na liście Wymagań, więc tego nie robiłem. Co gorsza - brak atrybutu `[Fact]` nie zakłócał mojej pracy: pisałem test -- wszystkie testy przeszły, pisałem kolejny test -- wszystkie testy przeszły, kolejny test - wszystkie przeszły... Innymi słowy, mój sposób pracy nie dawał żadnej informacji zwrotnej, że popełniłem gdzieś, jakiś błąd. Tak więc, w tym przypadku, nie chodziło o to, że Wymaganie może nie być spełnione, bo jest źle napisane, ale o to, że **ono w ogóle nie zostało uruchomione i nie podlegało żadnej ewaluacji**.
 
-W jaki sposób  może tutaj pomóc postrzeganie testów jako Wymagań, uruchamianie ich przed napisaniem kodu dla konkretnego zachowania? Podstawową różnica polega na tym, że w TDD normalny schemat wytawarzania programowania to: test - fiasko - sukces, test - fiasko - sukces, test - fiasko - sukces... Innymi słowy spodziewamy się, że podczas pracy w TDD, dowolne Wymaganie jest niespełnione conajmniej raz i sprawdzamy to. Tak więc za każdym razem, gdy nowy test nie kończy się "niepowodzeniem", otrzymujemy informację zwrotną że dzieje się coś mocno podejrzanego. To pozwala nam zbadać sprawę i rozwiązać problem.
+W jaki sposób może pomóc postrzeganie testów jako Wymagań i uruchamianie ich przed napisaniem kodu dla konkretnego zachowania? W TDD normalny schemat wytawarzania programowania to: test - fiasko - sukces, test - fiasko - sukces, test - fiasko - sukces...  To podstawową różnica. Innymi słowy spodziewamy się, że podczas pracy w TDD, dowolne Wymaganie jest niespełnione conajmniej raz i sprawdzamy to. Tak więc za każdym razem, gdy nowy test nie kończy się "niepowodzeniem", otrzymujemy informację zwrotną że dzieje się coś mocno podejrzanego. To pozwala nam zacząć badać sprawę i rozwiązać problem.
 
 ### 2. Inicjalizacje umieszczone w złej kolejności
 
-Ok, this may sound even funnier, but it happened to me a couple of times as well, so I assume it may happen to you one day, especially if you are in a hurry.
+Dobrze, to może się wydawać jeszcze bardziej zabawne, ale zdarzyło mi się to kilka razy i zakładam, że pewnego dnia Tobie też może się przydarzyć, zwłaszcza jeśli się spieszysz.
 
-Consider the following toy example: we want to validate a simple data structure that models a frame of data that can arrive via network. The structure looks like this:
+Rozważmy następujący przykładzik: chcemy zweryfikować prostą strukturę danych, która odzwierciedla ramkę danych, które mogą dotrzeć przez sieć. Struktura wygląda następująco:
 
 ```csharp
-public class Frame
+public class Frame /* ramka */
 {
-  public int timeSlot;
+  public int timeSlot; /* przedział czasu */
 }
 ```
 
