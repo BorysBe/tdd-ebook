@@ -130,15 +130,15 @@ public void ShouldRecognizeTimeSlotAboveMaximumAllowedAsInvalid()
 }
 ```
 
-Zwróć uwagę na metodę `PerformForTimeSlotIn()` wyzwalającą walidację, która omyłkowo została zawołana *przed* ustawieniem maksymalnej, dozwolonej wartości `timeSlotAboveMaximumAllowed` obiektu `frame`. Pożądana wartość nie jest w ogóle brana pod uwagę w momencie walidacji. Jeśli, na przykład, popełnimy błąd podczas implementacji klasy `Validation` i wbrew założeniom, walidacja będzie zwracała fałsz (`false`) dla wartości poniżej (a nie powyżej) wartości maksymalnej - błąd taki może pozostać niezauważony. Tak zapisane Wymaganie zawsze będzie spełnione.
+Zwróć uwagę na metodę `PerformForTimeSlotIn()` wyzwalającą walidację, która omyłkowo została zawołana *przed* ustawieniem maksymalnej, dozwolonej wartości `timeSlotAboveMaximumAllowed` obiektu `frame`. Pożądana wartość nie jest w ogóle brana pod uwagę w momencie walidacji. Jeśli, na przykład, popełnimy błąd podczas implementacji klasy `Validation` i, wbrew założeniom, walidacja będzie zwracała fałsz (`false`) dla wartości poniżej (a nie powyżej) wartości maksymalnej - błąd taki może pozostać niezauważony. Tak zapisane Wymaganie zawsze będzie spełnione.
 
-To również jest trywialny przykład dość oczywistego błędu - użyłem go jedynie jako ilustrację czegoś, co może się zdarzyć gdy ma się do czynienia z bardziej złożonymi przypadkami.
+To również jest trywialny przykład - użyłem go jako ilustrację czegoś, co da się przypadkowo popełnić, gdy ma się do czynienia z bardziej złożonymi przypadkami.
 
 ### 3. Używanie danych typu static wewnątrz kodu produkcyjnego
 
-Once in a while, we have to jump in and add some new Statements to an existing Specification and some logic to the class it describes. Let's assume that the class and its Specification were written by someone else than us. Imagine the code we are talking about is a wrapper around our product XML configuration file. We decide to write our Statements *after* applying the changes ("well", we may say, "we're all protected by the Specification that is already in place, so we can make our change without the risk of accidentally breaking existing functionality, and then just test our changes and it's all good...").
+Od czasu do czasu musimy zajrzeć do Specyfikacji dodając kilka nowych Wymagań i trochę logiki do klas, które Specyfikacja opisuje. Załóżmy, że klasa i jej specyfikacja zostały napisane przez kogoś innego niż my, a wspomniany kod, jest klasą "opakowującą" dane z pliku konfiguracyjnego XML. Postanowiliśmy napisać nasze Wymaganie *po* wprowadzeniu nowych zmian (przecież możemy powiedzieć - "wszyscy jesteśmy chronieni przez Specyfikację, która już istnieje, więc można dokonać zmian bez ryzyka przypadkowego zniszczenia istniejącej funkcjonalności, a potem wystarczy przetestować zmiany i wszystko będzie w porządku...").
 
-We start coding... done. Now we start writing this new Statement that describes the functionality we just added. After examining the Specification class, we can see that it has a member field like this:
+Zaczynamy sobie kodować... gotowe. Teraz piszemy nowe Wymaganie, które będzie opisywać właśnie dodaną funkcjonalność. Tymczasem, sprawdziwszy klasę Specyfikacji widzimy, że ma ona w sobie zaszyte takie oto pole:
 
 ```csharp
 public class XmlConfigurationSpecification
@@ -148,8 +148,7 @@ public class XmlConfigurationSpecification
   //...
 ```
 
-What it does is it sets up an object used by every Statement. So, each Statement uses a `config` object initialized with the same `xmlConfiguration` string value. Another quick examination leads us to discovering the following content of the `xmlFixtureString`:
-
+Co się dzieje w tej linijce? Ustawiamy obiekt dostępny dla każdego Wymagania w Specyfikacji. Wkrótce okazuje się, że każde z Wymagań używa tego samego obiektu `config` zainicjalizowanego tą samą wartością ciągu `xmlConfiguration`. Kolejne szybkie sprawdzenie pozwala nam podejrzeć, co jest ukryte w `xmlFixtureString`:
 
 ```xml
 <config>
@@ -164,12 +163,12 @@ What it does is it sets up an object used by every Statement. So, each Statement
       <parameter name="Role">Admin</parameter>
       <parameter name="Password Expiry (days)">30</parameter>
     /subsection>
-    <!-- and so on and on and on...-->
+    <!-- i tak dalej, i tak dalej... -->
   </section>
 </config>
 ```
 
- The string is already pretty large and messy, since it contains all information that is required by the existing Statements. Let's assume we need to write tests for a little corner case that does not need all this crap inside this string. So, we decide to start afresh and create a separate object of the `XmlConfiguration` class with your own, minimal string. Our Statement begins like this:
+Nasz łańcuch znaków jest już pokaźny i wypełniony różnymi, nie zawsze potrzebnymi rzeczami, ponieważ zawiera informacje wymagane przez wszystkie istniejące Wymagania. Załóżmy, że musimy napisać testy dla pewnych, skrajnych przypadków, które nie potrzebują tych wszystkich bzdurnych ustawień. Dlatego postanawiamy sobie stworzyć, od nowa, obiekt klasy `XmlConfiguration` zainicjalizowany naszym własnym ciągiem znaków o minimalnej długości. Początek Wymagania będziwe wyglądał tak:
 
 ```csharp
 string customFixture = CreateMyOwnFixtureForThisTestOnly();
@@ -177,15 +176,15 @@ var configuration = new XmlConfiguration(customFixture);
 ...
 ```
 
-And goes on with the scenario. When we execute it, it passes -- cool... not. Ok, what's wrong with this? At the first sight, everything's OK, until we read the source code of XmlConfiguration class carefully. Inside, we can see, how the XML string is stored:
+I uruchamiamy scenariusz testowy. Kiedy go wykonamy, zaświeci się na zielono, bo przeszedł - fajnie... nie, zaraz. Ok, co jest tu nie tak? Na pierwszy rzut oka wszystko jest w porządku, dopóki nie wczytamy się w kod źródłowy klasy XmlConfiguration. Wewnątrz widzimy, jak XML jest przechowywany:
 
 ```csharp
-private static string xmlText; //note the static keyword!
+private static string xmlText; //zwróć uwagę na słowo kluczowe static!
 ```
 
-It's a static field, which means that its value is retained between instances. What the...? Well, well, here's what happened: the author of this class applied a small optimization. He thought: "In this app, the configuration is only modified by members of the support staff and to do it, they have to shut down the system, so, there is no need to read the XML file every time an XmlConfiguration object is created. I can save some CPU cycles and I/O operations by reading it only once when the first object is created. Later objects will just use the same XML!". Good for him, not so good for us. Why? Because, depending on the order in which the Statements are evaluated, either the original XML string will be used for all Statements or your custom one! Thus the Statements in this Specification may pass or fail for the wrong reason - because they accidentally use the wrong XML. 
+I tu jest pies pogrzebany. To pole statyczne, co oznacza, że jego wartość jest zachowywana między instancjami poszczególnych testów. Co takiego...? Już wyjaśniam, oto co się stało: autor tej klasy zastosował małą optymalizację. Pomyślał sobie tak: "W tej aplikacji konfiguracja jest modyfikowana tylko przez konsultantów-wdrożeniowców produktu, a żeby mogli ją trwale zmienić muszą i tak zamknąć system. Dlatego nie trzeba czytać pliku XML za każdym razem, gdy tworzony jest obiekt `XmlConfiguration`. Mogę zaoszczędzić kilka cykli procesora i kilka operacji wejścia/wyjścia, odczytując konfigurację tylko raz, gdy pierwsza instancja tej klasy zostanie utworzona. Przecież późniejsze obiekty będą używały tego samego pliku XML!". Fajnie dla niego, nie tak "spoko" dla nas. Czemu? Ponieważ, w zależności od kolejności, w jakiej ewaluowane są Wymagania, albo pole zostanie trwale zainicjowane tym przydługawym XML-em albo naszym-krótkim! W związku z tym Wymagania w tej Specyfikacji będą niedeterministycznie spełnione bądź nie z niewłaściwego powodu - gdy przypadkowo użyje się złego XML-a.
 
-Starting development from a Statement that we expect to fail may help when such a Statement passes despite the fact that the behavior it describes is not implemented yet.
+Rozpoczynanie pracy od napisania Wymagania, po którym oczekujemy, że nie będzie spełnione - pomoże nam w sytuacji, gdy Wymaganie niespodziewanie jest spełnione, chociaż nie zostało nawet zaimplementowane zachowanie przezeń opisywane.
 
 ## "Test-Po" często kończy jako "Test-Nigdy"
 
