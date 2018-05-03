@@ -196,28 +196,28 @@ Z drugiej strony, kiedy robimy TDD (tak jak zobaczymy w kolejnych rozdziałach) 
 
 ## "Test-Po" często prowadzi do ponownego projektowania
 
-I like reading and watching Uncle Bob (Robert C. Martin). One day I was listening to [his keynote at Ruby Midwest 2011, called Architecture The Lost Years](http://www.confreaks.com/videos/759-rubymidwest2011-keynote-architecture-the-lost-years). At the end, Robert made some digressions, one of them about TDD. He said that writing tests after the code is not TDD and instead called it "a waste of time".
+Lubię czytać i oglądać wuja Boba (Robert C. Martin). Pewnego dnia słuchałem [jego przewodniego motywu na Ruby Midwest 2011, Architecture The Lost Years] (http://www.confreaks.com/videos/759-rubymidwest2011-keynote-architecture-the-lost-years). Na koniec Robert dokonał pewnych dygresji, z których jedna dotyczyła TDD. Powiedział, że pisanie testów po kodzie nie jest TDD i nazwał to "stratą czasu".
 
-My initial thought was that the comment was maybe a bit too exaggerated and only about missing all the benefits that starting with a false Statement brings me: the ability to see the Statement fail, the ability to do a clean-sheet analysis etc. However, now I feel that there's much more to it, thanks to something I learned from Amir Kolsky and Scott Bain -- in order to be able to write a maintainable Specification for a piece of code, the code must have a high level of **testability**. We will talk about this quality in part 2 of this book, but for now let's assume the following simplified definition: the higher testability of a piece of code (e.g. a class), the easier it is to write a Statement for its behavior.
+Moja pierwsza myśl była taka, że komentarz był chyba nieco zbyt przesadzony i dotyczył tylko braku korzyści wynikających z rozpoczęcia pracy nad kodem od niespełnionego Wymagania: kiedy widzimy niespełnione Wymaganie, można przeprowadzić niezakłóconą niczym analizę itp. Jednakże, teraz czuję, że chodzi o wiele więcej, a to za sprawą tego, czego nauczyłem się Amira Kolsky'ego i Scotta Baina - aby móc napisać przystepną w utrzymaniu Specyfikację dla jakiegoś fragmentu kodu, kod musi mieć wysoki poziom **testowalności**. Porozmawiamy o jakości kodu w części drugiej tej książki, ale na razie przyjmijmy poniższą uproszczoną definicję: im większa testowalność kodu (np. klasy), tym łatwiej jest napisać Wymaganie określające jego zachowaniu.
 
-Now, where's the waste in writing the Specification after the code is written? To find out, let's compare the Statement-first and code-first approaches. In the Statement-first workflow for new (non-legacy) code, my workflow and approach to testability usually look like this: 
+Na czym polega strata czasu w pisaniu Specyfikacji po napisaniu kodu? Aby się tego dowiedzieć, porównajmy podejścia Najpierw-Wymaganie i Najpierw-Kod. W pierwszym przypadku dla nowopowstajacego (nie zastanego) mój przepływ pracy i podejście do testowalności zazwyczaj wyglądają tak:
 
-1. Write a Statement that is false to start with (during this step, detect and correct testability issues even before the production code is written).
-2. Write code to make the Statement true.
+1. Napisz Wymaganie, które jest niespełnione na początku (w tym kroku wykryj i popraw problemy z testowalnością jeszcze przed napisaniem kodu produkcyjnego).
+2. Napisz kod, aby Wymaganie było prawdziwe.
 
-And here's what I often see programmers do when they write the code first (extra steps marked with **strong text**):
+A oto, co często robią programiści, gdy piszą najpierw kod (dodatkowe kroki oznaczone **pogrubionym tekstem**):
 
-1. Write some production code without considering how it will be tested (after this step, the testability is often suboptimal as it's usually not being considered at this point).
-2. **Start writing a unit test** (this might not seem like an extra step, since it's also present in the previous approach, but once you reach the step 5, you'll know what I mean). 
-3. **Notice that unit testing the code we wrote is cumbersome and unsustainable and the tests become looking messy as they try to work around the testability issues.**
-4. **Decide to improve testability by restructuring the code, e.g. to be able to isolate objects and use techniques such as mock objects.**
-5. Write unit tests (this time it should be easier as the testability of the tested is better).
+1. Napisz kod produkcyjny bez zastanawiania się, w jaki sposób zostanie on przetestowany (po tym etapie testowalność jest często nieoptymalna, ponieważ zwykle nie jest rozważana w tym momencie).
+2. **Rozpocznij pisanie testu jednostkowego** (to może nie wydawać się dodatkowym krokiem, ponieważ jest również obecne w poprzednim podejściu, ale gdy dojdziesz do kroku 5 - będziesz wiedział co mam na myśli).
+3. **Zauważ, że przy próbie napisania testu jednostkowego okazuje się, że kod sprawia trudność jeśli chodzi o testowanie, nie daje ku temu wielu możliwości, a pisane podeń testy zaczynają wyglądać strasznie nieprzejrzyście, ponieważ próbują obejść problemy z testowalnością.**
+4. **Zdecyduj się poprawić testowalność poprzez restrukturyzację kodu, np. aby izolując obiekty i używając takich technik, jak mocki (imitacje)**
+5. Napisz testy jednostkowe (tym razem powinno być łatwiej, ponieważ testowalność jest już lepsza).
 
-What is the equivalent of the marked steps in the Statement-first approach? There is none! Doing these things is a waste of time! Sadly, this is a waste I encounter a lot.
+Co jest odpowiednikiem pogrubonych wyżej kroków jeśli chodzi o pierwszy sposób? Nie ma żadnych odpowiedników! Robienie tych rzeczy to strata czasu! Niestety, jest to marnotrawstwo, z którym często się spotykam.
 
 ## Podsumowanie
 
-W tym rozdziale starałem się pokazać, że wybór *kiedy* piszemy naszą Specyfikację często robi ogromną różnicę i że istnieje wiele korzyści w zaczynaniu od Wymagania. Kiedy traktujemy Specyfikację jako zapis tego, co rzeczywiście dzieje się w programie - a nie tylko jako zestaw testów sprawdzających poprawność środowiska wykonawczego - wówczas podejście "Najpierw-test" staje się mniej kłopotliwe i mniej sprzeczne z intuicją.
+W tym rozdziale starałem się pokazać, że wybór *kiedy* piszemy naszą Specyfikację często robi ogromną różnicę i że istnieje wiele korzyści w zaczynaniu od Wymagania. Kiedy traktujemy Specyfikację jako zapis tego, co rzeczywiście dzieje się w programie - a nie tylko jako zestaw testów sprawdzających poprawność środowiska wykonawczego - wówczas podejście "Najpierw-Test" staje się mniej kłopotliwe i mniej sprzeczne z intuicją.
 
-[^copypaste]: Wiem, że kopiowanie kodu jest uważane za szkodliwe i nie powinniśmy tego robić. Podczas pisania testów jednostkowych, robię kilka wyjątków od tej reguły. Zostanie to wyjaśnione w części 2.
+[^copypaste]: Wiem, że kopiowanie kodu jest uważane za szkodliwe i nie powinniśmy tego robić. Podczas pisania testów jednostkowych, robię kilka wyjątków od tej reguły. Zostanie to wyjaśnione w części drugiej.
 
