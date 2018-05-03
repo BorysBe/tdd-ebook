@@ -162,7 +162,7 @@ Co się dzieje w tej linijce? Ustawiamy obiekt dostępny dla każdego Wymagania 
       <parameter name="login">Johnny</parameter>
       <parameter name="Role">Admin</parameter>
       <parameter name="Password Expiry (days)">30</parameter>
-    /subsection>
+    </subsection>
     <!-- i tak dalej, i tak dalej... -->
   </section>
 </config>
@@ -188,7 +188,7 @@ Rozpoczynanie pracy od napisania Wymagania, po którym oczekujemy, że nie będz
 
 ## "Test-Po" często kończy jako "Test-Nigdy"
 
-Consider again the question I already asked in this chapter: did you ever have to write a requirements or design document for something that you already implemented? Was it fun? Was it valuable? Was it creative? As for me, my answer to these questions is *no*. I observed that the same answer applied to writing my executable Specification. By observing myself and other developers, I came to a conclusion that after we've written the code, we have little motivation to specify what we wrote -- some of the pieces of code "we can just see are correct", other pieces "we already saw working" when we compiled and deployed our changes and ran a few manual checks... The design is ready... Specification? Maybe next time... Thus, the Specification may never get to be written at all and if it is written, I often find that it covers most of the the main flow of the program, but lacks some Statements saying what should happen in case of errors etc.
+Zastanów się ponownie nad pytaniem, które już zadałem w tym rozdziale: czy kiedykolwiek musiałeś napisać Wymagania lub dokument projektowy dla czegoś, co już zaimplementowałeś? Fajnie było? Czy było to wartościowe? Czy to było twórcze? Jeśli chodzi o mnie, moją odpowiedzią na te pytania było - *nie*. Zauważyłem, że ta sama odpowiedź dotyczyła napisania przeze mnie wykonywalnej specyfikacji. Obserwując siebie i innych programistów, doszedłem do wniosku, że po napisaniu kodu mamy małą motywację do tworzenia specyfikacji dla tego, co napisaliśmy - widzimy, że "niektóre fragmenty kodu po prostu są poprawne", inne fragmenty "widzieliśmy, że działają" kiedy kompilowaliśmy kod i wdrażaliśmy nasze zmiany, przeprowadzając kilka ręcznych kontroli ... Architektura aplikacji jest gotowa... Specyfikacja? Może następnym razem... W ten sposób, owa Specyfikacja nigdy nie zostaje napisana, a jeśli już - często widzę, że obejmuje tylko główną funkcjonalność programu, ale brakuje w niej niektórych Wymagań mówiących o tym, co powinno się stać w przypadku błędów itp.
 
 Another reason for ending up not writing the Specification might be time pressure, especially in teams that are not yet mature or not have very strong professional ethics. Many times, I have seen people reacting to pressure by dropping everything besides writing the code that directly implements a feature. Among the things that get dropped are design, requirements and tests. And learning as well. I have seen many times teams that, when under pressure, stopped experimenting and learning and reverted to old "safe" behaviors in a mindset of "saving a sinking ship" and "hoping for the best". As in such situations I've seen pressure raise as the project approached its deadline or milestone, leaving Specification until the end means that its's very likely to get dropped, especially in case when the changes are (to a degree) tested manually later anyway.
 
@@ -217,7 +217,7 @@ What is the equivalent of the marked steps in the Statement-first approach? Ther
 
 ## Podsumowanie
 
-W tym rozdziale starałem się pokazać, że wybór *kiedy* piszemy naszą Specyfikację często robi ogromną różnicę i że istnieje wiele korzyści w zaczynaniu od Wymagania. Kiedy traktujemy Specyfikację jako zapis tego, co rzeczywiście dzieje się w programie - a nie tylko jako zestaw testów sprawdzających poprawność środowiska wykonawczego - wówczas podejście "Najpier-test" staje się mniej kłopotliwe i mniej sprzeczne z intuicją.
+W tym rozdziale starałem się pokazać, że wybór *kiedy* piszemy naszą Specyfikację często robi ogromną różnicę i że istnieje wiele korzyści w zaczynaniu od Wymagania. Kiedy traktujemy Specyfikację jako zapis tego, co rzeczywiście dzieje się w programie - a nie tylko jako zestaw testów sprawdzających poprawność środowiska wykonawczego - wówczas podejście "Najpierw-test" staje się mniej kłopotliwe i mniej sprzeczne z intuicją.
 
 [^copypaste]: Wiem, że kopiowanie kodu jest uważane za szkodliwe i nie powinniśmy tego robić. Podczas pisania testów jednostkowych, robię kilka wyjątków od tej reguły. Zostanie to wyjaśnione w części 2.
 
