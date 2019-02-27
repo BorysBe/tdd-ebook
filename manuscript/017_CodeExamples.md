@@ -99,7 +99,7 @@ public class User {
 
 ### Konstrukcja `List<T>`
 
-Jeśli jesteś programistą języka Java to zauważ, że w C# `List<T>` nie jest klasą abstrakcyjną, ale konkretną. Ten typ jest zwykle używany tam, gdzie Ty używałbyś `ArrayList`
+Jeśli jesteś programistą języka Java to zauważ, że w C# `List<T>` nie jest interfejsem, ale konkretną klasą. Ten typ jest zwykle używany tam, gdzie Ty używałbyś `ArrayList`
 
 ### Typy uogólnione (generyczne)
 

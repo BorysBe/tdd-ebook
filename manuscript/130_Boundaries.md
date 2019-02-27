@@ -43,7 +43,7 @@ In such cases, we need to carefully choose our input values to gain a sufficient
 
 ## Exceptions to the rule
 
-There are times when a Statement is true for every value except one (or several) explicitly specified. My approach varies a bit depending on the set of possible values and the number of exceptions. I'm ging to give you three examples to help you understand these variations better.
+There are times when a Statement is true for every value except one (or several) explicitly specified. My approach varies a bit depending on the set of possible values and the number of exceptions. I'm going to give you three examples to help you understand these variations better.
 
 ### Example 1: a single exception from a large set of values
 
@@ -474,4 +474,4 @@ In this chapter, I described specifying functional boundaries with a minimum am
 
 [^tetraphobia]: https://en.wikipedia.org/wiki/Tetraphobia
 [^istqb]: see e.g. chapter 4.3 of ISQTB Foundation Level Syllabus at http://www.istqb.org/downloads/send/2-foundation-level-documents/3-foundation-level-syllabus-2011.html4
-[^kentconfidence]: http://stackoverflow.com/a/153565
+[^kentconfidence]: https://stackoverflow.com/questions/153234/how-deep-are-your-unit-tests/153565#153565

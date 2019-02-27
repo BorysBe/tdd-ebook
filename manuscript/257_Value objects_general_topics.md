@@ -29,7 +29,7 @@ When we read from the dictionary using the same key:
 AnObject anObject = _objects[key];
 ```
 
-then its hash code is calculated again and only when the hash codes match are the key objects compared for equality. 
+then its hash code is calculated again and only when the hash codes match are the key objects compared for equality.
 
 Thus, in order to successfully retrieve an object from a dictionary with a key, this key object must meet the following conditions in regard to the key we previously used to put the object in:
 
@@ -57,20 +57,20 @@ As I find it a quite common situation that value objects end up as keys inside d
 
 ### Accidental modification by foreign code
 
-I bet many who code or coded in Java know its `Date` class. `Date` behaves like a value (it has overloaded equality and hash code generation), but is mutable (with methods like `setMonth()`, `setTime()`, `setHours()` etc.). 
+I bet many who code or coded in Java know its `Date` class. `Date` behaves like a value (it has overloaded equality and hash code generation), but is mutable (with methods like `setMonth()`, `setTime()`, `setHours()` etc.).
 
 Typically, value objects tend to be passed a lot throughout an application and used in calculations. Many Java programmers at least once exposed a `Date` value using a getter:
 
 ```java
 public class ObjectWithDate {
 
-  private final Date _date = new Date();
+  private final Date date = new Date();
 
   //...
 
   public Date getDate() {
     //oops...
-    return _date;
+    return this.date;
   }
 }
 ```
@@ -85,7 +85,7 @@ o.getDate().setTime(date.getTime() + 10000); //oops!
 return date;
 ```
 
-Of course, no one would do it in the same line like on the snippet above, but usually, this date was accessed, assigned to a variable and passed through several methods, one of which did something like this:
+Of course, almost no one would probably do it in the same line like in the snippet above, but usually, this date would be accessed, assigned to a variable and then passed through several methods, one of which would do something like this:
 
 ```java
 public void doSomething(Date date) {
@@ -100,7 +100,7 @@ As most of the time it wasn't the intention, the problem of date mutability forc
 
 ```java
 public Date getDate() {
-  return (Date)_date.clone();
+  return (Date)this.date.clone();
 }
 ```
 
@@ -180,14 +180,152 @@ AbsoluteFilePath newPath = oldPath + FileName.Value("file.txt");
 
 So, again, anytime we want to have a value based on a previous value, instead of modifying the previous object, we create a new object with desired state.
 
+### Immutability gotchas
+
+#### Watch out for the constructor!
+
+Going back to the Java's `Date` example - you may think that it's fairly easy to get used to cases such as that one and avoid them by just being more careful, but I find it difficult due to many gotchas associated with immutability in languages such as C# or Java. For example, another variant of the `Date` case from Java could be something like this: Let's imagine we have a `Money` type, which is defined as:
+
+```csharp
+public sealed class Money
+{
+  private readonly int _amount;
+  private readonly Currencies _currency;
+  private readonly List<ExchangeRate> _exchangeRates;
+
+  public Money(
+    int amount,
+    Currencies currency,
+    List<ExchangeRate> exchangeRates)
+  {
+    _amount = amount;
+    _currency = currency;
+    _exchangeRates = exchangeRates;
+  }
+
+  //... other methods
+}
+```
+
+Note that this class has a field of type `List<>`, which is itself mutable. But let's also imagine that we have carefully reviewed all of the methods of this class so that this mutable data is not exposed. Does it mean we are safe?
+
+The answer is: as long as our constructor stays as it is, no. Note that the constructor takes a mutable list and just assigns it to a private field. Thus, someone may do something like this:
+
+```csharp
+List<ExchangeRate> rates = GetExchangeRates();
+
+Money dollars = new Money(100, Currencies.USD, rates);
+
+//modify the list that was passed to dollars object
+rates.Add(GetAnotherExchangeRate());
+```
+
+In the example above, the `dollars` object was changed by modifying the list that was passed inside. To get the immutability, one would have to either use an immutable collection library or change the following line:
+
+```csharp
+_exchangeRates = exchangeRates;
+```
+
+to:
+
+```csharp
+_exchangeRates = new List<ExchangeRate>(exchangeRates);
+```
+
+#### Inheritable dependencies can surprise you!
+
+Another gotcha has to do with objects of types which can be subclassed (i.e. are not `sealed`). Let's take a look at the example of a class called `DateWithZone`, representing a date with a time zone. Let's say that this class has a dependency on another class called `ZoneId` and is defined as such:
+
+```csharp
+public sealed class DateWithZone : IEquatable<DateWithZone>
+{
+  private readonly ZoneId _zoneId;
+
+  public DateWithZone(ZoneId zoneId)
+  {
+    _zoneId = zoneId;
+  }
+
+  //... some equality methods and operators...
+
+  public override int GetHashCode()
+  {
+    return (_zoneId != null ? _zoneId.GetHashCode() : 0);
+  }
+
+}
+```
+
+Note that for simplicity, I made the `DateWithZone` type consist *only* of zone id, which of course in reality does not make any sense. I am doing this only because I want this example to be stripped to the bone. This is also why, for the sake of this example, `ZoneId` type is defined simply as:
+
+```csharp
+public class ZoneId
+{
+
+} 
+```
+
+There are two things to note about this class. First, it has an empty body, so no fields and methods defined. The second thing is that this type is not `sealed` (OK, the third thing is that this type does not have value semantics, since its equality operations are inherited as reference-based from the `Object` class, but, again for the sake of simplification, let's ignore that).
+
+I just said that the `ZoneId` does not have any fields and methods, didn't I? Well, I lied. A class in C# inherits from `Object`, which means it implicitly inherits some fields and methods. One of these methods is `GetHashCode()`, which means that the following code compiles:
+
+```csharp
+var zoneId = new ZoneId();
+Console.WriteLine(zoneId.GetHashCode());
+```
+
+The last piece of information that we need to see the bigger picture is that methods like `Equals()` and `GetHashCode()` can be overridden. This, combined with the fact that our `ZoneId` is not `sealed`, means that somebody can do something like this:
+
+```csharp
+public class EvilZoneId : ZoneId
+{
+  private int _i = 0;
+  
+  public override GetHashCode()
+  {
+    _i++;
+    return i;  
+  }
+}
+```
+
+When calling `GetHashCode()` on an instance of this class multiple times, it's going to return 1,2,3,4,5,6,7... and so on. This is because the `_i` field is in fact a piece of mutable state and it is modified every time we request a hash code. Now, I assume no sane person would write code like this, but on the other hand, the language does not restrict it. So assuming such an evil class would come to existence in a code base that uses the `DateWithZone`, let's see what could be the consequence on this type.
+
+First, let's imagine someone doing the following:
+
+```csharp
+var date = new DateWithZone(new EvilZoneId());
+
+//...
+
+DoSomething(date.GetHashCode());
+DoSomething(date.GetHashCode());
+DoSomething(date.GetHashCode());
+```
+
+Note that the user of the `DateWithZone` instance uses its hash code, but the `GetHashCode()` operation of this class is implemented as:
+
+```csharp
+public override int GetHashCode()
+{
+  return (_zoneId != null ? _zoneId.GetHashCode() : 0);
+}
+```
+
+So it uses the hash code of the zone id, which, in our example, is of class `EvilZoneId` which is mutable. As a consequence, our instance of `DateWithZone` ends up being mutable as well.
+
+This example shows a trivial and not too believable case of `GetHashCode()` because I wanted to show you that even empty classes have some methods that can be overridden to make the objects mutable. To make sure the class cannot be subclassed in a mutable way, we would have to either make all methods `sealed` (including those inherited from `Object`) or, better, make the class `sealed`. Another observation that can be made is that if our `ZoneId` was an abstract class with at least one abstract method, we would have no chance of ensuring immutability of its implementations, as abstract methods by definition exist to be implemented in subclasses, so we cannot make an abstract method or class `sealed`.
+
+There are more gotchas (e.g. a similar one applied to generic types), but I'll leave them for another time.
+
 ## Handling of variability
 
 As in ordinary objects, there can be some variability in the world of values. For example, money can be dollars, pounds, zlotys (Polish money), euros etc. Another example of something that can be modelled as a value are path values (you know, `C:\Directory\file.txt` or `/usr/bin/sh`) -  there can be absolute paths, relative paths, paths to files and paths pointing to directories, we can have unix paths and Windows paths.
 
 Contrary to ordinary objects, however, where we solved variability by using interfaces and different implementations (e.g. we had an `Alarm` interface with implementing classes such as `LoudAlarm` or `SilentAlarm`), in the world values we do it differenly. Taking the alarms I just mentioned as an example, we can say that the different kinds of alarms varied in how they fulfilled the responsibility of signaling that they were turned on (we said they responded to the same message with -- sometimes entirely -- different behaviors). Variability in the world of values is typically not behavioral in the same way as in case of objects. Let's consider the following examples:
 
-1. Money can be dollars, punds, zlotys etc., and the different kinds of currencies differ in what exchange rates are applied to them (e.g. "how many dollars do I get from 10 Euros and how many from 10 Punds?"), which is not a behavioral distinction. Thus, polymorphism does not fit this case.
-1. Paths can be absolute and relative, poiting to files and directories. They differ in what operations can be applied to them. E.g. we can imagine that for paths pointing to files, we can have an operation called `GetFileName()`, which doesn't make sense for a path pointing to a directory. While this is a behavioral distinction, we cannot say that "directory path" and a "file path" are variants of the same abstraction - rather, that are two different abstractions. Thus, polymorphism does not seem to be the answer here either.
+1. Money can be dollars, punds, zlotys etc., and the different kinds of currencies differ in what exchange rates are applied to them (e.g. "how many dollars do I get from 10 Euros and how many from 10 Pounds?"), which is not a behavioral distinction. Thus, polymorphism does not fit this case.
+1. Paths can be absolute and relative, pointing to files and directories. They differ in what operations can be applied to them. E.g. we can imagine that for paths pointing to files, we can have an operation called `GetFileName()`, which doesn't make sense for a path pointing to a directory. While this is a behavioral distinction, we cannot say that "directory path" and a "file path" are variants of the same abstraction - rather, that are two different abstractions. Thus, polymorphism does not seem to be the answer here either.
 1. Sometimes, we may want to have a behavioral distinction, like in the following example. We have a value class representing product names and  we want to write in several different formats depending on situation.
 
 How do we model this variability? I usually consider three basic approaches, each applicable in different contexts:
@@ -214,7 +352,7 @@ and when we want to know the concrete amount in a given currency:
 
 ```csharp
 //doesn't matter which currency it is, we want dollars.
-decimal amountOfDollarsOnMyAccount = mySavings.AmmountOfDollars();
+decimal amountOfDollarsOnMyAccount = mySavings.AmountOfDollars();
 ```
 
 other than that, we are allowed to mix different currencies whenever and wherever we like[^wecoulduseextensionmethods]:
@@ -327,7 +465,7 @@ Some value types have values that are so specific that they have their own names
 For such values, the common practice I've seen is making them globally accessible from the value object classes, as is done in all the above examples from C# and Java. This is because values are immutable, so the global accessibility doesn't hurt. For example, we can imagine `string.Empty` implemented like this:
 
 ```csharp
-public class string
+public sealed class String //... some interfaces here
 {
   //...
   public const string Empty = "";
@@ -366,7 +504,7 @@ What about values? Does that metaphor apply to them? And if so, then how? And wh
 
 First of all, values don't appear explicitly in the web of objects metaphor, at least they're not "nodes" in this web. Although in almost all object-oriented languages, values are implemented using the same mechanism as objects - classes[^csharpstructs], I treat them as somewhat different kind of construct with their own set of rules and constraints. Values can be passed between objects in messages, but we don't talk about values sending messages by themselves.
 
-A conclusion from this may be that values should not be composed of objects (understood as nodes in the "web"). Values should be composed of other values (as our `Path` type had a `string` inside), which ensures their immutability. Also, they can occasionally can objects as parameters of their methods (like the `ProductName` class from previous chapter that had a method `ToString()` accepting a `Format` interface), but this is more of an exception than a rule. In rare cases, I need to use a collection inside a value object. Collections in Java and C# are not typically treated as values, so this is kind of an exception from the rule. Still, when I use collections inside value objects, I tend to use the immutable ones, like [ImmutableList](https://msdn.microsoft.com/en-us/library/dn467185(v=vs.111).aspx).
+A conclusion from this may be that values should not be composed of objects (understood as nodes in the "web"). Values should be composed of other values (as our `Path` type had a `string` inside), which ensures their immutability. Also, they can occasionally accept objects as parameters of their methods (like the `ProductName` class from previous chapter that had a method `ToString()` accepting a `Format` interface), but this is more of an exception than a rule. In rare cases, I need to use a collection inside a value object. Collections in Java and C# are not typically treated as values, so this is kind of an exception from the rule. Still, when I use collections inside value objects, I tend to use the immutable ones, like [ImmutableList](https://msdn.microsoft.com/en-us/library/dn467185(v=vs.111).aspx).
 
 If the above statements about values are true, then it means values simply cannot be expected to conform to Tell Don't Ask. Sure, we want them to be encapsulate domain concepts, to provide higher-level interface etc., so we struggle very hard for the value objects not to become plain data structures like the ones we know from C, but the nature of values is rather as "intelligent pieces of data" rather than "abstract sets of behaviors".
 
@@ -374,7 +512,7 @@ As such, we expect values to contain query methods (although, as I said, we stri
 
 ## Summary
 
-This concludes my writing on value objects. I never thought there would be so much to discuss as to how I believe they should be designed. For readers interested in seeing a state-of-the-art case study of value objects, I recommend looking at [Noda Time](https://nodatime.org/) (for C#) and [Joda Time](http://www.joda.org/joda-time) (for Java) libraries (or [Java 8 new time and date API](http://www.oracle.com/technetwork/articles/java/jf14-date-time-2125367.html)).
+This concludes my writing on value objects. I never thought there would be so much to discuss as to how I believe they should be designed. For readers interested in seeing a state-of-the-art case study of value objects, I recommend looking at [Noda Time](https://nodatime.org/) (for C#) and [Joda Time](http://www.joda.org/joda-time/) (for Java) libraries (or [Java 8 new time and date API](http://www.oracle.com/technetwork/articles/java/jf14-date-time-2125367.html)).
 
 [^functionallanguages]: This is one of the reasons why functional languages, where data is immutable by default, gain a lot of attention in domains where doing many things in parallel is necessary.
 

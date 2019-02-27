@@ -1,6 +1,6 @@
 # Driving the implementation from Specification
 
-As one of the last topics of the core TDD techniques that don't require us to delve into the object-oriented design world, I'd like to show you three techniques for turning a false Statement true. The names of the techniques come from a book by Kent Beck, [Test-Driven Development: By Example](http://www.pearsonhighered.com/educator/product/Test-Driven-Development-By-Example/9780321146533.page) and are:
+As one of the last topics of the core TDD techniques that don't require us to delve into the object-oriented design world, I'd like to show you three techniques for turning a false Statement true. The names of the techniques come from a book by Kent Beck, [Test-Driven Development: By Example](https://isbnsearch.org/isbn/9780321146533) and are:
 
 1. Type the obvious implementation
 1. Fake it (`til you make it)
@@ -454,9 +454,9 @@ An example of an ASCII art that is expected from our class looks like this:
 
 Note that there are three kinds of symbols:
 
-- `.` mean either an empty space (there is no segment there) or a segment that is not lit.
-- `-` mean a lit horizontal segment
-- `|` mean a lit vertical segment
+- `.` means either an empty space (there is no segment there) or a segment that is not lit.
+- `-` means a lit horizontal segment
+- `|` means a lit vertical segment
 
 The functionality we need to implement should allow one to not only display numbers, but to light any combination of segments at will. So, we can decide to not light any segment, thus getting the following output:
 
@@ -693,7 +693,7 @@ So note that this time, I used the *type the obvious implementation* approach - 
 The two lessons from this are:
 
 1. When I stop triangulating along one axis, I may still need to triangulate along others.
-1. Triangulation allows me to take smaller steps when we *need* and when I don't, I use another approach. There are many things I don't triangulate.
+1. Triangulation allows me to take smaller steps when I *need* to and when I don't, I use another approach. There are many things I don't triangulate.
 
 I hope that, by showing you this example, I made a more compelling case for triangulation. I'd like to stop here, leaving the rest of this exercise for the reader.
 

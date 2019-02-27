@@ -113,7 +113,7 @@ public class Frame /* ramka */
 }
 ```
 
-Musimy napisać specyfikację dla klasy `Validation` (*Walidacja*), która przyjmie `Frame` (*Ramkę*) jako argument i sprawdzić, czy przedział czasowy (czymkolwiek on jest) jest poprawny. Poprawność określamy porównując przedział czasowy z maksymalną, dozwoloną wartością `TimeSlot.MaxAllowed` (to stała zdefiniowana w klasie `TimeSlot`). Jeśli przedział czasowy jest większy niż dopuszczalne maksimum, uważamy go za niepoprawny a walidacja powinna zwrócić `false` (*fałsz*). W innym przypadku powinno być zwróćone `true` (*prawda*).
+Musimy napisać specyfikację dla klasy `Validation` (*Walidacja*), która przyjmie obiekt `Frame` (*Ramkę*) jako argument, i sprawdzić, czy przedział czasowy (czymkolwiek on jest) jest poprawny. Poprawność określamy porównując przedział czasowy z maksymalną, dozwoloną wartością `TimeSlot.MaxAllowed` (to stała zdefiniowana w klasie `TimeSlot`). Jeśli przedział czasowy jest większy niż dopuszczalne maksimum, uważamy go za niepoprawny a walidacja powinna zwrócić `false` (*fałsz*). W innym przypadku powinno być zwróćone `true` (*prawda*).
 
 Przyjrzyjmy się poniższemu Wymaganiu, które opisuje, że ustawienie wartości wyższej niż dozwolona dla pola `frame` powinno nie przejść walidacji:
 
@@ -196,7 +196,7 @@ Z drugiej strony, kiedy robimy TDD (tak jak zobaczymy w kolejnych rozdziałach) 
 
 ## "Test-Po" często prowadzi do ponownego projektowania
 
-Lubię czytać i oglądać wuja Boba (Robert C. Martin). Pewnego dnia słuchałem [jego przewodniego motywu na Ruby Midwest 2011, Architecture The Lost Years](http://www.confreaks.com/videos/759-rubymidwest2011-keynote-architecture-the-lost-years). Na koniec Robert dokonał pewnych dygresji, z których jedna dotyczyła TDD. Powiedział, że pisanie testów po kodzie nie jest TDD i nazwał to "stratą czasu".
+Lubię czytać i oglądać wuja Boba (Robert C. Martin). Pewnego dnia słuchałem [jego przewodniego motywu na Ruby Midwest 2011, Architecture The Lost Years](http://www.confreaks.tv/videos/rubymidwest2011-keynote-architecture-the-lost-years). Na koniec Robert dokonał pewnych dygresji, z których jedna dotyczyła TDD. Powiedział, że pisanie testów po kodzie nie jest TDD i nazwał to "stratą czasu".
 
 Moja pierwsza myśl była taka, że komentarz był chyba nieco zbyt przesadzony i dotyczył tylko braku korzyści wynikających z rozpoczęcia pracy nad kodem od niespełnionego Wymagania: kiedy widzimy niespełnione Wymaganie, można przeprowadzić niezakłóconą niczym analizę itp. Jednakże, teraz czuję, że chodzi o wiele więcej, a to za sprawą tego, czego nauczyłem się Amira Kolsky'ego i Scotta Baina - aby móc napisać przystepną w utrzymaniu Specyfikację dla jakiegoś fragmentu kodu, kod musi mieć wysoki poziom **testowalności**. Porozmawiamy o jakości kodu w części drugiej tej książki, ale na razie przyjmijmy poniższą uproszczoną definicję: im większa testowalność kodu (np. klasy), tym łatwiej jest napisać Wymaganie określające jego zachowaniu.
 
